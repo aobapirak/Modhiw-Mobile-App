@@ -1,5 +1,6 @@
 import * as React from "react";
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import restaurants from "../dummydata";
 
 const Homepage = ({ navigation }) => {
   return (
@@ -34,17 +35,22 @@ const Homepage = ({ navigation }) => {
         <View style={styles.rectangleView5} />
         <Text style={styles.fastFoodText}>Fast food</Text>
       </View>
-      <View style={styles.s1View}>
+      {restaurants.map((restaurant) => 
+      <View style={styles.s1View}> 
         <Image
           style={styles.rectangleIcon}
           resizeMode="cover"
-          source={require("../assets/rectangle-71.png")}
+          source={restaurant.image}
         />
         <View style={styles.rectangleView6} />
-        <Text style={styles.text}>ร้านน้องพั้นซ์</Text>
-        <Text style={styles.aLarCarte}>a lar carte</Text>
-      </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant")}}>
+        <Text style={styles.text}>{restaurant.name}</Text>
+        <Text style={styles.aLarCarte}> {restaurant.type}</Text>
+        {/* {restaurant.type.map((foodType) => 
+        <Text style={styles.aLarCarte}> {foodType}</Text>
+        )} */}
+      </View>)}
+
+      {/* <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant")}}>
       <View style={styles.s2View}>
         <Image
           style={styles.rectangleIcon1}
@@ -55,7 +61,7 @@ const Homepage = ({ navigation }) => {
         <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
         <Text style={styles.noodlesALarCarte}>noodles, a lar carte</Text>
       </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* <View style={styles.s3View}>
         <Image
           style={styles.rectangleIcon2}
@@ -299,14 +305,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "SF Pro Rounded",
     color: "#777",
-    textAlign: "left",
+    textAlign: "left"
   },
   s1View: {
-    position: "absolute",
     top: 269,
     left: 47,
     width: 285,
     height: 170,
+    marginBottom: 15
   },
   rectangleIcon1: {
     position: "absolute",
