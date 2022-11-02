@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from "react-native";
 
-const RestaurantInfo = ({ navigation }) => {
+const Restaurant = ({ navigation }) => {
   return (
     <ImageBackground
       style={styles.restaurantInfoIcon}
@@ -309,4 +309,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RestaurantInfo;
+export default Restaurant;

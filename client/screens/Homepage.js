@@ -44,7 +44,7 @@ const Homepage = ({ navigation }) => {
         <Text style={styles.text}>ร้านน้องพั้นซ์</Text>
         <Text style={styles.aLarCarte}>a lar carte</Text>
       </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("RestaurantInfo")}} >
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant")}}>
       <View style={styles.s2View}>
         <Image
           style={styles.rectangleIcon1}

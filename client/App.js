@@ -1,11 +1,15 @@
 const Stack = createNativeStackNavigator();
+
 import { StatusBar } from 'expo-status-bar';
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import RestaurantInfo from "./screens/RestaurantInfo";
+
 import Homepage from "./screens/Homepage";
 import LogIn from "./screens/LogIn";
+import Restaurant from "./screens/Restaurant";
 import FoodInfo from "./screens/FoodInfo";
+import BookedQueue from "./screens/BookedQueue";
+import Ticket from "./screens/Ticket";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
@@ -30,13 +34,23 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="RestaurantInfo"
-              component={RestaurantInfo}
+              name="Restaurant"
+              component={Restaurant}
               options={{ headerShown: false }}
             />
             <Stack.Screen
               name="FoodInfo"
               component={FoodInfo}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="BookedQueue"
+              component={BookedQueue}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Ticket"
+              component={Ticket}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
