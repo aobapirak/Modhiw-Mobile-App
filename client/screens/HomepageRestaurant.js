@@ -1,14 +1,13 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import { restaurants } from "../dummydata";
+import { StyleSheet, View, Text, Image } from "react-native";
 
-const Homepage = ({ navigation }) => {
+const Homepage1 = () => {
   return (
     <View style={styles.homepageView}>
       <View style={styles.rectangleView} />
       <Text style={styles.helloAreYouHungryYet}>
         <Text style={styles.helloText}>Hello,</Text>
-        <Text style={styles.areYouHungry}> Are you hungry yet?</Text>
+        <Text style={styles.areYouHungry}>Are you hungry yet?</Text>
       </Text>
       <View style={styles.searchView}>
         <View style={styles.rectangleView1} />
@@ -17,7 +16,7 @@ const Homepage = ({ navigation }) => {
           resizeMode="cover"
           source={require("../assets/search.png")}
         />
-        <TextInput style={styles.searchByRestaurant}>Search by restaurant</TextInput>
+        <Text style={styles.searchByRestaurant}>Search by restaurant</Text>
       </View>
       <View style={styles.groupView}>
         <View style={styles.rectangleView2} />
@@ -35,43 +34,36 @@ const Homepage = ({ navigation }) => {
         <View style={styles.rectangleView5} />
         <Text style={styles.fastFoodText}>Fast food</Text>
       </View>
-      {restaurants.map((restaurant) => 
-      <View style={styles.s1View}> 
+      <View style={styles.s1View}>
         <Image
           style={styles.rectangleIcon}
           resizeMode="cover"
-          source={restaurant.image}
+          source={require("../assets/rectangle-72.png")}
         />
         <View style={styles.rectangleView6} />
-        <Text style={styles.text}>{restaurant.name}</Text>
-        <Text style={styles.aLarCarte}>{restaurant.type}</Text>
-        {/* {restaurant.type.map((foodType) => 
-        <Text style={styles.aLarCarte}> {foodType}</Text>
-        )} */}
-      </View>)}
-
-      {/* <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant")}}>
+        <Text style={styles.text}>ร้านน้องพั้นซ์</Text>
+        <Text style={styles.aLarCarte}>a lar carte</Text>
+      </View>
       <View style={styles.s2View}>
         <Image
           style={styles.rectangleIcon1}
           resizeMode="cover"
-          source={require("../assets/rectangle-72.png")}
+          source={require("../assets/rectangle-7.png")}
         />
         <View style={styles.rectangleView7} />
         <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
         <Text style={styles.noodlesALarCarte}>noodles, a lar carte</Text>
       </View>
-      </TouchableOpacity> */}
-      {/* <View style={styles.s3View}>
+      <View style={styles.s3View}>
         <Image
           style={styles.rectangleIcon2}
           resizeMode="cover"
-          source={require("../assets/rectangle-73.png")}
+          source={require("../assets/rectangle-74.png")}
         />
         <View style={styles.rectangleView8} />
         <Text style={styles.text2}>ร้านชิกกี้ ชิก</Text>
         <Text style={styles.aLarCarteFastFood}>a lar carte, fast food</Text>
-      </View> */}
+      </View>
       <View style={styles.barView}>
         <Image
           style={styles.rectangleIcon3}
@@ -81,7 +73,7 @@ const Homepage = ({ navigation }) => {
         <Image
           style={styles.image2Icon}
           resizeMode="cover"
-          source={require("../assets/image-2.png")}
+          source={require("../assets/image-21.png")}
         />
         <Image
           style={styles.image3Icon}
@@ -191,7 +183,7 @@ const styles = StyleSheet.create({
     left: 0,
     borderRadius: 5,
     backgroundColor: "#d8d8d8",
-    width: 79,
+    width: 74,
     height: 22,
   },
   aLaCarte: {
@@ -203,7 +195,7 @@ const styles = StyleSheet.create({
     fontFamily: "SF Pro Rounded",
     color: "#fff",
     textAlign: "left",
-    width: 90,
+    width: 56,
     height: 17.81,
   },
   groupView1: {
@@ -240,7 +232,6 @@ const styles = StyleSheet.create({
     left: 167,
     width: 67,
     height: 22,
-    marginLeft: 5
   },
   rectangleView5: {
     position: "absolute",
@@ -260,7 +251,7 @@ const styles = StyleSheet.create({
     fontFamily: "SF Pro Rounded",
     color: "#fff",
     textAlign: "left",
-    width: 70,
+    width: 57,
     height: 18,
   },
   groupView3: {
@@ -269,7 +260,6 @@ const styles = StyleSheet.create({
     left: 244,
     width: 71,
     height: 22,
-    marginLeft: 5
   },
   rectangleIcon: {
     position: "absolute",
@@ -305,14 +295,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "SF Pro Rounded",
     color: "#777",
-    textAlign: "left"
+    textAlign: "left",
   },
   s1View: {
+    position: "absolute",
     top: 269,
     left: 47,
     width: 285,
     height: 170,
-    marginBottom: 15
   },
   rectangleIcon1: {
     position: "absolute",
@@ -444,4 +434,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Homepage;
+export default Homepage1;

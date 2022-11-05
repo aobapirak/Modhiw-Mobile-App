@@ -1,84 +1,50 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
+import { Image, StyleSheet, View, Text, ScrollView } from "react-native";
+import { tickets } from "../dummydata";
 
 const TicketPage = () => {
   return (
     <View style={styles.ticketPageView}>
-      <View style={styles.ticketView}>
-        <Image
-          style={styles.subtractIcon}
-          resizeMode="cover"
-          source={require("../assets/subtract.png")}
-        />
-        <View style={styles.lineView} />
-        <View style={styles.menuView}>
-          <Text style={styles.text}>ข้าวกะเพรา (หมูกรอบ)</Text>
-          <Text style={styles.note}>Note: พิเศษ + ไข่ดาว</Text>
+      <ScrollView>
+      {tickets.map( (ticket) =>
+        <View style={styles.ticketView}>
           <Image
-            style={styles.image5Icon}
+            style={styles.subtractIcon}
             resizeMode="cover"
-            source={require("../assets/image-5.png")}
+            source={require("../assets/subtract.png")}
           />
+            <Text style={styles.queueNumber}>{ticket.queue}</Text>
+            <Text style={styles.positionView}>
+              Here is your position in the queue:
+            </Text>
+            <Text style={styles.positionInQueue}>
+              <Text style={styles.text3}>{ticket.position} position</Text>
+              <Text style={styles.inQueue}> in queue</Text>
+            </Text>
+          <View style={styles.lineView} />
+          <View style={styles.restaurantView}>
+            <Text style={styles.text1}>{ticket.restaurantName}</Text>
+            <Text style={styles.text2}>{ticket.location}</Text>
+            <Image
+              style={styles.locationIcon}
+              resizeMode="cover"
+              source={require("../assets/image-6.png")}
+            />
+          </View>
+          <View style={styles.menuView}>
+            <Text style={styles.text}>{ticket.food}</Text>
+            <Text style={styles.note}>Note: {ticket.note}</Text>
+            <Image
+              style={styles.foodIcon}
+              resizeMode="cover"
+              source={require("../assets/image-5.png")}
+            />
+          </View>
         </View>
-        <View style={styles.restaurantView}>
-          <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
-          <Text style={styles.text2}>ใต้หอพักนักศึกษาหญิง</Text>
-          <Image
-            style={styles.image6Icon}
-            resizeMode="cover"
-            source={require("../assets/image-6.png")}
-          />
-        </View>
-        <Text style={styles.e12Text}>E12</Text>
-        <Text style={styles.heresYourPositionInTheQu}>
-          <Text style={styles.heresYourPosition}>Here’s your position</Text>
-          <Text style={styles.inTheQueue}>in the queue:</Text>
-        </Text>
-        <Text style={styles.positionInQueue}>
-          <Text style={styles.text3}>3</Text>
-          <Text style={styles.text4}>{` `}</Text>
-          <Text style={styles.positionText}>position</Text>
-          <Text style={styles.inQueue}>{` in queue `}</Text>
-        </Text>
-      </View>
-      <View style={styles.ticketView1}>
-        <Image
-          style={styles.subtractIcon1}
-          resizeMode="cover"
-          source={require("../assets/subtract2.png")}
-        />
-        <View style={styles.lineView1} />
-        <View style={styles.menuView1}>
-          <Text style={styles.text5}>ข้าวกะเพรา (หมูกรอบ)</Text>
-          <Text style={styles.note1}>Note: พิเศษ + ไข่ดาว</Text>
-          <Image
-            style={styles.image5Icon1}
-            resizeMode="cover"
-            source={require("../assets/image-52.png")}
-          />
-        </View>
-        <View style={styles.restaurantView1}>
-          <Text style={styles.text6}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
-          <Text style={styles.text7}>ใต้หอพักนักศึกษาหญิง</Text>
-          <Image
-            style={styles.image6Icon1}
-            resizeMode="cover"
-            source={require("../assets/image-52.png")}
-          />
-        </View>
-        <Text style={styles.a03Text}>A03</Text>
-        <Text style={styles.heresYourPositionInTheQu1}>
-          <Text style={styles.heresYourPosition1}>Here’s your position</Text>
-          <Text style={styles.inTheQueue1}>in the queue:</Text>
-        </Text>
-        <Text style={styles.positionInQueue1}>
-          <Text style={styles.text8}>3</Text>
-          <Text style={styles.text9}>{` `}</Text>
-          <Text style={styles.positionText1}>position</Text>
-          <Text style={styles.inQueue1}>{` in queue `}</Text>
-        </Text>
-      </View>
-      <View style={styles.barView}>
+      )}
+      </ScrollView>
+      
+      {/* <View style={styles.barView}>
         <Image
           style={styles.rectangleIcon}
           resizeMode="cover"
@@ -99,7 +65,7 @@ const TicketPage = () => {
           resizeMode="cover"
           source={require("../assets/image-4.png")}
         />
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -112,13 +78,13 @@ const styles = StyleSheet.create({
   },
   lineView: {
     position: "absolute",
-    top: 284.5,
-    left: 14.5,
+    top: 282,
+    left: 25,
     borderStyle: "dashed",
     borderColor: "#000",
-    borderRadius: 0.001,
-    borderTopWidth: 1,
-    width: 341,
+    // borderRadius: 1,
+    borderTopWidth: 2.8,
+    width: 320,
     height: 1,
   },
   text: {
@@ -139,7 +105,7 @@ const styles = StyleSheet.create({
     color: "#505050",
     textAlign: "left",
   },
-  image5Icon: {
+  foodIcon: {
     position: "absolute",
     top: 8,
     left: 0,
@@ -171,7 +137,7 @@ const styles = StyleSheet.create({
     color: "#505050",
     textAlign: "left",
   },
-  image6Icon: {
+  locationIcon: {
     position: "absolute",
     top: 8,
     left: 0,
@@ -185,7 +151,7 @@ const styles = StyleSheet.create({
     width: 218,
     height: 41,
   },
-  e12Text: {
+  queueNumber: {
     position: "absolute",
     top: 73,
     left: 121,
@@ -195,21 +161,20 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "left",
   },
-  heresYourPosition: {
+  positionText: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
   },
-  inTheQueue: {
-    margin: 0,
-  },
-  heresYourPositionInTheQu: {
+  positionView: {
     position: "absolute",
     top: 183,
-    left: 127,
+    // left: 95,
     fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "center",
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   text3: {
     color: "#e59e00",
@@ -217,11 +182,11 @@ const styles = StyleSheet.create({
   text4: {
     color: "#000",
   },
-  positionText: {
-    color: "#e59e00",
-  },
-  inQueue: {
-    color: "#000",
+  centerText: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   positionInQueue: {
     position: "absolute",
@@ -232,144 +197,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   ticketView: {
-    position: "absolute",
+    marginTop: -20,
+    marginBottom: 60,
     top: 53,
     left: 21,
     width: 370,
     height: 570,
-  },
-  subtractIcon1: {
-    position: "relative",
-    width: 370,
-    height: 570,
-  },
-  lineView1: {
-    position: "absolute",
-    top: 284.5,
-    left: 14.5,
-    borderStyle: "dashed",
-    borderColor: "#000",
-    borderRadius: 0.001,
-    borderTopWidth: 1,
-    width: 341,
-    height: 1,
-  },
-  text5: {
-    position: "absolute",
-    top: 0,
-    left: 45,
-    fontSize: 20,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  note1: {
-    position: "absolute",
-    top: 24,
-    left: 45,
-    fontSize: 14,
-    fontFamily: "SF Pro Rounded",
-    color: "#505050",
-    textAlign: "left",
-  },
-  image5Icon1: {
-    position: "absolute",
-    top: 8,
-    left: 0,
-    width: 25,
-    height: 25,
-  },
-  menuView1: {
-    position: "absolute",
-    top: 443,
-    left: 53,
-    width: 217,
-    height: 41,
-  },
-  text6: {
-    position: "absolute",
-    top: 0,
-    left: 45,
-    fontSize: 20,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  text7: {
-    position: "absolute",
-    top: 24,
-    left: 45,
-    fontSize: 14,
-    fontFamily: "SF Pro Rounded",
-    color: "#505050",
-    textAlign: "left",
-  },
-  image6Icon1: {
-    position: "absolute",
-    top: 8,
-    left: 0,
-    width: 25,
-    height: 25,
-  },
-  restaurantView1: {
-    position: "absolute",
-    top: 377,
-    left: 53,
-    width: 218,
-    height: 41,
-  },
-  a03Text: {
-    position: "absolute",
-    top: 74,
-    left: 108,
-    fontSize: 80,
-    fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  heresYourPosition1: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  inTheQueue1: {
-    margin: 0,
-  },
-  heresYourPositionInTheQu1: {
-    position: "absolute",
-    top: 183,
-    left: 127,
-    fontSize: 14,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "center",
-  },
-  text8: {
-    color: "#e59e00",
-  },
-  text9: {
-    color: "#000",
-  },
-  positionText1: {
-    color: "#e59e00",
-  },
-  inQueue1: {
-    color: "#000",
-  },
-  positionInQueue1: {
-    position: "absolute",
-    top: 232,
-    left: 121,
-    fontSize: 16,
-    fontFamily: "SF Pro Rounded",
-    textAlign: "center",
-  },
-  ticketView1: {
-    position: "absolute",
-    top: 643,
-    left: 21,
-    width: 370,
-    height: 570,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   rectangleIcon: {
     position: "absolute",
