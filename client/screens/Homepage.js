@@ -4,6 +4,7 @@ import { restaurants } from "../dummydata";
 
 const Homepage = ({ navigation }) => {
   return (
+    <ScrollView>
     <View style={styles.homepageView}>
       <View style={styles.rectangleView} />
       <Text style={styles.helloAreYouHungryYet}>
@@ -35,19 +36,27 @@ const Homepage = ({ navigation }) => {
         <View style={styles.rectangleView5} />
         <Text style={styles.fastFoodText}>Fast food</Text>
       </View>
+      
       {restaurants.map((restaurant) => 
-      <View style={styles.s1View}> 
-        <Image
-          style={styles.rectangleIcon}
-          resizeMode="cover"
-          source={restaurant.image}
-        />
-        <View style={styles.rectangleView6} />
-        <Text style={styles.text}>{restaurant.name}</Text>
-        <Text style={styles.aLarCarte}>{restaurant.type}</Text>
-        {/* {restaurant.type.map((foodType) => 
-        <Text style={styles.aLarCarte}> {foodType}</Text>
-        )} */}
+      <View>
+        <CardSilder>
+          <View style={styles.s1View}> 
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant",{restaurant: "testest"})}}>
+          <Image
+            style={styles.rectangleIcon}
+            resizeMode="cover"
+            source={restaurant.image}
+          />
+          <View style={styles.rectangleView6} />
+          <Text style={styles.text}>{restaurant.name}</Text>
+          <Text style={styles.aLarCarte}>{restaurant.type}</Text>
+          {/* {restaurant.type.map((foodType) => 
+          <Text style={styles.aLarCarte}> {foodType}</Text>
+          )} */}    
+          </TouchableOpacity>
+          </View>
+        </CardSilder>
+      
       </View>)}
 
       {/* <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant")}}>
@@ -95,6 +104,7 @@ const Homepage = ({ navigation }) => {
         />
       </View>
     </View>
+    </ScrollView>
   );
 };
 
@@ -272,7 +282,6 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   rectangleIcon: {
-    position: "absolute",
     top: 0,
     left: 0,
     borderRadius: 20,
@@ -280,7 +289,6 @@ const styles = StyleSheet.create({
     height: 170,
   },
   rectangleView6: {
-    position: "absolute",
     top: 116,
     left: 0,
     borderBottomRightRadius: 20,

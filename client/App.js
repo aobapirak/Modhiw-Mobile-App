@@ -36,13 +36,13 @@ const App = () => {
               name="Homepage"
               component={Homepage}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
               name="Restaurant"
               component={Restaurant}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="FoodInfo"
               component={FoodInfo}
               options={{ headerShown: false }}
@@ -52,11 +52,11 @@ const App = () => {
               component={BookedQueue}
               options={{ headerShown: false }}
             /> */}
-            <Stack.Screen
+            {/* <Stack.Screen
               name="Ticket"
               component={Ticket}
               options={{ headerShown: false }}
-            />
+            /> */}
           </Stack.Navigator>
         ) : (
           <SplashScreen />
