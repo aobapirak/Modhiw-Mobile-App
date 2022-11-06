@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from "react-native";
-import {restaurantInfo} from "../dummydata";
+import { restaurantInfo } from "../dummydata";
+import CardSilder from 'react-native-cards-slider';
 
 const Restaurant = ({ navigation }) => {
   return (
@@ -12,7 +13,7 @@ const Restaurant = ({ navigation }) => {
       <Image
         style={styles.rectangleIcon}
         resizeMode="cover"
-        source={restaurantInfo}
+        source={require("../assets/rectangle-7.png")}
       />
       <View style={styles.rectangleView} />
       <View style={styles.searchView}>
@@ -51,28 +52,23 @@ const Restaurant = ({ navigation }) => {
           source={require("../assets/image-4.png")}
         />
       </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("FoodInfo")}} >
-      <View style={styles.menu1View}>
+
+      {restaurantInfo[1].menu.map((allmenu) => 
+      <View>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("FoodInfo")}} >
+        <View style={styles.menu1View}>
         <View style={styles.rectangleView2} />
         <Image
           style={styles.rectangleIcon2}
           resizeMode="cover"
           source={require("../assets/rectangle-12.png")}
         />
-        <Text style={styles.text2}>ข้าวกะเพรา</Text>
-        <Text style={styles.text3}>35฿ - 65฿</Text>
+        <Text style={styles.text4}>{allmenu.menuName}</Text>
+        <Text style={styles.text5}>{allmenu.price}</Text>
       </View>
       </TouchableOpacity>
-      <View style={styles.menu2View}>
-        <View style={styles.rectangleView3} />
-        <Image
-          style={styles.rectangleIcon3}
-          resizeMode="cover"
-          source={require("../assets/rectangle-121.png")}
-        />
-        <Text style={styles.text4}>ก๋วยเตี๋ยวต้มยำ</Text>
-        <Text style={styles.text5}>35฿ - 55฿</Text>
-      </View>
+      </View>)}
+
       <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
       <Image
         style={styles.x1Icon}

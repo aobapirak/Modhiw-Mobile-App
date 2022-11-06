@@ -39,21 +39,23 @@ const Homepage = ({ navigation }) => {
       
       {restaurants.map((restaurant) => 
       <View>
-      <View style={styles.s1View}> 
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant",{restaurant: "testest"})}}>
-        <Image
-          style={styles.rectangleIcon}
-          resizeMode="cover"
-          source={restaurant.image}
-        />
-        <View style={styles.rectangleView6} />
-        <Text style={styles.text}>{restaurant.name}</Text>
-        <Text style={styles.aLarCarte}>{restaurant.type}</Text>
-        {/* {restaurant.type.map((foodType) => 
-        <Text style={styles.aLarCarte}> {foodType}</Text>
-        )} */}    
-        </TouchableOpacity>
-      </View>
+        <CardSilder>
+          <View style={styles.s1View}> 
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant",{restaurant: "testest"})}}>
+          <Image
+            style={styles.rectangleIcon}
+            resizeMode="cover"
+            source={restaurant.image}
+          />
+          <View style={styles.rectangleView6} />
+          <Text style={styles.text}>{restaurant.name}</Text>
+          <Text style={styles.aLarCarte}>{restaurant.type}</Text>
+          {/* {restaurant.type.map((foodType) => 
+          <Text style={styles.aLarCarte}> {foodType}</Text>
+          )} */}    
+          </TouchableOpacity>
+          </View>
+        </CardSilder>
       
       </View>)}
 
@@ -280,7 +282,6 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   rectangleIcon: {
-    position: "absolute",
     top: 0,
     left: 0,
     borderRadius: 20,
@@ -288,7 +289,6 @@ const styles = StyleSheet.create({
     height: 170,
   },
   rectangleView6: {
-    position: "absolute",
     top: 116,
     left: 0,
     borderBottomRightRadius: 20,
