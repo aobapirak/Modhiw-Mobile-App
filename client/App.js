@@ -11,6 +11,10 @@ import FoodInfo from "./screens/FoodInfo";
 import BookedQueue from "./screens/BookedQueue";
 import Ticket from "./screens/Ticket";
 
+import HomepageRestaurant from "./screens/HomepageRestaurant";
+import Add from "./screens/Add";
+import OrderList from "./screens/OrderList";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 
@@ -23,7 +27,7 @@ const App = () => {
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
+            {/* <Stack.Screen
               name="LogIn"
               component={LogIn}
               options={{ headerShown: false }}
@@ -32,13 +36,13 @@ const App = () => {
               name="Homepage"
               component={Homepage}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
               name="Restaurant"
               component={Restaurant}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="FoodInfo"
               component={FoodInfo}
               options={{ headerShown: false }}
@@ -47,12 +51,12 @@ const App = () => {
               name="BookedQueue"
               component={BookedQueue}
               options={{ headerShown: false }}
-            />
-            <Stack.Screen
+            /> */}
+            {/* <Stack.Screen
               name="Ticket"
               component={Ticket}
               options={{ headerShown: false }}
-            />
+            /> */}
           </Stack.Navigator>
         ) : (
           <SplashScreen />

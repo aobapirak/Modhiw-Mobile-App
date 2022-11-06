@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from "react-native";
-import restaurantInfo from "../dummydata";
+import {restaurantInfo} from "../dummydata";
 
 const Restaurant = ({ navigation }) => {
   return (
@@ -12,7 +12,7 @@ const Restaurant = ({ navigation }) => {
       <Image
         style={styles.rectangleIcon}
         resizeMode="cover"
-        source={require("../assets/rectangle-7.png")}
+        source={restaurantInfo}
       />
       <View style={styles.rectangleView} />
       <View style={styles.searchView}>
@@ -24,12 +24,11 @@ const Restaurant = ({ navigation }) => {
         />
         <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
       </View>
-      <Text>{this.props}</Text>
-      <Text style={styles.text}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
-      <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
+      <Text style={styles.text}>{restaurantInfo[1].name}</Text>
+      <Text style={styles.text1}>{restaurantInfo[1].name}</Text>
       {/* {this.props.navigation.getParam('restaurant')} */}
-      <Text style={styles.noodlesALarCarte}>noodles, a lar carte</Text>
-      <Text style={styles.openNowText}>Open now</Text>
+      <Text style={styles.noodlesALarCarte}>{restaurantInfo[1].type}</Text>
+      <Text style={styles.openNowText}>{restaurantInfo[1].open[0]}</Text>
       <View style={styles.barView}>
         <Image
           style={styles.rectangleIcon1}

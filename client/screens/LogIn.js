@@ -1,14 +1,16 @@
-import * as React from "react";
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity} from "react-native";
-// const [phoneNum, setPhoneNum] = React.useState(true);
+import PhoneInput from 'react-native-phone-number-input';
 
 const LogIn = ({ navigation }) => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+
   return (
     <View style={styles.logInView}>
       <View style={styles.rectangleView} />
       <View style={styles.rectangleView1} />
       <View style={styles.phoneNumView}>
-      <View style={styles.rectangleView2} />
+        <View style={styles.rectangleView2} />
         <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
           <View style={styles.rectangleView3} />
           <Image
@@ -24,7 +26,7 @@ const LogIn = ({ navigation }) => {
           source={require("../assets/phonecall-1-1.png")}
         />
         <Text style={styles.phoneNumberText}>Phone number</Text>
-        <TextInput style={styles.text} keyboardType={'phone-pad'}>123</TextInput>
+        <TextInput style={styles.text} keyboardType={'phone-pad'}>+66</TextInput>
       </View>
       <Text style={styles.welcomeLogInToBookAFood}>
         <Text style={styles.welcomeText}>Welcome, </Text>

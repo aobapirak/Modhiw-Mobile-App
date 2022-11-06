@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Image, StyleSheet, View, Text } from "react-native";
+import { booking, TouchableOpacity } from "../dummydata";
 
-const Booked = () => {
+const Booked = ({ navigation }) => {
   return (
     <View style={styles.bookedView}>
       <View style={styles.ticketView}>
@@ -10,35 +11,41 @@ const Booked = () => {
           resizeMode="cover"
           source={require("../assets/subtract.png")}
         />
-        <View style={styles.bookView}>
-          <View style={styles.rectangleView} />
-          <Text style={styles.doneText}>Done</Text>
-        </View>
+
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+          <View style={styles.bookView}>
+            <View style={styles.rectangleView} />
+            <Text style={styles.doneText}>Done</Text>
+          </View>
+        </TouchableOpacity>
+
         <View style={styles.lineView} />
         <View style={styles.menuView}>
-          <Text style={styles.text}>ข้าวกะเพรา (หมูกรอบ)</Text>
-          <Text style={styles.note}>Note: พิเศษ + ไข่ดาว</Text>
+          <Text style={styles.text}>{booking.food}</Text>
+          <Text style={styles.note}>{booking.note}</Text>
           <Image
-            style={styles.image5Icon}
+            style={styles.foodIcon}
             resizeMode="cover"
             source={require("../assets/image-5.png")}
           />
         </View>
         <View style={styles.restaurantView}>
-          <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
-          <Text style={styles.text2}>ใต้หอพักนักศึกษาหญิง</Text>
+          <Text style={styles.text1}>{booking.restaurantName}</Text>
+          <Text style={styles.text2}>{booking.location}</Text>
           <Image
-            style={styles.image6Icon}
+            style={styles.locationIcon}
             resizeMode="cover"
             source={require("../assets/image-6.png")}
           />
         </View>
-        <Text style={styles.e12Text}>E12</Text>
-        <Text style={styles.theRestaurantHasReceivedYo}>
-          <Text style={styles.theRestaurantHas}>
+        <Text style={styles.queue}>{booking.queue}</Text>
+        <Text style={styles.word}>
+          <Text style={styles.received}>
             The restaurant has received your queue!
           </Text>
-          <Text style={styles.pleaseWaitKrub}>Please wait krub :)</Text>
+          <Text style={styles.pleaseWait}>
+            {"\n"}Please wait :)
+          </Text>
         </Text>
       </View>
     </View>
@@ -79,13 +86,13 @@ const styles = StyleSheet.create({
   },
   lineView: {
     position: "absolute",
-    top: 284.5,
-    left: 14.5,
+    top: 282,
+    left: 20,
     borderStyle: "dashed",
     borderColor: "#000",
-    borderRadius: 0.001,
-    borderTopWidth: 1,
-    width: 341,
+    // borderRadius: 1,
+    borderTopWidth: 3.2,
+    width: 328,
     height: 1,
   },
   text: {
@@ -106,7 +113,7 @@ const styles = StyleSheet.create({
     color: "#505050",
     textAlign: "left",
   },
-  image5Icon: {
+  foodIcon: {
     position: "absolute",
     top: 8,
     left: 0,
@@ -138,7 +145,7 @@ const styles = StyleSheet.create({
     color: "#505050",
     textAlign: "left",
   },
-  image6Icon: {
+  locationIcon: {
     position: "absolute",
     top: 8,
     left: 0,
@@ -152,7 +159,7 @@ const styles = StyleSheet.create({
     width: 218,
     height: 41,
   },
-  e12Text: {
+  queue: {
     position: "absolute",
     top: 84,
     left: 120,
@@ -162,14 +169,14 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "left",
   },
-  theRestaurantHas: {
+  received: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
   },
-  pleaseWaitKrub: {
+  pleaseWait: {
     margin: 0,
   },
-  theRestaurantHasReceivedYo: {
+  word: {
     position: "absolute",
     top: 204,
     left: 68,
@@ -180,10 +187,12 @@ const styles = StyleSheet.create({
   },
   ticketView: {
     position: "absolute",
-    top: 51,
+    top: 53,
     left: 21,
     width: 370,
     height: 570,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bookedView: {
     position: "relative",
