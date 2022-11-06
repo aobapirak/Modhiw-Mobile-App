@@ -1,9 +1,10 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import restaurants from "../dummydata";
+import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import {homepage} from "../dummydata";
 
 const Homepage = ({ navigation }) => {
   return (
+    <ScrollView>
     <View style={styles.homepageView}>
       <View style={styles.rectangleView} />
       <Text style={styles.helloAreYouHungryYet}>
@@ -35,8 +36,11 @@ const Homepage = ({ navigation }) => {
         <View style={styles.rectangleView5} />
         <Text style={styles.fastFoodText}>Fast food</Text>
       </View>
-      {restaurants.map((restaurant) => 
+      
+      {homepage.map((restaurant) => 
+      <View>
       <View style={styles.s1View}> 
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant",{restaurant: "testest"})}}>
         <Image
           style={styles.rectangleIcon}
           resizeMode="cover"
@@ -47,7 +51,10 @@ const Homepage = ({ navigation }) => {
         <Text style={styles.aLarCarte}> {restaurant.type}</Text>
         {/* {restaurant.type.map((foodType) => 
         <Text style={styles.aLarCarte}> {foodType}</Text>
-        )} */}
+        )} */}    
+        </TouchableOpacity>
+      </View>
+      
       </View>)}
 
       {/* <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant")}}>
@@ -95,6 +102,7 @@ const Homepage = ({ navigation }) => {
         />
       </View>
     </View>
+    </ScrollView>
   );
 };
 

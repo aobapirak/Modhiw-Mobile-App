@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from "react-native";
+import restaurantInfo from "../dummydata";
 
 const Restaurant = ({ navigation }) => {
   return (
@@ -23,8 +24,10 @@ const Restaurant = ({ navigation }) => {
         />
         <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
       </View>
+      <Text>{this.props}</Text>
       <Text style={styles.text}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
       <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
+      {/* {this.props.navigation.getParam('restaurant')} */}
       <Text style={styles.noodlesALarCarte}>noodles, a lar carte</Text>
       <Text style={styles.openNowText}>Open now</Text>
       <View style={styles.barView}>
