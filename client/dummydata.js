@@ -14,7 +14,7 @@ const restaurantInfo = [
         image: require("./assets/rectangle-71.png"),
         type: ["a lar carte"],
         menu: [{
-                menuName: "ข้่าวกะเพรา",
+                menuName: "ข้าวกะเพรา",
                 price: "35฿ - 65฿"
                 },
                 {
@@ -32,7 +32,7 @@ const restaurantInfo = [
         image: require("./assets/rectangle-72.png"),
         type: ["noodles","a lar carte"],
         menu: [{
-            menuName: "ข้่าวกะเพรา",
+            menuName: "ข้าวกะเพรา",
             price: "35฿ - 65฿"
             },
             {
@@ -40,6 +40,62 @@ const restaurantInfo = [
             price: "35฿ - 45฿"
             }],
         open: ["Open now", "closed"]
+    }
+]
+
+const toppingInfo = [
+    {
+        name: "ร้านก๋วยเตี๋ยวลุงหนวด",
+        toppings: [{
+            toppingName: "ไข่ดาว",
+            price: "10฿"
+            },
+            {
+            toppingName: "พิเศษ",
+            price: "20฿"
+            }]
+    }
+]
+
+const ingredientInfo = [
+    {
+        name: "ร้านก๋วยเตี๋ยวลุงหนวด",
+        ingredients: [{
+            ingredientName: "ไก่",
+            price: "35฿"
+            },
+            {
+            ingredientName: "หมู",
+            price: "35฿"
+            },
+            {
+            ingredientName: "หมูตุ๋น",
+            price: "40฿"
+            },
+            {
+            ingredientName: "หมูกรอบ",
+            price: "40฿"
+            },
+            {
+            ingredientName: "เนื้อ",
+            price: "40฿"
+            },
+            {
+            ingredientName: "ปลาหมึก",
+            price: "40฿"
+            },
+            {
+            ingredientName: "กุ้ง",
+            price: "40฿"
+            },
+            {
+            ingredientName: "ทะเล",
+            price: "40฿"
+            },
+            {
+            ingredientName: "รวมมิตร",
+            price: "45฿"
+            }]
     }
 ]
 
@@ -70,4 +126,4 @@ const tickets = [
     }
 ]
 
-export {restaurants, booking, tickets, restaurantInfo};
+export {restaurants, booking, tickets, restaurantInfo, toppingInfo, ingredientInfo};

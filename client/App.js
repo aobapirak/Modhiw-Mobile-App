@@ -37,17 +37,17 @@ const App = () => {
               component={Homepage}
               options={{ headerShown: false }}
             /> */}
-            <Stack.Screen
+            {/* <Stack.Screen
               name="Restaurant"
               component={Restaurant}
               options={{ headerShown: false }}
-            />
-            {/* <Stack.Screen
+            /> */}
+            <Stack.Screen
               name="FoodInfo"
               component={FoodInfo}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="BookedQueue"
               component={BookedQueue}
               options={{ headerShown: false }}
