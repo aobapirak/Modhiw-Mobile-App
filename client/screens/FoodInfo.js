@@ -1,128 +1,149 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, ImageBackground } from "react-native";
+import { Image, StyleSheet, View, Text, ImageBackground, CheckBox } from "react-native";
+import { ingredientInfo, toppingInfo } from "../dummydata";
+import {Checkbox} from 'react-native-paper';
+import { color } from "react-native-reanimated";
 
-const FoodInfo = () => {
-  return (
-    <ImageBackground
-      style={styles.foodInfoIcon}
-      resizeMode="cover"
-      source={require("../assets/restaurantinfo.png")}
-    >
-      <Image
-        style={styles.rectangleIcon}
+class FoodInfo extends React.Component {
+  state = {
+    checked: false
+  }
+  render() {
+    const {checked} = this.state;
+    return (
+  
+      <ImageBackground
+        style={styles.foodInfoIcon}
         resizeMode="cover"
-        source={require("../assets/rectangle-74.png")}
-      />
-      <View style={styles.rectangleView} />
-      <View style={styles.infoView}>
-        <Text style={styles.text}>ข้าวกะเพรา</Text>
-        <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
+        source={require("../assets/restaurantinfo.png")}
+      >
         <Image
-          style={styles.mapIcon}
+          style={styles.rectangleIcon}
           resizeMode="cover"
-          source={require("../assets/map.png")}
+          source={require("../assets/rectangle-74.png")}
         />
-        <Image
-          style={styles.xIcon}
-          resizeMode="cover"
-          source={require("../assets/x-1.png")}
-        />
-      </View>
-      <View style={styles.view}>
-        <Image
-          style={styles.ellipseIcon}
-          resizeMode="cover"
-          source={require("../assets/ellipse-1.png")}
-        />
-        <Image
-          style={styles.ellipseIcon1}
-          resizeMode="cover"
-          source={require("../assets/ellipse-1.png")}
-        />
-        <Image
-          style={styles.ellipseIcon2}
-          resizeMode="cover"
-          source={require("../assets/ellipse-1.png")}
-        />
-        <Image
-          style={styles.ellipseIcon3}
-          resizeMode="cover"
-          source={require("../assets/ellipse-1.png")}
-        />
-        <Image
-          style={styles.ellipseIcon4}
-          resizeMode="cover"
-          source={require("../assets/ellipse-1.png")}
-        />
-        <Image
-          style={styles.ellipseIcon5}
-          resizeMode="cover"
-          source={require("../assets/ellipse-1.png")}
-        />
-        <Image
-          style={styles.ellipseIcon6}
-          resizeMode="cover"
-          source={require("../assets/ellipse-1.png")}
-        />
-        <Image
-          style={styles.ellipseIcon7}
-          resizeMode="cover"
-          source={require("../assets/ellipse-4.png")}
-        />
-        <Image
-          style={styles.ellipseIcon8}
-          resizeMode="cover"
-          source={require("../assets/ellipse-1.png")}
-        />
-        <Text style={styles.text11}>
-          <Text style={styles.text2}>ไก่</Text>
-          <Text style={styles.text3}>หมู</Text>
-          <Text style={styles.text4}>หมูตุ๋น</Text>
-          <Text style={styles.text5}>หมูกรอบ</Text>
-          <Text style={styles.text6}>เนื้อ</Text>
-          <Text style={styles.text7}>ปลาหมึก</Text>
-          <Text style={styles.text8}>กุ้ง</Text>
-          <Text style={styles.text9}>ทะเล</Text>
-          <Text style={styles.text10}>รวมมิตร</Text>
-        </Text>
-        <Text style={styles.text21}>
-          <Text style={styles.text12}>35฿</Text>
-          <Text style={styles.text13}>35฿</Text>
-          <Text style={styles.text14}>40฿</Text>
-          <Text style={styles.text15}>40฿</Text>
-          <Text style={styles.text16}>40฿</Text>
-          <Text style={styles.text17}>40฿</Text>
-          <Text style={styles.text18}>40฿</Text>
-          <Text style={styles.text19}>40฿</Text>
-          <Text style={styles.text20}>45฿</Text>
-        </Text>
-        <Text style={styles.text24}>
-          <Text style={styles.text22}>10฿</Text>
-          <Text style={styles.text23}>20฿</Text>
-        </Text>
-        <Text style={styles.text25}>เนื้อ</Text>
-      </View>
-      <View style={styles.view1}>
-        <Text style={styles.text28}>
-          <Text style={styles.text26}>ไข่ดาว</Text>
-          <Text style={styles.text27}>พิเศษ</Text>
-        </Text>
-        <Text style={styles.text29}>เพิ่มเติม</Text>
-      </View>
-      <View style={styles.noteView}>
-        <View style={styles.rectangleView1} />
-        <Text style={styles.noteText}>Note</Text>
-        <Text style={styles.etcText}>
-          เช่น เพิ่มไข่ดาว, พิเศษ, หมูสับ, หมูชิ้น, ไม่ใส่ผัก, etc.
-        </Text>
-      </View>
-      <View style={styles.bookView}>
-        <View style={styles.rectangleView2} />
-        <Text style={styles.bookQueueText}>Book Queue</Text>
-      </View>
-    </ImageBackground>
-  );
-};
+        <View style={styles.rectangleView} />
+        <View style={styles.infoView}>
+          <Text style={styles.text}>ข้าวกะเพรา</Text>
+          <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
+          <Image
+            style={styles.mapIcon}
+            resizeMode="cover"
+            source={require("../assets/map.png")}
+          />
+          <Image
+            style={styles.xIcon}
+            resizeMode="cover"
+            source={require("../assets/x-1.png")}
+          />
+        </View>
+        <View style={styles.view}>
+          <Checkbox
+            title="testest"
+            status={checked ? 'checked' : 'unchecked'}
+            onPress={()=>{this.setState({checked: !checked});}}
+          />
+          {/* <Image
+            style={styles.ellipseIcon}
+            resizeMode="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={styles.ellipseIcon1}
+            resizeMode="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={styles.ellipseIcon2}
+            resizeMode="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={styles.ellipseIcon3}
+            resizeMode="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={styles.ellipseIcon4}
+            resizeMode="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={styles.ellipseIcon5}
+            resizeMode="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={styles.ellipseIcon6}
+            resizeMode="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={styles.ellipseIcon7}
+            resizeMode="cover"
+            source={require("../assets/ellipse-4.png")}
+          />
+          <Image
+            style={styles.ellipseIcon8}
+            resizeMode="cover"
+            source={require("../assets/ellipse-1.png")}
+          /> */}
+          <Text style={styles.text11}>
+            <Text style={styles.text2}>ไก่</Text>
+            <Text style={styles.text3}>หมู</Text>
+            <Text style={styles.text4}>หมูตุ๋น</Text>
+            <Text style={styles.text5}>หมูกรอบ</Text>
+            <Text style={styles.text6}>เนื้อ</Text>
+            <Text style={styles.text7}>ปลาหมึก</Text>
+            <Text style={styles.text8}>กุ้ง</Text>
+            <Text style={styles.text9}>ทะเล</Text>
+            <Text style={styles.text10}>รวมมิตร</Text>
+          </Text>
+          <Text style={styles.text21}>
+            <Text style={styles.text12}>35฿</Text>
+            <Text style={styles.text13}>35฿</Text>
+            <Text style={styles.text14}>40฿</Text>
+            <Text style={styles.text15}>40฿</Text>
+            <Text style={styles.text16}>40฿</Text>
+            <Text style={styles.text17}>40฿</Text>
+            <Text style={styles.text18}>40฿</Text>
+            <Text style={styles.text19}>40฿</Text>
+            <Text style={styles.text20}>45฿</Text>
+          </Text>
+          <Text style={styles.text24}>
+            <Text style={styles.text22}>10฿</Text>
+            <Text style={styles.text23}>20฿</Text>
+          </Text>
+          <Text style={styles.text25}>เนื้อ</Text>
+        </View>
+        <View style={styles.view1}>
+          <Text style={styles.text28}>
+            <Text style={styles.text26}>ไข่ดาว</Text>
+            <Text style={styles.text27}>พิเศษ</Text>
+          </Text>
+          <Text style={styles.text29}>เพิ่มเติม</Text>
+        </View>
+        <View style={styles.noteView}>
+          <View style={styles.rectangleView1} />
+          <Text style={styles.noteText}>Note</Text>
+          <Text style={styles.etcText}>
+            เช่น เพิ่มไข่ดาว, พิเศษ, หมูสับ, หมูชิ้น, ไม่ใส่ผัก, etc.
+          </Text>
+        </View>
+        <View style={styles.bookView}>
+          <View style={styles.rectangleView2} />
+          <Text style={styles.bookQueueText}>Book Queue</Text>
+        </View>
+      </ImageBackground>
+    );
+  }
+  
+}
+
+// const FoodInfo = () => {
+
+
+// };
 
 const styles = StyleSheet.create({
   rectangleIcon: {
