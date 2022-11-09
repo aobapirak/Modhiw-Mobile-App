@@ -27,7 +27,6 @@ const Restaurant = ({ navigation }) => {
       </View>
       <Text style={styles.text}>{restaurantInfo[1].name}</Text>
       <Text style={styles.text1}>{restaurantInfo[1].name}</Text>
-      {/* {this.props.navigation.getParam('restaurant')} */}
       <Text style={styles.noodlesALarCarte}>{restaurantInfo[1].type}</Text>
       <Text style={styles.openNowText}>{restaurantInfo[1].open[0]}</Text>
       <View style={styles.barView}>
@@ -53,11 +52,13 @@ const Restaurant = ({ navigation }) => {
         />
       </View>
 
+      <CardSilder>
       {restaurantInfo[1].menu.map((allmenu) => 
       <View>
+        
         <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("FoodInfo")}} >
         <View style={styles.menu1View}>
-        <View style={styles.rectangleView2} />
+        <View/>
         <Image
           style={styles.rectangleIcon2}
           resizeMode="cover"
@@ -66,8 +67,9 @@ const Restaurant = ({ navigation }) => {
         <Text style={styles.text4}>{allmenu.menuName}</Text>
         <Text style={styles.text5}>{allmenu.price}</Text>
       </View>
-      </TouchableOpacity>
+      </TouchableOpacity>        
       </View>)}
+      </CardSilder>
 
       <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
       <Image
