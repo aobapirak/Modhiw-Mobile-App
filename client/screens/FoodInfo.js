@@ -1,15 +1,40 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, ImageBackground, CheckBox } from "react-native";
+import { Image, StyleSheet, View, Text, ImageBackground} from "react-native";
 import { ingredientInfo, toppingInfo } from "../dummydata";
 import {Checkbox} from 'react-native-paper';
-import { color } from "react-native-reanimated";
 
 class FoodInfo extends React.Component {
   state = {
     checked: false
   }
+
   render() {
     const {checked} = this.state;
+
+    const Item = (props) => {
+
+      return (
+        <View style={styles.item}>
+          <View style={styles.itemLeft}>
+            <View style={styles.bullet}></View>
+            <Text style={styles.itemText}>{props.text}</Text>
+          </View>
+          <Text style={styles.price}>{props.price}</Text>
+        </View>
+      )
+    }
+    const Topping = (props) => {
+
+      return (
+        <View style={styles.item}>
+          <View style={styles.itemLeft}>
+            <Text style={styles.itemText}>{props.text}</Text>
+          </View>
+          <Text style={styles.price}>{props.price}</Text>
+        </View>
+      )
+    }
+
     return (
   
       <ImageBackground
@@ -38,89 +63,27 @@ class FoodInfo extends React.Component {
           />
         </View>
         <View style={styles.view}>
-          <Checkbox
-            title="testest"
-            status={checked ? 'checked' : 'unchecked'}
-            onPress={()=>{this.setState({checked: !checked});}}
-          />
-          {/* <Image
-            style={styles.ellipseIcon}
-            resizeMode="cover"
-            source={require("../assets/ellipse-1.png")}
-          />
-          <Image
-            style={styles.ellipseIcon1}
-            resizeMode="cover"
-            source={require("../assets/ellipse-1.png")}
-          />
-          <Image
-            style={styles.ellipseIcon2}
-            resizeMode="cover"
-            source={require("../assets/ellipse-1.png")}
-          />
-          <Image
-            style={styles.ellipseIcon3}
-            resizeMode="cover"
-            source={require("../assets/ellipse-1.png")}
-          />
-          <Image
-            style={styles.ellipseIcon4}
-            resizeMode="cover"
-            source={require("../assets/ellipse-1.png")}
-          />
-          <Image
-            style={styles.ellipseIcon5}
-            resizeMode="cover"
-            source={require("../assets/ellipse-1.png")}
-          />
-          <Image
-            style={styles.ellipseIcon6}
-            resizeMode="cover"
-            source={require("../assets/ellipse-1.png")}
-          />
-          <Image
-            style={styles.ellipseIcon7}
-            resizeMode="cover"
-            source={require("../assets/ellipse-4.png")}
-          />
-          <Image
-            style={styles.ellipseIcon8}
-            resizeMode="cover"
-            source={require("../assets/ellipse-1.png")}
-          /> */}
-          <Text style={styles.text11}>
-            <Text style={styles.text2}>ไก่</Text>
-            <Text style={styles.text3}>หมู</Text>
-            <Text style={styles.text4}>หมูตุ๋น</Text>
-            <Text style={styles.text5}>หมูกรอบ</Text>
-            <Text style={styles.text6}>เนื้อ</Text>
-            <Text style={styles.text7}>ปลาหมึก</Text>
-            <Text style={styles.text8}>กุ้ง</Text>
-            <Text style={styles.text9}>ทะเล</Text>
-            <Text style={styles.text10}>รวมมิตร</Text>
-          </Text>
-          <Text style={styles.text21}>
-            <Text style={styles.text12}>35฿</Text>
-            <Text style={styles.text13}>35฿</Text>
-            <Text style={styles.text14}>40฿</Text>
-            <Text style={styles.text15}>40฿</Text>
-            <Text style={styles.text16}>40฿</Text>
-            <Text style={styles.text17}>40฿</Text>
-            <Text style={styles.text18}>40฿</Text>
-            <Text style={styles.text19}>40฿</Text>
-            <Text style={styles.text20}>45฿</Text>
-          </Text>
-          <Text style={styles.text24}>
-            <Text style={styles.text22}>10฿</Text>
-            <Text style={styles.text23}>20฿</Text>
-          </Text>
+          <View style={styles.items}>
+            {ingredientInfo[0].ingredients.map((ingredient) =>
+              <View>
+                <Item text={ingredient.ingredientName} price={ingredient.price}/>
+              </View>
+            )}
+            {/* <Checkbox
+                status={checked ? 'checked' : 'unchecked'}
+                onPress={()=>{this.setState({checked: !checked});}}
+                /> */}
+          </View>
           <Text style={styles.text25}>เนื้อ</Text>
         </View>
         <View style={styles.view1}>
-          <Text style={styles.text28}>
-            <Text style={styles.text26}>ไข่ดาว</Text>
-            <Text style={styles.text27}>พิเศษ</Text>
-          </Text>
+          <View style={styles.items}>
+            {toppingInfo[0].toppings.map((topping) =>
+              <View>
+                <Topping text={topping.toppingName} price={topping.price}/>
+              </View>
+            )}
+          </View>
           <Text style={styles.text29}>เพิ่มเติม</Text>
         </View>
         <View style={styles.noteView}>
@@ -140,11 +103,6 @@ class FoodInfo extends React.Component {
   
 }
 
-// const FoodInfo = () => {
-
-
-// };
-
 const styles = StyleSheet.create({
   rectangleIcon: {
     position: "absolute",
@@ -153,15 +111,18 @@ const styles = StyleSheet.create({
     width: 416,
     height: 417.81,
   },
+  items: {
+    marginTop: 25,
+  },
   rectangleView: {
     position: "absolute",
-    top: 252,
+    top: 202,
     left: 0,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#fff",
     width: 411,
-    height: 571,
+    height: 621,
   },
   text: {
     position: "absolute",
@@ -198,180 +159,10 @@ const styles = StyleSheet.create({
   },
   infoView: {
     position: "absolute",
-    top: 278,
+    top: 228,
     left: 30,
     width: 360,
     height: 69,
-  },
-  ellipseIcon: {
-    position: "absolute",
-    top: 28,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  ellipseIcon1: {
-    position: "absolute",
-    top: 50,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  ellipseIcon2: {
-    position: "absolute",
-    top: 116,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  ellipseIcon3: {
-    position: "absolute",
-    top: 182,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  ellipseIcon4: {
-    position: "absolute",
-    top: 72,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  ellipseIcon5: {
-    position: "absolute",
-    top: 138,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  ellipseIcon6: {
-    position: "absolute",
-    top: 204,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  ellipseIcon7: {
-    position: "absolute",
-    top: 94,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  ellipseIcon8: {
-    position: "absolute",
-    top: 160,
-    left: 0,
-    width: 15,
-    height: 15,
-  },
-  text2: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text3: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text4: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text5: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text6: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text7: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text8: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text9: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text10: {
-    margin: 0,
-  },
-  text11: {
-    position: "absolute",
-    top: 27,
-    left: 36,
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  text12: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text13: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text14: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text15: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text16: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text17: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text18: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text19: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text20: {
-    margin: 0,
-  },
-  text21: {
-    position: "absolute",
-    top: 27,
-    left: 293,
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#e59e00",
-    textAlign: "left",
-  },
-  text22: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text23: {
-    margin: 0,
-  },
-  text24: {
-    position: "absolute",
-    top: 255,
-    left: 293,
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#e59e00",
-    textAlign: "left",
   },
   text25: {
     position: "absolute",
@@ -385,27 +176,10 @@ const styles = StyleSheet.create({
   },
   view: {
     position: "absolute",
-    top: 361,
+    top: 311,
     left: 48,
     width: 320,
     height: 294,
-  },
-  text26: {
-    marginBlockStart: 0,
-    marginBlockEnd: 5,
-  },
-  text27: {
-    margin: 0,
-  },
-  text28: {
-    position: "absolute",
-    top: 27,
-    left: 0,
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
   },
   text29: {
     position: "absolute",
@@ -419,10 +193,10 @@ const styles = StyleSheet.create({
   },
   view1: {
     position: "absolute",
-    top: 589,
+    top: 539,
     left: 48,
-    width: 47,
-    height: 66,
+    width: 320,
+    height: 294,
   },
   rectangleView1: {
     position: "absolute",
@@ -454,7 +228,7 @@ const styles = StyleSheet.create({
   },
   noteView: {
     position: "absolute",
-    top: 667,
+    top: 617,
     left: 48,
     width: 325,
     height: 90,
@@ -480,7 +254,7 @@ const styles = StyleSheet.create({
   },
   bookView: {
     position: "absolute",
-    top: 768,
+    top: 718,
     left: 106,
     width: 200,
     height: 42,
@@ -491,6 +265,36 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 823,
     overflow: "hidden",
+  },
+  item: {
+    backgroundColor: '#FFF',
+    paddingLeft: 1,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 2,
+  },
+  itemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap'
+  },
+  bullet: {
+    width: 11,
+    height: 11,
+    backgroundColor: '#000',
+    opacity: 0.3,
+    borderRadius: 7,
+    marginRight: 10,
+  },
+  itemText: {
+    maxWidth: '100%',
+  },
+  price: {
+    width: 30,
+    height: 20,
+    color: "#e59e00",
   },
 });
 
