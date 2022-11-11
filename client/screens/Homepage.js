@@ -42,17 +42,17 @@ const Homepage = ({ navigation }) => {
         <CardSilder>
           <View style={styles.s1View}> 
           <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant",{restaurant: "testest"})}}>
-          <Image
-            style={styles.rectangleIcon}
-            resizeMode="cover"
-            source={restaurant.image}
-          />
-          <View style={styles.rectangleView6} />
-          <Text style={styles.text}>{restaurant.name}</Text>
-          <Text style={styles.aLarCarte}>{restaurant.type}</Text>
-          {/* {restaurant.type.map((foodType) => 
-          <Text style={styles.aLarCarte}> {foodType}</Text>
-          )} */}    
+            <Image
+              style={styles.rectangleIcon}
+              resizeMode="cover"
+              source={restaurant.image}
+            />
+            <View style={styles.rectangleView6} />
+            <Text style={styles.text}>{restaurant.name}</Text>
+            <Text style={styles.aLarCarte}>{restaurant.type}</Text>
+            {/* {restaurant.type.map((foodType) => 
+            <Text style={styles.aLarCarte}> {foodType}</Text>
+            )} */}    
           </TouchableOpacity>
           </View>
         </CardSilder>
