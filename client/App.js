@@ -13,6 +13,9 @@ import Ticket from "./screens/Ticket";
 
 import HomepageRestaurant from "./screens/HomepageRestaurant";
 import Add from "./screens/Add";
+import AddMenu from "./screens/AddMenu";
+import AddIngredients from "./screens/AddIngredients";
+import AddToping from "./screens/AddToping";
 import OrderList from "./screens/OrderList";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -65,6 +68,21 @@ const App = () => {
             <Stack.Screen
               name="Add"
               component={Add}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AddMenu"
+              component={AddMenu}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AddIngredients"
+              component={AddIngredients}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AddToping"
+              component={AddToping}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
-const Add = () => {
+const Add = ({ navigation }) => {
   return (
     <View style={styles.addView}>
       <View style={styles.rectangleView} />
@@ -11,33 +11,39 @@ const Add = () => {
         source={require("../assets/bar.png")}
       />
       <Text style={styles.addText}>Add</Text>
-      <View style={styles.view}>
-        <View style={styles.rectangleView1} />
-        <Text style={styles.menuText}>Menu</Text>
-        <Image
-          style={styles.image5Icon}
-          resizeMode="cover"
-          source={require("../assets/image-5.png")}
-        />
-      </View>
-      <View style={styles.view1}>
-        <View style={styles.rectangleView2} />
-        <Text style={styles.ingredientText}>Ingredient</Text>
-        <Image
-          style={styles.image5Icon1}
-          resizeMode="cover"
-          source={require("../assets/image-51.png")}
-        />
-      </View>
-      <View style={styles.view2}>
-        <View style={styles.rectangleView3} />
-        <Text style={styles.topingText}>Toping</Text>
-        <Image
-          style={styles.image5Icon2}
-          resizeMode="cover"
-          source={require("../assets/image-52.png")}
-        />
-      </View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddMenu")}}>
+        <View style={styles.view}>
+          <View style={styles.rectangleView1} />
+          <Text style={styles.menuText}>Menu</Text>
+          <Image
+            style={styles.image5Icon}
+            resizeMode="cover"
+            source={require("../assets/image-5.png")}
+          />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddIngredients")}}>
+        <View style={styles.view1}>
+          <View style={styles.rectangleView2} />
+          <Text style={styles.ingredientText}>Ingredient</Text>
+          <Image
+            style={styles.image5Icon1}
+            resizeMode="cover"
+            source={require("../assets/image-51.png")}
+          />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddToping")}}>
+        <View style={styles.view2}>
+          <View style={styles.rectangleView3} />
+          <Text style={styles.topingText}>Toping</Text>
+          <Image
+            style={styles.image5Icon2}
+            resizeMode="cover"
+            source={require("../assets/image-52.png")}
+          />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
