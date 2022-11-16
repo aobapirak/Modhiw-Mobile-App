@@ -3,15 +3,22 @@ import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity} from "react
 import PhoneInput from 'react-native-phone-number-input';
 
 const LogIn = ({ navigation }) => {
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
     <View style={styles.logInView}>
       <View style={styles.rectangleView} />
       <View style={styles.rectangleView1} />
+      <Text style={styles.pleaseEnterYourPhoneNumber}>
+        Please enter your phone number
+      </Text>
       <View style={styles.phoneNumView}>
         <View style={styles.rectangleView2} />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+        <TouchableOpacity 
+          activeOpacity = { .5 } 
+          onPress = { () => {
+            navigation.navigate("Verification", {phoneNumber})}}
+        >
           <View style={styles.rectangleView3} />
           <Image
             style={styles.arrowSmallRight1Icon}
@@ -19,14 +26,17 @@ const LogIn = ({ navigation }) => {
             source={require("../assets/arrowsmallright-1.png")}
           />
         </TouchableOpacity>
-        
         <Image
           style={styles.phoneCall11}
           resizeMode="cover"
           source={require("../assets/phonecall-1-1.png")}
         />
         <Text style={styles.phoneNumberText}>Phone number</Text>
-        <TextInput style={styles.text} keyboardType={'phone-pad'}>+66</TextInput>
+        <TextInput 
+          style={styles.text} 
+          keyboardType={'phone-pad'}
+          onChangeText={(number) => setPhoneNumber(number)}
+        />
       </View>
       <Text style={styles.welcomeLogInToBookAFood}>
         <Text style={styles.welcomeText}>Welcome, </Text>
@@ -38,9 +48,6 @@ const LogIn = ({ navigation }) => {
         resizeMode="cover"
         source={require("../assets/fried-egg.png")}
       />
-      <Text style={styles.pleaseEnterYourPhoneNumber}>
-        Please enter your phone number
-      </Text>
     </View>
   );
 };
