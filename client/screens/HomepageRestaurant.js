@@ -60,7 +60,8 @@ const HomepageRestaurant = ({ navigation }) => {
       <View style={styles.editView}>
         <View style={styles.rectangleView2} />
         <Text style={styles.editText}>
-          Edit restaurant, menu, ingredients, toping
+          * Edit not available now * 
+          {/* Edit restaurant, menu, ingredients, toping */}
         </Text>
         <Image
           style={styles.pencilIcon}
@@ -68,28 +69,6 @@ const HomepageRestaurant = ({ navigation }) => {
           source={require("../assets/pencil-1.png")}
         />
       </View>
-      {/* <View style={styles.barView}>
-        <Image
-          style={styles.rectangleIcon}
-          resizeMode="cover"
-          source={require("../assets/rectangle-11.png")}
-        />
-        <Image
-          style={styles.image2Icon}
-          resizeMode="cover"
-          source={require("../assets/image-2.png")}
-        />
-        <Image
-          style={styles.image3Icon}
-          resizeMode="cover"
-          source={require("../assets/image-3.png")}
-        />
-        <Image
-          style={styles.home21}
-          resizeMode="cover"
-          source={require("../assets/home-2-1.png")}
-        />
-      </View> */}
     </View>
   );
 };
@@ -199,7 +178,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     borderRadius: 30,
-    backgroundColor: "#4C8492",
+    // "#4C8492"
+    backgroundColor: "#808080",
     width: 335,
     height: 150,
   },
