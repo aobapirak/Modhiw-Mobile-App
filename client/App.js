@@ -31,22 +31,22 @@ const App = () => {
               name="LogIn"
               component={LogIn}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
               name="Homepage"
               component={Homepage}
               options={{ headerShown: false }}
-            /> */}
+            />
             {/* <Stack.Screen
               name="Restaurant"
               component={Restaurant}
               options={{ headerShown: false }}
             /> */}
-            <Stack.Screen
+            {/* <Stack.Screen
               name="FoodInfo"
               component={FoodInfo}
               options={{ headerShown: false }}
-            />
+            /> */}
             {/* <Stack.Screen
               name="BookedQueue"
               component={BookedQueue}
