@@ -1,10 +1,36 @@
 const restaurants = [
-    {name: "ร้านแม่น้องพั๊นซ์",
+    {name: "ร้านแม่น้องพั๊นซ์1",
     image: require("./assets/rectangle-71.png"),
     type: ["a lar carte"]},
-    {name: "ร้านก๋วยเตี๋ยวลุงหนวด",
+    {name: "ร้านก๋วยเตี๋ยวลุงหนวด1",
     image: require("./assets/rectangle-72.png"),
     type: ["noodles","a lar carte"]
+    },
+    {name: "ร้านชิกกี้ ชิก1",
+    image: require("./assets/rectangle-73.png"),
+    type: ["fast food","a lar carte"]
+    },
+    {name: "ร้านแม่น้องพั๊นซ์2",
+    image: require("./assets/rectangle-71.png"),
+    type: ["a lar carte"]},
+    {name: "ร้านก๋วยเตี๋ยวลุงหนวด2",
+    image: require("./assets/rectangle-72.png"),
+    type: ["noodles","a lar carte"]
+    },
+    {name: "ร้านชิกกี้ ชิก2",
+    image: require("./assets/rectangle-73.png"),
+    type: ["fast food","a lar carte"]
+    },
+    {name: "ร้านแม่น้องพั๊นซ์3",
+    image: require("./assets/rectangle-71.png"),
+    type: ["a lar carte"]},
+    {name: "ร้านก๋วยเตี๋ยวลุงหนวด3",
+    image: require("./assets/rectangle-72.png"),
+    type: ["noodles","a lar carte"]
+    },
+    {name: "ร้านชิกกี้ ชิก3",
+    image: require("./assets/rectangle-73.png"),
+    type: ["fast food","a lar carte"]
     }
 ]
 
