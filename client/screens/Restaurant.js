@@ -1,9 +1,33 @@
-import * as React from "react";
+import React, {useState,useEffect} from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from "react-native";
 import { restaurantInfo } from "../dummydata";
 import CardSilder from 'react-native-cards-slider';
 
-const Restaurant = ({ navigation }) => {
+const Restaurant = ({ navigation, route }) => {
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+      fetch('http://10.0.2.2:5001/api/menu')
+      .then(res => res.json())
+      .then((result) => {
+          setItems(result)
+          setIsLoading(false)
+      })
+  }, [isLoading])
+
+  const dummyrestaurant = {
+    name: route.params.restaurant.restaurant_name,
+    image: require("../assets/rectangle-72.png"),
+    type: ["noodles","a lar carte"],
+    menu: items,
+    status: route.params.restaurant.restaurant_status
+  }
+
+  const goFoodInfo = (menu) => {
+    navigation.navigate('FoodInfo', {restaurant: route.params.restaurant, menu: menu});
+  }
+  
   return (
     <ImageBackground
       style={styles.restaurantInfoIcon}
@@ -25,10 +49,9 @@ const Restaurant = ({ navigation }) => {
         />
         <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
       </View>
-      <Text style={styles.text}>{restaurantInfo[1].name}</Text>
-      <Text style={styles.text1}>{restaurantInfo[1].name}</Text>
+      <Text style={styles.text}>{dummyrestaurant.name}</Text>
       <Text style={styles.noodlesALarCarte}>{restaurantInfo[1].type}</Text>
-      <Text style={styles.openNowText}>{restaurantInfo[1].open[0]}</Text>
+      <Text style={styles.openNowText}>{dummyrestaurant.status}</Text>
       <View style={styles.barView}>
         <Image
           style={styles.rectangleIcon1}
@@ -53,10 +76,9 @@ const Restaurant = ({ navigation }) => {
       </View>
 
       <CardSilder>
-      {restaurantInfo[1].menu.map((allmenu) => 
+      {dummyrestaurant.menu.map((allmenu) => 
       <View>
-        
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("FoodInfo")}} >
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
         <View style={styles.menu1View}>
         <View/>
         <Image
@@ -64,7 +86,7 @@ const Restaurant = ({ navigation }) => {
           resizeMode="cover"
           source={require("../assets/rectangle-12.png")}
         />
-        <Text style={styles.text4}>{allmenu.menuName}</Text>
+        <Text style={styles.text4}>{allmenu.menu_name}</Text>
         <Text style={styles.text5}>{allmenu.price}</Text>
       </View>
       </TouchableOpacity>        
