@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import * as React from "react";
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { restaurants } from "../dummydata";
@@ -456,10 +457,30 @@ const styles = StyleSheet.create({
 export default Homepage;
 =======
 import * as React from "react";
+=======
+import React, {useState,useEffect} from "react";
+>>>>>>> 62c364dd4817a4e82bc83b0873386e9a7559980b
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { restaurants } from "../dummydata";
+const ayoyo = require("../../server/ayoyo");
 
 const Homepage = ({ navigation }) => {
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  ayoyo.restaurantList
+  useEffect(() => {
+    fetch('http://10.0.2.2:5000/api/home')
+    .then(res => res.json())
+    .then((result) => {
+        setItems(result)
+        setIsLoading(false)
+    })
+  }, [isLoading])
+
+  const goRestaurant = (restaurant) => {
+    navigation.navigate('Restaurant', {restaurant: restaurant});
+  }
 
   return (
     <ScrollView>
@@ -496,32 +517,18 @@ const Homepage = ({ navigation }) => {
       </View>
 
       <View style={styles.restaurantChoice}>
-      {restaurants.map((restaurant) => 
+      {items.map((restaurant) => 
       <View>
           <View style={styles.restaurantView}> 
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant",{restaurant: "testest"})}}>
-<<<<<<< HEAD
-            <Image
-              style={styles.rectangleIcon}
-              resizeMode="cover"
-              source={restaurant.image}
-            />
-            <View style={styles.rectangleView6} />
-            <Text style={styles.text}>{restaurant.name}</Text>
-            <Text style={styles.aLarCarte}>{restaurant.type}</Text>
-            {/* {restaurant.type.map((foodType) => 
-            <Text style={styles.aLarCarte}> {foodType}</Text>
-            )} */}    
-=======
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goRestaurant(restaurant)}}>
           <Image
             style={styles.imageStyle}
             resizeMode="cover"
             source={restaurant.image}
           />
           <View style={styles.whitebox} />
-          <Text style={styles.restaurantName}>{restaurant.name}</Text>
-          <Text style={styles.restaurantType}>{restaurant.type}</Text>
->>>>>>> 415576c3cf31cc3f6358be1413f217e06186046d
+          <Text style={styles.restaurantName}>{restaurant.restaurant_name}</Text>
+          <Text style={styles.restaurantType}>{restaurant.restaurant_status}</Text>
           </TouchableOpacity>
           </View>
       </View>)}

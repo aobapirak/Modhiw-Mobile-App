@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> 4b80099954fb20cdfd9f0f550095468931bc6723
+=======
+>>>>>>> 62c364dd4817a4e82bc83b0873386e9a7559980b
 const Stack = createNativeStackNavigator();
 
 import { StatusBar } from 'expo-status-bar';
@@ -42,6 +45,7 @@ const App = () => {
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
 <<<<<<< HEAD
+<<<<<<< HEAD
             {/* <Stack.Screen
               name="LogIn"
               component={LogIn}
@@ -50,6 +54,9 @@ const App = () => {
             <Stack.Screen
 =======
             <Stack.Screen
+=======
+            {/* <Stack.Screen
+>>>>>>> 62c364dd4817a4e82bc83b0873386e9a7559980b
               name="LogIn"
               component={LogIn}
               options={{ headerShown: false }}
@@ -58,9 +65,14 @@ const App = () => {
               name="Verification"
               component={Verification}
               options={{ headerShown: false }}
+<<<<<<< HEAD
             />
             {/* <Stack.Screen
 >>>>>>> 4b80099954fb20cdfd9f0f550095468931bc6723
+=======
+            />*/}
+            <Stack.Screen
+>>>>>>> 62c364dd4817a4e82bc83b0873386e9a7559980b
               name="Homepage"
               component={Homepage}
               options={{ headerShown: false }}
@@ -75,7 +87,7 @@ const App = () => {
               component={FoodInfo}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="BookedQueue"
               component={BookedQueue}
               options={{ headerShown: false }}
@@ -127,6 +139,7 @@ const App = () => {
   );
 };
 export default App;
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -202,3 +215,5 @@ const App = () => {
 export default App;
 >>>>>>> 415576c3cf31cc3f6358be1413f217e06186046d
 >>>>>>> 4b80099954fb20cdfd9f0f550095468931bc6723
+=======
+>>>>>>> 62c364dd4817a4e82bc83b0873386e9a7559980b

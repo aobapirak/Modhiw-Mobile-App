@@ -8,7 +8,7 @@ class FoodInfo extends React.Component {
     checked: false
   }
 
-  render() {
+  render() { 
     const {checked} = this.state;
 
     const Item = (props) => {
@@ -49,8 +49,8 @@ class FoodInfo extends React.Component {
         />
         <View style={styles.rectangleView} />
         <View style={styles.infoView}>
-          <Text style={styles.text}>ข้าวกะเพรา</Text>
-          <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
+          <Text style={styles.text}>{this.props.route.params.menu.menu_name}</Text>
+          <Text style={styles.text1}>{this.props.route.params.restaurant.restaurant_name}</Text>
           <Image
             style={styles.mapIcon}
             resizeMode="cover"
