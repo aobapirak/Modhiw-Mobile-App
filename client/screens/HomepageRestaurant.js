@@ -1,89 +1,72 @@
-import * as React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, Image, Switch, TouchableOpacity } from "react-native";
 
-const Homepage1 = () => {
+const HomepageRestaurant = ({ navigation }) => {
+  const [switchOpen, setSwitchOpen] = useState(false);
+  function toggleSwitch() {
+    setSwitchOpen(switchOpen => !switchOpen)
+  }
+
   return (
     <View style={styles.homepageView}>
       <View style={styles.rectangleView} />
-      <Text style={styles.helloAreYouHungryYet}>
-        <Text style={styles.helloText}>Hello,</Text>
-        <Text style={styles.areYouHungry}>Are you hungry yet?</Text>
+      <Text style={styles.helloView}>
+        <Text style={styles.helloText1}>
+          <Text style={styles.helloText}>{`Hello, `}</Text>
+        </Text>
+        <Text style={styles.restaurantView}>
+          <Text style={styles.restaurantName}>คุณร้านก๋วยเตี๋ยวลุงหนวด :)</Text>
+        </Text>
       </Text>
-      <View style={styles.searchView}>
-        <View style={styles.rectangleView1} />
-        <Image
-          style={styles.searchIcon}
-          resizeMode="cover"
-          source={require("../assets/search.png")}
-        />
-        <Text style={styles.searchByRestaurant}>Search by restaurant</Text>
+      <View style={styles.openCloseView}>
+        <View style={styles.openText}>
+          <TouchableOpacity 
+            style={[
+            styles.outterSwitch, 
+            switchOpen
+            ? {justifyContent:'flex-end', backgroundColor: '#00790c'}
+            : {justifyContent: 'flex-start', backgroundColor: '#B40707'}
+            ]} 
+            activeOpacity={1} 
+            onPress={(toggleSwitch)}
+            >
+            <View
+              style={[styles.innerSwitch]}
+            />
+          </TouchableOpacity>
+          {
+            switchOpen
+            ? <Text style={{color: '#00790c'}}>  Open now</Text>
+            : <Text style={{color: '#B40707'}}>  Closed</Text>
+          }
+        </View>
       </View>
-      <View style={styles.groupView}>
+      <TouchableOpacity 
+        activeOpacity = { .5 }
+        onPress = { () => {navigation.navigate("Add")}}
+      >
+        <View style={styles.addView}>
+          <View style={styles.rectangleView1} />
+          <Text style={styles.addText}>
+            Add menu, ingredients, toping
+          </Text>
+          <Image
+            style={styles.add1Icon}
+            resizeMode="cover"
+            source={require("../assets/add-1.png")}
+          />
+        </View>
+      </TouchableOpacity>
+      <View style={styles.editView}>
         <View style={styles.rectangleView2} />
-        <Text style={styles.allText}>All</Text>
-      </View>
-      <View style={styles.groupView1}>
-        <View style={styles.rectangleView3} />
-        <Text style={styles.aLaCarte}>A la carte</Text>
-      </View>
-      <View style={styles.groupView2}>
-        <View style={styles.rectangleView4} />
-        <Text style={styles.noodlesText}>Noodles</Text>
-      </View>
-      <View style={styles.groupView3}>
-        <View style={styles.rectangleView5} />
-        <Text style={styles.fastFoodText}>Fast food</Text>
-      </View>
-      <View style={styles.s1View}>
+        <Text style={styles.editText}>
+          * Edit not available now * 
+          {/* Edit restaurant, menu, ingredients, toping */}
+        </Text>
         <Image
-          style={styles.rectangleIcon}
+          style={styles.pencilIcon}
           resizeMode="cover"
-          source={require("../assets/rectangle-72.png")}
-        />
-        <View style={styles.rectangleView6} />
-        <Text style={styles.text}>ร้านน้องพั้นซ์</Text>
-        <Text style={styles.aLarCarte}>a lar carte</Text>
-      </View>
-      <View style={styles.s2View}>
-        <Image
-          style={styles.rectangleIcon1}
-          resizeMode="cover"
-          source={require("../assets/rectangle-7.png")}
-        />
-        <View style={styles.rectangleView7} />
-        <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
-        <Text style={styles.noodlesALarCarte}>noodles, a lar carte</Text>
-      </View>
-      <View style={styles.s3View}>
-        <Image
-          style={styles.rectangleIcon2}
-          resizeMode="cover"
-          source={require("../assets/rectangle-74.png")}
-        />
-        <View style={styles.rectangleView8} />
-        <Text style={styles.text2}>ร้านชิกกี้ ชิก</Text>
-        <Text style={styles.aLarCarteFastFood}>a lar carte, fast food</Text>
-      </View>
-      <View style={styles.barView}>
-        <Image
-          style={styles.rectangleIcon3}
-          resizeMode="cover"
-          source={require("../assets/rectangle-11.png")}
-        />
-        <Image
-          style={styles.image2Icon}
-          resizeMode="cover"
-          source={require("../assets/image-21.png")}
-        />
-        <Image
-          style={styles.image3Icon}
-          resizeMode="cover"
-          source={require("../assets/image-3.png")}
-        />
-        <Image
-          style={styles.home21}
-          resizeMode="cover"
-          source={require("../assets/home-2-1.png")}
+          source={require("../assets/pencil-1.png")}
         />
       </View>
     </View>
@@ -100,297 +83,29 @@ const styles = StyleSheet.create({
     height: 823,
   },
   helloText: {
+    fontSize: 32,
+  },
+  helloText1: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
   },
-  areYouHungry: {
+  restaurantName: {
+    fontSize: 24,
+  },
+  restaurantView: {
     margin: 0,
   },
-  helloAreYouHungryYet: {
+  helloView: {
     position: "absolute",
-    top: 74,
+    top: 110,
     left: 38,
-    fontSize: 32,
     fontWeight: "500",
     fontFamily: "SF Pro Rounded",
     color: "#1b1a17",
     textAlign: "left",
-    width: 325,
-  },
-  rectangleView1: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 5,
-    backgroundColor: "#efefef",
-    width: 335,
-    height: 33,
-  },
-  searchIcon: {
-    position: "absolute",
-    top: 9,
-    left: 12,
-    width: 15,
-    height: 15,
-  },
-  searchByRestaurant: {
-    position: "absolute",
-    top: 7,
-    left: 40,
-    fontSize: 16,
-    fontFamily: "SF Pro Rounded",
-    color: "#505050",
-    textAlign: "left",
-  },
-  searchView: {
-    position: "absolute",
-    top: 172,
-    left: 38,
-    width: 335,
-    height: 33,
-  },
-  rectangleView2: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 5,
-    backgroundColor: "#f0a500",
-    width: 35,
-    height: 22,
-  },
-  allText: {
-    position: "absolute",
-    top: 3,
-    left: 9,
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#fff",
-    textAlign: "left",
-    width: 16,
-    height: 17.81,
-  },
-  groupView: {
-    position: "absolute",
-    top: 216,
-    left: 38,
-    width: 35,
-    height: 22,
-  },
-  rectangleView3: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 5,
-    backgroundColor: "#d8d8d8",
-    width: 74,
-    height: 22,
-  },
-  aLaCarte: {
-    position: "absolute",
-    top: 3,
-    left: 9,
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#fff",
-    textAlign: "left",
-    width: 56,
-    height: 17.81,
-  },
-  groupView1: {
-    position: "absolute",
-    top: 216,
-    left: 83,
-    width: 74,
-    height: 22,
-  },
-  rectangleView4: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 5,
-    backgroundColor: "#d8d8d8",
-    width: 67,
-    height: 22,
-  },
-  noodlesText: {
-    position: "absolute",
-    top: 3,
-    left: 8,
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#fff",
-    textAlign: "left",
-    width: 52.57,
-    height: 17.81,
-  },
-  groupView2: {
-    position: "absolute",
-    top: 216,
-    left: 167,
-    width: 67,
-    height: 22,
-  },
-  rectangleView5: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 5,
-    backgroundColor: "#d8d8d8",
-    width: 71,
-    height: 22,
-  },
-  fastFoodText: {
-    position: "absolute",
-    top: 3,
-    left: 7,
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#fff",
-    textAlign: "left",
-    width: 57,
-    height: 18,
-  },
-  groupView3: {
-    position: "absolute",
-    top: 216,
-    left: 244,
-    width: 71,
-    height: 22,
+    width: 354,
   },
   rectangleIcon: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 20,
-    width: 285,
-    height: 170,
-  },
-  rectangleView6: {
-    position: "absolute",
-    top: 116,
-    left: 0,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
-    backgroundColor: "#fff",
-    width: 285,
-    height: 54,
-  },
-  text: {
-    position: "absolute",
-    top: 127,
-    left: 23,
-    fontSize: 15,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  aLarCarte: {
-    position: "absolute",
-    top: 145,
-    left: 23,
-    fontSize: 12,
-    fontFamily: "SF Pro Rounded",
-    color: "#777",
-    textAlign: "left",
-  },
-  s1View: {
-    position: "absolute",
-    top: 269,
-    left: 47,
-    width: 285,
-    height: 170,
-  },
-  rectangleIcon1: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 20,
-    width: 285,
-    height: 170,
-  },
-  rectangleView7: {
-    position: "absolute",
-    top: 116,
-    left: 0,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
-    backgroundColor: "#fff",
-    width: 285,
-    height: 54,
-  },
-  text1: {
-    position: "absolute",
-    top: 127,
-    left: 23,
-    fontSize: 15,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  noodlesALarCarte: {
-    position: "absolute",
-    top: 145,
-    left: 23,
-    fontSize: 12,
-    fontFamily: "SF Pro Rounded",
-    color: "#777",
-    textAlign: "left",
-  },
-  s2View: {
-    position: "absolute",
-    top: 464,
-    left: 47,
-    width: 285,
-    height: 170,
-  },
-  rectangleIcon2: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 20,
-    width: 285,
-    height: 170,
-  },
-  rectangleView8: {
-    position: "absolute",
-    top: 116,
-    left: 0,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
-    backgroundColor: "#fff",
-    width: 285,
-    height: 54,
-  },
-  text2: {
-    position: "absolute",
-    top: 127,
-    left: 23,
-    fontSize: 15,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  aLarCarteFastFood: {
-    position: "absolute",
-    top: 145,
-    left: 23,
-    fontSize: 12,
-    fontFamily: "SF Pro Rounded",
-    color: "#777",
-    textAlign: "left",
-  },
-  s3View: {
-    position: "absolute",
-    top: 659,
-    left: 47,
-    width: 285,
-    height: 170,
-  },
-  rectangleIcon3: {
     position: "absolute",
     top: 0,
     left: 0,
@@ -425,6 +140,133 @@ const styles = StyleSheet.create({
     width: 411,
     height: 60,
   },
+  rectangleView1: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    borderRadius: 30,
+    backgroundColor: "#314E52",
+    width: 335,
+    height: 150,
+  },
+  addText: {
+    position: "absolute",
+    top: 116,
+    left: 20,
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "SF Pro Rounded",
+    color: "#fff",
+    textAlign: "left",
+  },
+  add1Icon: {
+    position: "absolute",
+    top: 6,
+    left: 273,
+    width: 55,
+    height: 55,
+  },
+  addView: {
+    position: "absolute",
+    top: 242,
+    left: 39,
+    width: 335,
+    height: 150,
+  },
+  rectangleView2: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    borderRadius: 30,
+    // "#4C8492"
+    backgroundColor: "#808080",
+    width: 335,
+    height: 150,
+  },
+  editText: {
+    position: "absolute",
+    top: 116,
+    left: 20,
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "SF Pro Rounded",
+    color: "#fff",
+    textAlign: "left",
+  },
+  pencilIcon: {
+    position: "absolute",
+    top: 8,
+    left: 281,
+    width: 45,
+    height: 45,
+  },
+  editView: {
+    position: "absolute",
+    top: 410,
+    left: 37,
+    width: 335,
+    height: 150,
+  },
+  rectangleIcon1: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    borderRadius: 20,
+    width: 285,
+    height: 170,
+  },
+  rectangleView3: {
+    position: "absolute",
+    top: 116,
+    left: 0,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    backgroundColor: "#fff",
+    width: 285,
+    height: 54,
+  },
+  text2: {
+    position: "absolute",
+    top: 127,
+    left: 23,
+    fontSize: 15,
+    fontFamily: "SF Pro Rounded",
+    color: "#000",
+    textAlign: "left",
+  },
+  noodlesALarCarte: {
+    position: "absolute",
+    top: 145,
+    left: 23,
+    fontSize: 12,
+    fontFamily: "SF Pro Rounded",
+    color: "#777",
+    textAlign: "left",
+  },
+  switchIcon: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 23,
+    height: 13,
+  },
+  openText: {
+    position: "absolute",
+    flexDirection:'row', 
+    flexWrap:'wrap',
+    top: 0,
+    left: 38,
+    fontSize: 12,
+    fontWeight: "500",
+    fontFamily: "SF Pro Rounded",
+    textAlign: "left",
+  },
+  openCloseView: {
+    position: "absolute",
+    top: 202,
+    width: 200,
+    height: 14,
+  },
   homepageView: {
     position: "relative",
     flex: 1,
@@ -432,6 +274,25 @@ const styles = StyleSheet.create({
     height: 823,
     overflow: "hidden",
   },
+  innerSwitch: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    elevation: 8,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
+  },
+  outterSwitch: {
+    width: 40,
+    height: 20,
+    backgroundColor: 'gray',
+    borderRadius: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 2,
+  },
 });
 
-export default Homepage1;
+export default HomepageRestaurant;

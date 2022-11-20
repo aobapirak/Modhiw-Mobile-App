@@ -1,8 +1,31 @@
-import * as React from "react";
+import React, {useState,useEffect} from "react";
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { restaurants } from "../dummydata";
+import axios from 'axios';
+// const ayoyo = require("../../server/ayoyo");
 
 const Homepage = ({ navigation }) => {
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    fetch('http://10.0.2.2:8080/getRestaurantList')
+    .then(res => res.json())
+    .then((result) => {
+        setItems(result)
+        setIsLoading(false)
+    })
+    // axios.get("http://10.0.2.2:8080/getRestaurantList").then((response) => {
+    //   setItems(response.data);
+    //   setIsLoading(false);
+    // })
+  }, [isLoading])
+
+  console.log(items);
+
+  const goRestaurant = (restaurant) => {
+    navigation.navigate('Restaurant', {restaurant: restaurant});
+  }
 
   return (
     <ScrollView>
@@ -42,7 +65,7 @@ const Homepage = ({ navigation }) => {
       {restaurants.map((restaurant) => 
       <View>
           <View style={styles.restaurantView}> 
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant",{restaurant: "testest"})}}>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goRestaurant(restaurant)}}>
           <Image
             style={styles.imageStyle}
             resizeMode="cover"
