@@ -8,13 +8,13 @@ const EditToping = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.editTopingText}>Edit toping</Text>
       <Image
         style={styles.editTopingIcon}
         resizeMode="cover"
-        source={require("../assets/edittopingicon.png")}
+        source={require("../../assets/edittopingicon.png")}
       />
       <Text style={styles.topingHeadText}>Toping</Text>
       <Text style={styles.priceHeadText}>Price</Text>

@@ -8,7 +8,7 @@ const OrderList = () => {
         <Image
           style={styles.subtractIcon}
           resizeMode="cover"
-          source={require("../assets/subtract.png")}
+          source={require("../../assets/subtract.png")}
         />
         <View style={styles.bookView}>
           <View style={styles.rectangleView} />
@@ -23,68 +23,40 @@ const OrderList = () => {
           <Image
             style={styles.image5Icon}
             resizeMode="cover"
-            source={require("../assets/image-53.png")}
+            source={require("../../assets/image-53.png")}
           />
         </View>
         <Text style={styles.e12Text}>E12</Text>
         <Text style={styles.phoneNumber0815873097Tim}>
           <Text style={styles.phoneNumber081}>Phone number: 081 587 3097</Text>
-          <Text style={styles.time03Oct2022}>Time : 03-Oct-2022 14:35</Text>
-        </Text>
-      </View>
-      <View style={styles.ticketView1}>
-        <Image
-          style={styles.subtractIcon1}
-          resizeMode="cover"
-          source={require("../assets/subtract1.png")}
-        />
-        <View style={styles.bookView1}>
-          <View style={styles.rectangleView2} />
-          <View style={styles.rectangleView3} />
-          <Text style={styles.approveText1}>Approve</Text>
-          <Text style={styles.rejectText1}>Reject</Text>
-        </View>
-        <View style={styles.lineView1} />
-        <View style={styles.menuView1}>
-          <Text style={styles.text1}>ข้าวกะเพรา (หมูกรอบ)</Text>
-          <Text style={styles.note1}>Note: พิเศษ + ไข่ดาว</Text>
-          <Image
-            style={styles.image5Icon1}
-            resizeMode="cover"
-            source={require("../assets/image-54.png")}
-          />
-        </View>
-        <Text style={styles.e13Text}>E13</Text>
-        <Text style={styles.phoneNumber0815873097Tim1}>
-          <Text style={styles.phoneNumber0811}>Phone number: 081 587 3097</Text>
-          <Text style={styles.time03Oct20221}>Time : 03-Oct-2022 14:35</Text>
+          <Text style={styles.time03Oct2022}>{"\n"}Time : 03-Oct-2022 14:35</Text>
         </Text>
       </View>
       <View style={styles.barView}>
         <Image
           style={styles.rectangleIcon}
           resizeMode="cover"
-          source={require("../assets/rectangle-11.png")}
+          source={require("../../assets/rectangle-11.png")}
         />
         <Image
           style={styles.image3Icon}
           resizeMode="cover"
-          source={require("../assets/image-3.png")}
+          source={require("../../assets/image-3.png")}
         />
         <Image
           style={styles.home21}
           resizeMode="cover"
-          source={require("../assets/home-2-1.png")}
+          source={require("../../assets/home-2-1.png")}
         />
         <Image
           style={styles.image4Icon}
           resizeMode="cover"
-          source={require("../assets/image-4.png")}
+          source={require("../../assets/image-4.png")}
         />
         <Image
           style={styles.receipt1Icon}
           resizeMode="cover"
-          source={require("../assets/receipt-1.png")}
+          source={require("../../assets/receipt-1.png")}
         />
       </View>
     </View>

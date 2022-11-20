@@ -8,13 +8,13 @@ const AddToping = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.addTopingText}>Add toping</Text>
       <Image
         style={styles.image6Icon}
         resizeMode="cover"
-        source={require("../assets/image-6.png")}
+        source={require("../../assets/image-6.png")}
       />
       <View style={styles.nameView}>
         <Text style={styles.nameText}>Name</Text>

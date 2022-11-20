@@ -8,13 +8,13 @@ const EditTopingDetails = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.editText}>Edit ไข่ข้น</Text>
       <Image
         style={styles.editTopingIcon}
         resizeMode="cover"
-        source={require("../assets/edittopingicon.png")}
+        source={require("../../assets/edittopingicon.png")}
       />
       <View style={styles.nameInputView}>
         <Text style={styles.nameText}>Name</Text>

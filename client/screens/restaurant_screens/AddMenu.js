@@ -8,20 +8,20 @@ const AddMenu = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.addMenuText}>Add menu</Text>
       <Image
         style={styles.image5Icon}
         resizeMode="cover"
-        source={require("../assets/image-5.png")}
+        source={require("../../assets/image-5.png")}
       />
       <View style={styles.rectangleView1} />
       <Text style={styles.dropYourImageHere}>Drop your image here</Text>
       <Image
         style={styles.vectorIcon}
         resizeMode="cover"
-        source={require("../assets/vector.png")}
+        source={require("../../assets/vector.png")}
       />
       <View style={styles.nameView}>
         <Text style={styles.nameText}>Name</Text>

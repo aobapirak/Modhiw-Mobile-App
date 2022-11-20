@@ -8,13 +8,13 @@ const EditRestaurant = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.editRestaurantText}>Edit restaurant</Text>
       <Image
         style={styles.editRestaurantIcon}
         resizeMode="cover"
-        source={require("../assets/editmenuicon.png")}
+        source={require("../../assets/editmenuicon.png")}
       />
       <View style={styles.dropImageHereView}>
         <View style={styles.rectangleView1} />
@@ -22,7 +22,7 @@ const EditRestaurant = () => {
         <Image
           style={styles.vectorIcon}
           resizeMode="cover"
-          source={require("../assets/vector.png")}
+          source={require("../../assets/vector.png")}
         />
       </View>
       <View style={styles.nameInputView}>

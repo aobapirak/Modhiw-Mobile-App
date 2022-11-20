@@ -53,7 +53,7 @@ const HomepageRestaurant = ({ navigation }) => {
           <Image
             style={styles.add1Icon}
             resizeMode="cover"
-            source={require("../assets/add-1.png")}
+            source={require("../../assets/add-1.png")}
           />
         </View>
       </TouchableOpacity>
@@ -66,7 +66,7 @@ const HomepageRestaurant = ({ navigation }) => {
         <Image
           style={styles.pencilIcon}
           resizeMode="cover"
-          source={require("../assets/pencil-1.png")}
+          source={require("../../assets/pencil-1.png")}
         />
       </View>
     </View>

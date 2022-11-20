@@ -8,13 +8,13 @@ const EditMenuDetails = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.editText}>Edit ข้าวกะเพรา</Text>
       <Image
         style={styles.editMenuIcon}
         resizeMode="cover"
-        source={require("../assets/editmenuicon.png")}
+        source={require("../../assets/editmenuicon.png")}
       />
       <View style={styles.dropImageHereView}>
         <View style={styles.rectangleView1} />
@@ -22,7 +22,7 @@ const EditMenuDetails = () => {
         <Image
           style={styles.vectorIcon}
           resizeMode="cover"
-          source={require("../assets/vector.png")}
+          source={require("../../assets/vector.png")}
         />
       </View>
       <View style={styles.nameInputView}>
@@ -47,7 +47,7 @@ const EditMenuDetails = () => {
         <Image
           style={styles.switchIcon}
           resizeMode="cover"
-          source={require("../assets/5348d546d1dce5c7f2832a396d0516cfremovebgpreview-1.png")}
+          source={require("../../assets/5348d546d1dce5c7f2832a396d0516cfremovebgpreview-1.png")}
         />
         <Text style={styles.availableText}>Available</Text>
       </View>

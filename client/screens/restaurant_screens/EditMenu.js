@@ -8,13 +8,13 @@ const EditMenu = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.editMenuText}>Edit menu</Text>
       <Image
         style={styles.image5Icon}
         resizeMode="cover"
-        source={require("../assets/image-5.png")}
+        source={require("../../assets/image-5.png")}
       />
       <View style={styles.menu1View}>
         <View style={styles.rectangleView1} />

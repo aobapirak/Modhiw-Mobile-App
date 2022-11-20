@@ -8,7 +8,7 @@ const Edit = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.editText}>Edit</Text>
       <View style={styles.editMenuView}>
@@ -17,7 +17,7 @@ const Edit = () => {
         <Image
           style={styles.image5Icon}
           resizeMode="cover"
-          source={require("../assets/image-5.png")}
+          source={require("../../assets/image-5.png")}
         />
       </View>
       <View style={styles.editIngredientView}>
@@ -26,7 +26,7 @@ const Edit = () => {
         <Image
           style={styles.image5Icon1}
           resizeMode="cover"
-          source={require("../assets/editingredienticon.png")}
+          source={require("../../assets/editingredienticon.png")}
         />
       </View>
       <View style={styles.editTopingView}>
@@ -35,7 +35,7 @@ const Edit = () => {
         <Image
           style={styles.image5Icon2}
           resizeMode="cover"
-          source={require("../assets/edittopingicon.png")}
+          source={require("../../assets/edittopingicon.png")}
         />
       </View>
       <View style={styles.editRestaurantView}>
@@ -44,7 +44,7 @@ const Edit = () => {
         <Image
           style={styles.image5Icon3}
           resizeMode="cover"
-          source={require("../assets/editmenuicon.png")}
+          source={require("../../assets/editmenuicon.png")}
         />
       </View>
     </View>

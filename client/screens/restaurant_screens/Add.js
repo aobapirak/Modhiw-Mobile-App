@@ -8,7 +8,7 @@ const Add = ({ navigation }) => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.addText}>Add</Text>
       <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddMenu")}}>
@@ -18,7 +18,7 @@ const Add = ({ navigation }) => {
           <Image
             style={styles.image5Icon}
             resizeMode="cover"
-            source={require("../assets/image-5.png")}
+            source={require("../../assets/image-5.png")}
           />
         </View>
       </TouchableOpacity>
@@ -29,7 +29,7 @@ const Add = ({ navigation }) => {
           <Image
             style={styles.image5Icon1}
             resizeMode="cover"
-            source={require("../assets/image-51.png")}
+            source={require("../../assets/image-51.png")}
           />
         </View>
       </TouchableOpacity>
@@ -40,7 +40,7 @@ const Add = ({ navigation }) => {
           <Image
             style={styles.image5Icon2}
             resizeMode="cover"
-            source={require("../assets/image-52.png")}
+            source={require("../../assets/image-52.png")}
           />
         </View>
       </TouchableOpacity>

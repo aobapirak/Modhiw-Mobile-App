@@ -8,13 +8,13 @@ const EditIngredientDetails = () => {
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
       <Text style={styles.editText}>Edit ไก่</Text>
       <Image
         style={styles.editIngredientIcon}
         resizeMode="cover"
-        source={require("../assets/editingredienticon.png")}
+        source={require("../../assets/editingredienticon.png")}
       />
       <View style={styles.nameInputView}>
         <Text style={styles.nameText}>Name</Text>
