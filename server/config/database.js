@@ -30,4 +30,8 @@ const resetapi = (apipath) => app.get(apipath, function(req, res, next){
     res.json();
 });
 
+const insertToSql = (SQL_statements, component) => con.query(SQL_statements, component, function (err, result, fields) {
+    if (err) throw err;
+});
+
 module.exports = {con, sendapi, resetapi};
