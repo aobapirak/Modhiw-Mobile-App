@@ -8,7 +8,7 @@ const OrderList = () => {
         <Image
           style={styles.subtractIcon}
           resizeMode="cover"
-          source={require("../assets/subtract.png")}
+          source={require("../../assets/subtract.png")}
         />
         <View style={styles.bookView}>
           <View style={styles.rectangleView} />
@@ -23,7 +23,7 @@ const OrderList = () => {
           <Image
             style={styles.image5Icon}
             resizeMode="cover"
-            source={require("../assets/image-53.png")}
+            source={require("../../assets/image-53.png")}
           />
         </View>
         <Text style={styles.e12Text}>E12</Text>
@@ -36,7 +36,7 @@ const OrderList = () => {
         <Image
           style={styles.subtractIcon1}
           resizeMode="cover"
-          source={require("../assets/subtract1.png")}
+          source={require("../../assets/subtract1.png")}
         />
         <View style={styles.bookView1}>
           <View style={styles.rectangleView2} />
@@ -51,7 +51,7 @@ const OrderList = () => {
           <Image
             style={styles.image5Icon1}
             resizeMode="cover"
-            source={require("../assets/image-54.png")}
+            source={require("../../assets/image-54.png")}
           />
         </View>
         <Text style={styles.e13Text}>E13</Text>
@@ -64,27 +64,27 @@ const OrderList = () => {
         <Image
           style={styles.rectangleIcon}
           resizeMode="cover"
-          source={require("../assets/rectangle-11.png")}
+          source={require("../../assets/rectangle-11.png")}
         />
         <Image
           style={styles.image3Icon}
           resizeMode="cover"
-          source={require("../assets/image-3.png")}
+          source={require("../../assets/image-3.png")}
         />
         <Image
           style={styles.home21}
           resizeMode="cover"
-          source={require("../assets/home-2-1.png")}
+          source={require("../../assets/home-2-1.png")}
         />
         <Image
           style={styles.image4Icon}
           resizeMode="cover"
-          source={require("../assets/image-4.png")}
+          source={require("../../assets/image-4.png")}
         />
         <Image
           style={styles.receipt1Icon}
           resizeMode="cover"
-          source={require("../assets/receipt-1.png")}
+          source={require("../../assets/receipt-1.png")}
         />
       </View>
     </View>

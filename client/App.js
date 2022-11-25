@@ -12,12 +12,12 @@ import FoodInfo from "./screens/FoodInfo";
 import BookedQueue from "./screens/BookedQueue";
 import Ticket from "./screens/Ticket";
 
-import HomepageRestaurant from "./screens/HomepageRestaurant";
-import Add from "./screens/Add";
-import AddMenu from "./screens/AddMenu";
-import AddIngredients from "./screens/AddIngredients";
-import AddToping from "./screens/AddToping";
-import OrderList from "./screens/OrderList";
+import HomepageRestaurant from "./screens/restaurant/HomepageRestaurant";
+import Add from "./screens/restaurant/Add";
+import AddMenu from "./screens/restaurant/AddMenu";
+import AddIngredients from "./screens/restaurant/AddIngredients";
+import AddToping from "./screens/restaurant/AddToping";
+import OrderList from "./screens/restaurant/OrderList";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
@@ -40,7 +40,7 @@ const App = () => {
               name="Verification"
               component={Verification}
               options={{ headerShown: false }}
-            />*/}
+            />
             <Stack.Screen
               name="Homepage"
               component={Homepage}
@@ -56,7 +56,7 @@ const App = () => {
               component={FoodInfo}
               options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
               name="BookedQueue"
               component={BookedQueue}
               options={{ headerShown: false }}
@@ -65,7 +65,9 @@ const App = () => {
               name="Ticket"
               component={Ticket}
               options={{ headerShown: false }}
-            />
+            /> */}
+            
+            {/* Restaurant Page */}
             <Stack.Screen
               name="HomepageRestaurant"
               component={HomepageRestaurant}
@@ -90,7 +92,12 @@ const App = () => {
               name="AddToping"
               component={AddToping}
               options={{ headerShown: false }}
-            /> */}
+            />
+            <Stack.Screen
+              name="OrderList"
+              component={OrderList}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : (
           <SplashScreen />
