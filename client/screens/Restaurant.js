@@ -2,25 +2,42 @@ import React, {useState,useEffect} from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from "react-native";
 import { restaurantInfo } from "../dummydata";
 import CardSilder from 'react-native-cards-slider';
+import axios from 'axios';
 
 const Restaurant = ({ navigation, route }) => {
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [menu, setMenu] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [isMenuLoad, setIsMenuLoad] = useState(true);
+  const [isCategoryLoad, setIsCategoryLoad] = useState(true);
+  
   useEffect(() => {
-      fetch('http://10.0.2.2:5001/api/menu')
-      .then(res => res.json())
-      .then((result) => {
-          setItems(result)
-          setIsLoading(false)
-      })
-  }, [isLoading])
+    axios.get("http://10.0.2.2:8080/getMenu",{
+      params: {
+        restaurantName: route.params.restaurant.restaurant_name
+      }
+    }).then((response) => {
+      setMenu(response.data);
+      setIsMenuLoad(false);
+    })
+  
+    axios.get("http://10.0.2.2:8080/getCategory",{
+      params: {
+        restaurantName: route.params.restaurant.restaurant_name
+      }
+    }).then((response) => {
+      setCategory(response.data);
+      setIsCategoryLoad(false);
+    });
+  }, []);
+
+  console.log(menu);
+  console.log(category);
 
   const dummyrestaurant = {
     name: route.params.restaurant.restaurant_name,
     image: require("../assets/rectangle-72.png"),
     type: ["noodles","a lar carte"],
-    menu: items,
+    menu: menu,
     status: route.params.restaurant.restaurant_status
   }
 
@@ -50,7 +67,7 @@ const Restaurant = ({ navigation, route }) => {
         <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
       </View>
       <Text style={styles.text}>{dummyrestaurant.name}</Text>
-      <Text style={styles.noodlesALarCarte}>{restaurantInfo[1].type}</Text>
+      <Text style={styles.noodlesALarCarte}>{dummyrestaurant.type}</Text>
       <Text style={styles.openNowText}>{dummyrestaurant.status}</Text>
       <View style={styles.barView}>
         <Image

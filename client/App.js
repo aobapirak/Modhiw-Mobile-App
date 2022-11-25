@@ -25,6 +25,10 @@ import AddIngredients from "./screens/restaurant_screens/AddIngredients";
 import AddToping from "./screens/restaurant_screens/AddToping";
 import OrderList from "./screens/restaurant_screens/OrderList";
 
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
+
+
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
   const SplashScreen = () => <View />;
@@ -64,7 +68,7 @@ const App = () => {
               component={FoodInfo}
               options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
               name="BookedQueue"
               component={BookedQueue}
               options={{ headerShown: false }}
@@ -73,7 +77,9 @@ const App = () => {
               name="Ticket"
               component={Ticket}
               options={{ headerShown: false }}
-            />
+            /> */}
+            
+            {/* Restaurant Page */}
             <Stack.Screen
               name="HomepageRestaurant"
               component={HomepageRestaurant}
@@ -98,7 +104,12 @@ const App = () => {
               name="AddToping"
               component={AddToping}
               options={{ headerShown: false }}
-            /> */}
+            />
+            <Stack.Screen
+              name="OrderList"
+              component={OrderList}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : (
           <SplashScreen />

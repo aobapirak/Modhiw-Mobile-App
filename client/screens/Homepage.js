@@ -1,10 +1,19 @@
 import React, {useState,useEffect} from "react";
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { restaurants } from "../dummydata";
+import axios from 'axios';
 
 const Homepage = ({ navigation }) => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getRestaurantList")
+    .then((response) => {
+      setItems(response.data);
+      setIsLoading(false);
+    })
+  }, []);
 
   const goRestaurant = (restaurant) => {
     navigation.navigate('Restaurant', {restaurant: restaurant});
