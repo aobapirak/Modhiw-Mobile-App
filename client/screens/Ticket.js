@@ -43,29 +43,6 @@ const TicketPage = () => {
         </View>
       )}
       </ScrollView>
-      
-      {/* <View style={styles.barView}>
-        <Image
-          style={styles.rectangleIcon}
-          resizeMode="cover"
-          source={require("../assets/rectangle-11.png")}
-        />
-        <Image
-          style={styles.ticket1Icon}
-          resizeMode="cover"
-          source={require("../assets/ticket-1.png")}
-        />
-        <Image
-          style={styles.image3Icon}
-          resizeMode="cover"
-          source={require("../assets/image-3.png")}
-        />
-        <Image
-          style={styles.image4Icon}
-          resizeMode="cover"
-          source={require("../assets/image-4.png")}
-        />
-      </View> */}
     </View>
   );
 };
@@ -197,7 +174,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   ticketView: {
-    marginTop: -20,
+    marginTop: -10,
     marginBottom: 60,
     top: 53,
     left: 21,
