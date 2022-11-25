@@ -10,23 +10,25 @@ const Restaurant = ({ navigation, route }) => {
   const [isMenuLoad, setIsMenuLoad] = useState(true);
   const [isCategoryLoad, setIsCategoryLoad] = useState(true);
   
-  axios.get("http://10.0.2.2:8080/getMenu",{
-    params: {
-      restaurantName: route.params.restaurant.restaurant_name
-    }
-  }).then((response) => {
-    setMenu(response.data);
-    setIsMenuLoad(false);
-  });
-
-  axios.get("http://10.0.2.2:8080/getCategory",{
-    params: {
-      restaurantName: route.params.restaurant.restaurant_name
-    }
-  }).then((response) => {
-    setCategory(response.data);
-    setIsCategoryLoad(false);
-  });
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getMenu",{
+      params: {
+        restaurantName: route.params.restaurant.restaurant_name
+      }
+    }).then((response) => {
+      setMenu(response.data);
+      setIsMenuLoad(false);
+    })
+  
+    axios.get("http://10.0.2.2:8080/getCategory",{
+      params: {
+        restaurantName: route.params.restaurant.restaurant_name
+      }
+    }).then((response) => {
+      setCategory(response.data);
+      setIsCategoryLoad(false);
+    });
+  }, []);
 
   console.log(menu);
   console.log(category);
@@ -65,7 +67,7 @@ const Restaurant = ({ navigation, route }) => {
         <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
       </View>
       <Text style={styles.text}>{dummyrestaurant.name}</Text>
-      <Text style={styles.noodlesALarCarte}>{category.category}</Text>
+      <Text style={styles.noodlesALarCarte}>{dummyrestaurant.type}</Text>
       <Text style={styles.openNowText}>{dummyrestaurant.status}</Text>
       <View style={styles.barView}>
         <Image

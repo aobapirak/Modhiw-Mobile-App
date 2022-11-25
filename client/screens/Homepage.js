@@ -7,10 +7,13 @@ const Homepage = ({ navigation }) => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  axios.get("http://10.0.2.2:8080/getRestaurantList").then((response) => {
-    setItems(response.data);
-    setIsLoading(false);
-  });
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getRestaurantList")
+    .then((response) => {
+      setItems(response.data);
+      setIsLoading(false);
+    })
+  }, []);
 
   const goRestaurant = (restaurant) => {
     navigation.navigate('Restaurant', {restaurant: restaurant});

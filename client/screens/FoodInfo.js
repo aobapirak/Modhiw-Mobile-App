@@ -4,23 +4,25 @@ import { ingredientInfo, toppingInfo } from "../dummydata";
 import {Checkbox} from 'react-native-paper';
 import axios from 'axios';
 
+//this.setstate
 class FoodInfo extends React.Component {
   state = {
     checked: false
   }
-      
+
+  const [ingredient, setIngredient] = useState([]);
+  const [isIngredientLoad, setIsIngredientLoad] = useState(true);
   render() { 
     const {checked} = this.state;
     
-    const Item = (props) => {
-      const [ingredient, setIngredient] = useState([]);
-      const [isIngredientLoad, setIsIngredientLoad] = useState(true);
       
       axios.get("http://10.0.2.2:8080/getIngredient")
       .then((response) => {
         setIngredient(response.data);
         setIsIngredientLoad(false);
       });
+    const Item = (props) => {
+      
       
       return (
         <View style={styles.item}>

@@ -40,7 +40,7 @@ const App = () => {
               name="Verification"
               component={Verification}
               options={{ headerShown: false }}
-            />
+            />*/}
             <Stack.Screen
               name="Homepage"
               component={Homepage}
@@ -50,7 +50,7 @@ const App = () => {
               name="Restaurant"
               component={Restaurant}
               options={{ headerShown: false }}
-            />*/}
+            />
             <Stack.Screen
               name="FoodInfo"
               component={FoodInfo}
