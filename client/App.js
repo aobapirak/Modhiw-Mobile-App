@@ -3,24 +3,27 @@ const Stack = createNativeStackNavigator();
 import { StatusBar } from 'expo-status-bar';
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
 
-import Homepage from "./screens/Homepage";
+// Login Side
 import LogIn from "./screens/LogIn";
 import Verification from './screens/Verification';
+
+// Normal Side
+import Homepage from "./screens/Homepage";
 import Restaurant from "./screens/Restaurant";
 import FoodInfo from "./screens/FoodInfo";
 import BookedQueue from "./screens/BookedQueue";
 import Ticket from "./screens/Ticket";
 
-import HomepageRestaurant from "./screens/HomepageRestaurant";
-import Add from "./screens/Add";
-import AddMenu from "./screens/AddMenu";
-import AddIngredients from "./screens/AddIngredients";
-import AddToping from "./screens/AddToping";
-import OrderList from "./screens/OrderList";
-
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
+// Restaurant Side
+import HomepageRestaurant from "./screens/restaurant_screens/HomepageRestaurant";
+import Add from "./screens/restaurant_screens/Add";
+import AddMenu from "./screens/restaurant_screens/AddMenu";
+import AddIngredients from "./screens/restaurant_screens/AddIngredients";
+import AddToping from "./screens/restaurant_screens/AddToping";
+import OrderList from "./screens/restaurant_screens/OrderList";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
@@ -31,16 +34,21 @@ const App = () => {
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+              name="OrderList"
+              component={OrderList}
+              options={{ headerShown: false }}
+            />
             {/* <Stack.Screen
               name="LogIn"
               component={LogIn}
               options={{ headerShown: false }}
-              />
+            />
             <Stack.Screen
               name="Verification"
               component={Verification}
               options={{ headerShown: false }}
-            />*/}
+            />
             <Stack.Screen
               name="Homepage"
               component={Homepage}

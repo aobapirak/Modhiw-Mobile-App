@@ -1,21 +1,10 @@
 import React, {useState,useEffect} from "react";
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { restaurants } from "../dummydata";
-const ayoyo = require("../../server/ayoyo");
 
 const Homepage = ({ navigation }) => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
-  ayoyo.restaurantList
-  useEffect(() => {
-    fetch('http://10.0.2.2:5000/api/home')
-    .then(res => res.json())
-    .then((result) => {
-        setItems(result)
-        setIsLoading(false)
-    })
-  }, [isLoading])
 
   const goRestaurant = (restaurant) => {
     navigation.navigate('Restaurant', {restaurant: restaurant});

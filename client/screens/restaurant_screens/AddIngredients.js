@@ -1,45 +1,38 @@
 import * as React from "react";
 import { StyleSheet, View, Image, Text, TextInput } from "react-native";
 
-const AddMenu = () => {
+const AddIngredients = () => {
   return (
-    <View style={styles.addMenuView}>
+    <View style={styles.addIngredientsView}>
       <View style={styles.rectangleView} />
       <Image
         style={styles.barIcon}
         resizeMode="cover"
-        source={require("../assets/bar.png")}
+        source={require("../../assets/bar.png")}
       />
-      <Text style={styles.addMenuText}>Add menu</Text>
+      <Text style={styles.addIngredientText}>Add ingredient</Text>
       <Image
-        style={styles.image5Icon}
+        style={styles.image6Icon}
         resizeMode="cover"
-        source={require("../assets/image-5.png")}
-      />
-      <View style={styles.rectangleView1} />
-      <Text style={styles.dropYourImageHere}>Drop your image here</Text>
-      <Image
-        style={styles.vectorIcon}
-        resizeMode="cover"
-        source={require("../assets/vector.png")}
+        source={require("../../assets/image-61.png")}
       />
       <View style={styles.nameView}>
         <Text style={styles.nameText}>Name</Text>
-        <View style={styles.rectangleView2} />
-        <TextInput style={styles.enterTheNameOfTheFood}>
-          Enter the name of the food
+        <View style={styles.rectangleView1} />
+        <TextInput style={styles.enterTheNameOfTheIngredie}>
+          Enter the name of the ingredients
         </TextInput>
       </View>
       <View style={styles.priceView}>
         <Text style={styles.priceText}>Price</Text>
-        <View style={styles.rectangleView3} />
-        <TextInput style={styles.enterThePriceOfTheFood}>
-          Enter the price of the food
+        <View style={styles.rectangleView2} />
+        <TextInput style={styles.enterThePriceOfTheIngredi}>
+          Enter the price of the ingredients
         </TextInput>
       </View>
       <View style={styles.addView}>
-        <View style={styles.rectangleView4} />
-        <Text style={styles.signIn2}>Add menu</Text>
+        <View style={styles.rectangleView3} />
+        <Text style={styles.signIn2}>Add ingredients</Text>
       </View>
     </View>
   );
@@ -61,7 +54,7 @@ const styles = StyleSheet.create({
     width: 411,
     height: 60,
   },
-  addMenuText: {
+  addIngredientText: {
     position: "absolute",
     top: 100,
     left: 126,
@@ -71,52 +64,48 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "left",
   },
-  image5Icon: {
+  image6Icon: {
     position: "absolute",
     top: 94,
     left: 50,
     width: 50,
     height: 50,
   },
-  rectangleView1: {
+  nameText: {
     position: "absolute",
-    top: 184,
-    left: 103,
-    borderRadius: 25,
-    backgroundColor: "#fff",
-    borderStyle: "dashed",
-    borderColor: "#b5b5b5",
-    borderWidth: 1.5,
-    width: 205,
-    height: 198,
-  },
-  dropYourImageHere: {
-    position: "absolute",
-    top: 316,
-    left: 100,
+    top: 0,
+    left: 0,
     fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#000",
-    textAlign: "center",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 211,
-    height: 22,
+    textAlign: "left",
   },
-  vectorIcon: {
+  rectangleView1: {
     position: "absolute",
-    height: "7.17%",
-    width: "14.36%",
-    top: "30.01%",
-    right: "43.07%",
-    bottom: "62.82%",
-    left: "42.58%",
-    maxWidth: "100%",
-    overflow: "hidden",
-    maxHeight: "100%",
+    top: 25,
+    left: 0,
+    borderRadius: 5,
+    backgroundColor: "#d8d8d8",
+    width: 280,
+    height: 30,
   },
-  nameText: {
+  enterTheNameOfTheIngredie: {
+    position: "absolute",
+    top: 26,
+    left: 15,
+    fontSize: 12,
+    fontFamily: "SF Pro Rounded",
+    color: "#505050",
+    textAlign: "left",
+  },
+  nameView: {
+    position: "absolute",
+    top: 189,
+    left: 66,
+    width: 280,
+    height: 55,
+  },
+  priceText: {
     position: "absolute",
     top: 0,
     left: 0,
@@ -134,41 +123,7 @@ const styles = StyleSheet.create({
     width: 280,
     height: 30,
   },
-  enterTheNameOfTheFood: {
-    position: "absolute",
-    top: 26,
-    left: 15,
-    fontSize: 12,
-    fontFamily: "SF Pro Rounded",
-    color: "#505050",
-    textAlign: "left",
-  },
-  nameView: {
-    position: "absolute",
-    top: 412,
-    left: 66,
-    width: 280,
-    height: 55,
-  },
-  priceText: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    fontSize: 14,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  rectangleView3: {
-    position: "absolute",
-    top: 25,
-    left: 0,
-    borderRadius: 5,
-    backgroundColor: "#d8d8d8",
-    width: 280,
-    height: 30,
-  },
-  enterThePriceOfTheFood: {
+  enterThePriceOfTheIngredi: {
     position: "absolute",
     top: 26,
     left: 15,
@@ -179,12 +134,12 @@ const styles = StyleSheet.create({
   },
   priceView: {
     position: "absolute",
-    top: 484,
+    top: 261,
     left: 66,
     width: 280,
     height: 55,
   },
-  rectangleView4: {
+  rectangleView3: {
     position: "absolute",
     top: 0,
     left: 0,
@@ -210,12 +165,12 @@ const styles = StyleSheet.create({
   },
   addView: {
     position: "absolute",
-    top: 569,
+    top: 346,
     left: 66,
     width: 280,
     height: 30,
   },
-  addMenuView: {
+  addIngredientsView: {
     position: "relative",
     flex: 1,
     width: "100%",
@@ -224,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddMenu;
+export default AddIngredients;
