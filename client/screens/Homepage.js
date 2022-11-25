@@ -5,13 +5,11 @@ import axios from 'axios';
 
 const Homepage = ({ navigation }) => {
   const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getRestaurantList")
     .then((response) => {
       setItems(response.data);
-      setIsLoading(false);
     })
   }, []);
 
