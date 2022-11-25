@@ -1,92 +1,61 @@
-import * as React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
+import React, {useState} from "react";
+import { Image, StyleSheet, View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { tickets } from "../../dummydata";
 
 const OrderList = () => {
+  const [isDone, setIsDone] = useState(false);
+
   return (
     <View style={styles.orderListView}>
+      <ScrollView>
+      {tickets.map( (ticket) =>
       <View style={styles.ticketView}>
         <Image
           style={styles.subtractIcon}
           resizeMode="cover"
           source={require("../../assets/subtract.png")}
         />
+        {isDone?
         <View style={styles.bookView}>
-          <View style={styles.rectangleView} />
-          <View style={styles.rectangleView1} />
+          <View style={styles.approveButton} />
           <Text style={styles.approveText}>Approve</Text>
+          <View style={styles.rejectButton} />
           <Text style={styles.rejectText}>Reject</Text>
         </View>
+        :
+        <View style={styles.bookView}>
+          {/* โน๊ต: อันนี้จะกดปุ๊บเปลี่ยนหมดเลย เพราะเป็น dummy data
+                   ต้องไปแก้ว่า onPress => ไปแก้ database 
+                   (order status) ยังไม่กด Done => 0 อาหารยังไม่เสร็จ
+                   (order status) กด Done => 1 อาหารเสร็จ
+                   (order status) กด Approve => 2 ลูกค้าจ่ายตัง
+                   (order status) กด Reject => 3 ลูกค้าไม่จ่ายตัง
+                   Code line: 18-40 คือส่วนของปุ่ม
+          */}
+          <TouchableOpacity onPress={ () => {setIsDone(true)}}>
+            <View style={styles.doneButton} />
+            <Text style={styles.doneText}>Done</Text>
+          </TouchableOpacity>
+        </View>
+        }
         <View style={styles.lineView} />
         <View style={styles.menuView}>
-          <Text style={styles.text}>ข้าวกะเพรา (หมูกรอบ)</Text>
-          <Text style={styles.note}>Note: พิเศษ + ไข่ดาว</Text>
+          <Text style={styles.food}>{ticket.food}</Text>
+          <Text style={styles.note}>{ticket.note}</Text>
           <Image
             style={styles.image5Icon}
             resizeMode="cover"
             source={require("../../assets/image-53.png")}
           />
         </View>
-        <Text style={styles.e12Text}>E12</Text>
-        <Text style={styles.phoneNumber0815873097Tim}>
-          <Text style={styles.phoneNumber081}>Phone number: 081 587 3097</Text>
-          <Text style={styles.time03Oct2022}>Time : 03-Oct-2022 14:35</Text>
+        <Text style={styles.ticketId}>{ticket.queue}</Text>
+        <Text style={styles.phoneNumberView}>
+          <Text>Phone number: {ticket.phoneNumber}</Text>
+          <Text>{"\n"}Time : {ticket.time}</Text>
         </Text>
       </View>
-      <View style={styles.ticketView1}>
-        <Image
-          style={styles.subtractIcon1}
-          resizeMode="cover"
-          source={require("../../assets/subtract1.png")}
-        />
-        <View style={styles.bookView1}>
-          <View style={styles.rectangleView2} />
-          <View style={styles.rectangleView3} />
-          <Text style={styles.approveText1}>Approve</Text>
-          <Text style={styles.rejectText1}>Reject</Text>
-        </View>
-        <View style={styles.lineView1} />
-        <View style={styles.menuView1}>
-          <Text style={styles.text1}>ข้าวกะเพรา (หมูกรอบ)</Text>
-          <Text style={styles.note1}>Note: พิเศษ + ไข่ดาว</Text>
-          <Image
-            style={styles.image5Icon1}
-            resizeMode="cover"
-            source={require("../../assets/image-54.png")}
-          />
-        </View>
-        <Text style={styles.e13Text}>E13</Text>
-        <Text style={styles.phoneNumber0815873097Tim1}>
-          <Text style={styles.phoneNumber0811}>Phone number: 081 587 3097</Text>
-          <Text style={styles.time03Oct20221}>Time : 03-Oct-2022 14:35</Text>
-        </Text>
-      </View>
-      <View style={styles.barView}>
-        <Image
-          style={styles.rectangleIcon}
-          resizeMode="cover"
-          source={require("../../assets/rectangle-11.png")}
-        />
-        <Image
-          style={styles.image3Icon}
-          resizeMode="cover"
-          source={require("../../assets/image-3.png")}
-        />
-        <Image
-          style={styles.home21}
-          resizeMode="cover"
-          source={require("../../assets/home-2-1.png")}
-        />
-        <Image
-          style={styles.image4Icon}
-          resizeMode="cover"
-          source={require("../../assets/image-4.png")}
-        />
-        <Image
-          style={styles.receipt1Icon}
-          resizeMode="cover"
-          source={require("../../assets/receipt-1.png")}
-        />
-      </View>
+      )}
+      </ScrollView>
     </View>
   );
 };
@@ -97,28 +66,45 @@ const styles = StyleSheet.create({
     width: 370,
     height: 570,
   },
-  rectangleView: {
+  doneButton: {
+    position: "absolute",
+    borderRadius: 10,
+    backgroundColor: "#E59E00",
+    width: 200,
+    height: 35,
+  },
+  approveButton: {
     position: "absolute",
     top: 0,
-    left: 0,
+    left: -15,
     borderRadius: 10,
     backgroundColor: "#00790c",
     width: 100,
     height: 35,
   },
-  rectangleView1: {
+  rejectButton: {
     position: "absolute",
     top: 0,
-    left: 127,
+    left: 132,
     borderRadius: 10,
     backgroundColor: "#ce0808",
     width: 100,
     height: 35,
   },
+  doneText: {
+    position: "absolute",
+    top: 6,
+    left: 80,
+    fontSize: 16,
+    fontWeight: "600",
+    fontFamily: "SF Pro Rounded",
+    color: "#fff",
+    textAlign: "left",
+  },
   approveText: {
     position: "absolute",
-    top: 8,
-    left: 20,
+    top: 6,
+    left: 5,
     fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
@@ -127,8 +113,8 @@ const styles = StyleSheet.create({
   },
   rejectText: {
     position: "absolute",
-    top: 8,
-    left: 154,
+    top: 6,
+    left: 160,
     fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
@@ -144,16 +130,16 @@ const styles = StyleSheet.create({
   },
   lineView: {
     position: "absolute",
-    top: 284.5,
-    left: 14.5,
+    top: 282,
+    left: 25,
     borderStyle: "dashed",
     borderColor: "#000",
-    borderRadius: 0.001,
-    borderTopWidth: 1,
-    width: 341,
+    // borderRadius: 1,
+    borderTopWidth: 2.8,
+    width: 320,
     height: 1,
   },
-  text: {
+  food: {
     position: "absolute",
     top: 0,
     left: 46,
@@ -185,7 +171,7 @@ const styles = StyleSheet.create({
     width: 252,
     height: 55,
   },
-  e12Text: {
+  ticketId: {
     position: "absolute",
     top: 75,
     left: 50,
@@ -195,14 +181,11 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "left",
   },
-  phoneNumber081: {
+  phoneNumber: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
   },
-  time03Oct2022: {
-    margin: 0,
-  },
-  phoneNumber0815873097Tim: {
+  phoneNumberView: {
     position: "absolute",
     top: 181,
     left: 50,
@@ -213,159 +196,14 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   ticketView: {
-    position: "absolute",
-    top: 51,
+    marginTop: -10,
+    marginBottom: 60,
+    top: 53,
     left: 21,
     width: 370,
     height: 570,
-  },
-  subtractIcon1: {
-    position: "relative",
-    width: 370,
-    height: 570,
-  },
-  rectangleView2: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 10,
-    backgroundColor: "#00790c",
-    width: 100,
-    height: 35,
-  },
-  rectangleView3: {
-    position: "absolute",
-    top: 0,
-    left: 127,
-    borderRadius: 10,
-    backgroundColor: "#ce0808",
-    width: 100,
-    height: 35,
-  },
-  approveText1: {
-    position: "absolute",
-    top: 8,
-    left: 20,
-    fontSize: 16,
-    fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
-    color: "#fff",
-    textAlign: "left",
-  },
-  rejectText1: {
-    position: "absolute",
-    top: 8,
-    left: 154,
-    fontSize: 16,
-    fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
-    color: "#fff",
-    textAlign: "left",
-  },
-  bookView1: {
-    position: "absolute",
-    top: 510,
-    left: 78,
-    width: 227,
-    height: 35,
-  },
-  lineView1: {
-    position: "absolute",
-    top: 284.5,
-    left: 14.5,
-    borderStyle: "dashed",
-    borderColor: "#000",
-    borderRadius: 0.001,
-    borderTopWidth: 1,
-    width: 341,
-    height: 1,
-  },
-  text1: {
-    position: "absolute",
-    top: 0,
-    left: 46,
-    fontSize: 24,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  note1: {
-    position: "absolute",
-    top: 38,
-    left: 46,
-    fontSize: 14,
-    fontFamily: "SF Pro Rounded",
-    color: "#505050",
-    textAlign: "left",
-  },
-  image5Icon1: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: 25,
-    height: 25,
-  },
-  menuView1: {
-    position: "absolute",
-    top: 347,
-    left: 50,
-    width: 252,
-    height: 55,
-  },
-  e13Text: {
-    position: "absolute",
-    top: 75,
-    left: 50,
-    fontSize: 80,
-    fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  phoneNumber0811: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  time03Oct20221: {
-    margin: 0,
-  },
-  phoneNumber0815873097Tim1: {
-    position: "absolute",
-    top: 181,
-    left: 50,
-    fontSize: 18,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  ticketView1: {
-    position: "absolute",
-    top: 651,
-    left: 21,
-    width: 370,
-    height: 570,
-  },
-  rectangleIcon: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: 411,
-    height: 60,
-  },
-  image3Icon: {
-    position: "absolute",
-    top: 17,
-    left: 324,
-    width: 25,
-    height: 25,
-  },
-  home21: {
-    position: "absolute",
-    top: 17,
-    left: 74,
-    width: 25,
-    height: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image4Icon: {
     position: "absolute",
@@ -380,13 +218,6 @@ const styles = StyleSheet.create({
     left: 199,
     width: 25,
     height: 25,
-  },
-  barView: {
-    position: "absolute",
-    top: 763,
-    left: 0,
-    width: 411,
-    height: 60,
   },
   orderListView: {
     position: "relative",

@@ -18,15 +18,12 @@ import BookedQueue from "./screens/BookedQueue";
 import Ticket from "./screens/Ticket";
 
 // Restaurant Side
-import HomepageRestaurant from "./screens/restaurant_screens/HomepageRestaurant";
-import Add from "./screens/restaurant_screens/Add";
-import AddMenu from "./screens/restaurant_screens/AddMenu";
-import AddIngredients from "./screens/restaurant_screens/AddIngredients";
-import AddToping from "./screens/restaurant_screens/AddToping";
-import OrderList from "./screens/restaurant_screens/OrderList";
-
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import HomepageRestaurant from "./screens/restaurant/HomepageRestaurant";
+import Add from "./screens/restaurant/Add";
+import AddMenu from "./screens/restaurant/AddMenu";
+import AddIngredients from "./screens/restaurant/AddIngredients";
+import AddToping from "./screens/restaurant/AddToping";
+import OrderList from "./screens/restaurant/OrderList";
 
 
 const App = () => {
@@ -38,11 +35,6 @@ const App = () => {
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="OrderList"
-              component={OrderList}
-              options={{ headerShown: false }}
-            />
             {/* <Stack.Screen
               name="LogIn"
               component={LogIn}
@@ -52,7 +44,7 @@ const App = () => {
               name="Verification"
               component={Verification}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
               name="Homepage"
               component={Homepage}
@@ -77,10 +69,10 @@ const App = () => {
               name="Ticket"
               component={Ticket}
               options={{ headerShown: false }}
-            /> */}
+            />
             
             {/* Restaurant Page */}
-            <Stack.Screen
+            {/* <Stack.Screen
               name="HomepageRestaurant"
               component={HomepageRestaurant}
               options={{ headerShown: false }}
@@ -109,7 +101,7 @@ const App = () => {
               name="OrderList"
               component={OrderList}
               options={{ headerShown: false }}
-            />
+            /> */}
           </Stack.Navigator>
         ) : (
           <SplashScreen />
