@@ -40,6 +40,12 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 //home
 require("./app/routes/home.routes")(app);
 
+//restaurant
+require("./app/routes/restaurant.routes")(app);
+
+//foodInfo
+require("./app/routes/foodInfo.routes")(app);
+
 //listening
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

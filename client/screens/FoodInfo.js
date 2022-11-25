@@ -1,18 +1,27 @@
-import * as React from "react";
+import React, {useState,useEffect} from "react";
 import { Image, StyleSheet, View, Text, ImageBackground} from "react-native";
 import { ingredientInfo, toppingInfo } from "../dummydata";
 import {Checkbox} from 'react-native-paper';
+import axios from 'axios';
 
 class FoodInfo extends React.Component {
   state = {
     checked: false
   }
-
+      
   render() { 
     const {checked} = this.state;
-
+    
     const Item = (props) => {
-
+      const [ingredient, setIngredient] = useState([]);
+      const [isIngredientLoad, setIsIngredientLoad] = useState(true);
+      
+      axios.get("http://10.0.2.2:8080/getIngredient")
+      .then((response) => {
+        setIngredient(response.data);
+        setIsIngredientLoad(false);
+      });
+      
       return (
         <View style={styles.item}>
           <View style={styles.itemLeft}>
@@ -23,7 +32,16 @@ class FoodInfo extends React.Component {
         </View>
       )
     }
+
     const Topping = (props) => {
+      const [toping, setToping] = useState([]);
+      const [isTopingLoad, setIsTopingLoad] = useState(true);
+
+      axios.get("http://10.0.2.2:8080/getToping")
+      .then((response) => {
+        setToping(response.data);
+        setIsTopingLoad(false);
+      });
 
       return (
         <View style={styles.item}>
@@ -34,9 +52,8 @@ class FoodInfo extends React.Component {
         </View>
       )
     }
-
+    console.log(Item.ingredient);
     return (
-  
       <ImageBackground
         style={styles.foodInfoIcon}
         resizeMode="cover"
@@ -49,8 +66,10 @@ class FoodInfo extends React.Component {
         />
         <View style={styles.rectangleView} />
         <View style={styles.infoView}>
-          <Text style={styles.text}>{this.props.route.params.menu.menu_name}</Text>
-          <Text style={styles.text1}>{this.props.route.params.restaurant.restaurant_name}</Text>
+          {/*<Text style={styles.text}>{this.props.route.params.menu.menu_name}</Text>
+          <Text style={styles.text1}>{this.props.route.params.restaurant.restaurant_name}</Text>*/}
+          <Text style={styles.text}>qwer</Text>
+          <Text style={styles.text1}>asdf</Text>
           <Image
             style={styles.mapIcon}
             resizeMode="cover"
@@ -69,12 +88,12 @@ class FoodInfo extends React.Component {
                 <Item text={ingredient.ingredientName} price={ingredient.price}/>
               </View>
             )}
-            {/* <Checkbox
+            {/*<Checkbox
                 status={checked ? 'checked' : 'unchecked'}
                 onPress={()=>{this.setState({checked: !checked});}}
-                /> */}
+            />*/}
           </View>
-          <Text style={styles.text25}>เนื้อ</Text>
+          <Text style={styles.text25}>{Item}</Text>
         </View>
         <View style={styles.view1}>
           <View style={styles.items}>
@@ -100,7 +119,6 @@ class FoodInfo extends React.Component {
       </ImageBackground>
     );
   }
-  
 }
 
 const styles = StyleSheet.create({
