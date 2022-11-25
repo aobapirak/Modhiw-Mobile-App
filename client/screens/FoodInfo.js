@@ -1,26 +1,22 @@
 import React, {useState,useEffect} from "react";
-import { Image, StyleSheet, View, Text, ImageBackground} from "react-native";
+import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity} from "react-native";
 import { ingredientInfo, toppingInfo } from "../dummydata";
 import {Checkbox} from 'react-native-paper';
 import axios from 'axios';
 
 //this.setstate
-class FoodInfo extends React.Component {
-  state = {
-    checked: false
-  }
+const FoodInfo = ({ navigation }) => {
 
   const [ingredient, setIngredient] = useState([]);
   const [isIngredientLoad, setIsIngredientLoad] = useState(true);
-  render() { 
-    const {checked} = this.state;
-    
-      
-      axios.get("http://10.0.2.2:8080/getIngredient")
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getIngredient")
       .then((response) => {
         setIngredient(response.data);
         setIsIngredientLoad(false);
       });
+    }, []);
     const Item = (props) => {
       
       
@@ -54,6 +50,7 @@ class FoodInfo extends React.Component {
         </View>
       )
     }
+
     console.log(Item.ingredient);
     return (
       <ImageBackground
@@ -77,11 +74,13 @@ class FoodInfo extends React.Component {
             resizeMode="cover"
             source={require("../assets/map.png")}
           />
+          {/* <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} > */}
           <Image
             style={styles.xIcon}
             resizeMode="cover"
             source={require("../assets/x-1.png")}
           />
+          {/* </TouchableOpacity> */}
         </View>
         <View style={styles.view}>
           <View style={styles.items}>
@@ -120,7 +119,6 @@ class FoodInfo extends React.Component {
         </View>
       </ImageBackground>
     );
-  }
 }
 
 const styles = StyleSheet.create({
