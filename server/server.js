@@ -46,6 +46,9 @@ require("./app/routes/restaurant.routes")(app);
 //foodInfo
 require("./app/routes/foodInfo.routes")(app);
 
+//add
+require("./app/routes/add.routes")(app);
+
 //listening
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
