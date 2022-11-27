@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, Switch, TouchableOpacity } from "react-native";
+import axios from "axios";
 
 const HomepageRestaurant = ({ navigation }) => {
-  const [switchOpen, setSwitchOpen] = useState(false);
-  function toggleSwitch() {
-    setSwitchOpen(switchOpen => !switchOpen)
-  }
-
+  const [switchOpen, setSwitchOpen] = useState(true);
   const restaurant_name = "ชิกกี้ชิก";
+
+  
+  function toggleSwitch() {
+    let status = "";
+    setSwitchOpen(switchOpen => !switchOpen)
+    if(!switchOpen == true){
+      status = "Open now"
+    } else{
+      status = "Closed"
+    }
+    axios.patch("http://10.0.2.2:8080/updateRestaurantStatus",{
+      restaurant_status: status,
+      restaurant_name: restaurant_name
+    })
+  }
 
   return (
     <View style={styles.homepageView}>

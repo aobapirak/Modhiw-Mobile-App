@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 // });
 
 //home
-require("./app/routes/home.routes")(app);
+require("./app/routes/userHomepage.routes")(app);
 
 //restaurant
 require("./app/routes/restaurant.routes")(app);
@@ -54,6 +54,9 @@ require("./app/routes/add.routes")(app);
 
 //orderList
 require("./app/routes/orderList.routes")(app);
+
+//restaurantHomepage
+require("./app/routes/restaurantHomepage.routes")(app);
 
 //listening
 const PORT = process.env.PORT || 8080;
