@@ -7,8 +7,6 @@ import axios from 'axios';
 const Restaurant = ({ navigation, route }) => {
   const [menu, setMenu] = useState([]);
   const [category, setCategory] = useState([]);
-  const [isMenuLoad, setIsMenuLoad] = useState(true);
-  const [isCategoryLoad, setIsCategoryLoad] = useState(true);
   
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getMenu",{
@@ -17,7 +15,6 @@ const Restaurant = ({ navigation, route }) => {
       }
     }).then((response) => {
       setMenu(response.data);
-      setIsMenuLoad(false);
     })
   
     axios.get("http://10.0.2.2:8080/getCategory",{
@@ -25,10 +22,19 @@ const Restaurant = ({ navigation, route }) => {
         restaurantName: route.params.restaurant.restaurant_name
       }
     }).then((response) => {
-      setCategory(response.data);
-      setIsCategoryLoad(false);
+      let buff = "";
+      for (let i = 0; i < response.data.length; i++) {
+        if(i != 0){
+          buff += ", "
+        }
+        buff += response.data[i].category;
+      }
+      setCategory(buff);
     });
   }, []);
+
+  //console.log(menu);
+  //console.log(category);
 
   const dummyrestaurant = {
     name: route.params.restaurant.restaurant_name,
@@ -61,15 +67,47 @@ const Restaurant = ({ navigation, route }) => {
         resizeMode="cover"
         source={require("../assets/search.png")}
       />
-      <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
-    </View>
-    <Text style={styles.restaurantName}>{dummyrestaurant.name}</Text>
-    <Text style={styles.noodlesALarCarte}>{dummyrestaurant.type}</Text>
-    <Text style={styles.openNowText}>{dummyrestaurant.status}</Text>
-    <CardSilder>
-    {dummyrestaurant.menu.map((allmenu) => 
-    <View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
+
+      <View style={styles.rectangleView} />
+      <View style={styles.searchView}>
+        <View style={styles.rectangleView1} />
+        <Image
+          style={styles.searchIcon}
+          resizeMode="cover"
+          source={require("../assets/search.png")}
+        />
+        <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
+      </View>
+      <Text style={styles.text}>{route.params.restaurant.restaurant_name}</Text>
+      <Text style={styles.noodlesALarCarte}>{category}</Text>
+      <Text style={styles.openNowText}>{route.params.restaurant.restaurant_status}</Text>
+      <View style={styles.barView}>
+        <Image
+          style={styles.rectangleIcon1}
+          resizeMode="cover"
+          source={require("../assets/rectangle-11.png")}
+        />
+        <Image
+          style={styles.image2Icon}
+          resizeMode="cover"
+          source={require("../assets/image-2.png")}
+        />
+        <Image
+          style={styles.image3Icon}
+          resizeMode="cover"
+          source={require("../assets/image-3.png")}
+        />
+        <Image
+          style={styles.image4Icon}
+          resizeMode="cover"
+          source={require("../assets/image-4.png")}
+        />
+      </View>
+
+      <CardSilder>
+      {dummyrestaurant.menu.map((allmenu) => 
+      <View>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
         <View style={styles.menu1View}>
           <Image
             style={styles.rectangleIcon2}

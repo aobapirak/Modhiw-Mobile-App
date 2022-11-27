@@ -1,7 +1,6 @@
 const mysql = require('mysql');
 const express = require('express');
 const app = express()
-
 /*
 // mysql://ba4aecff227c7d:b7e715cd@us-cdbr-east-06.cleardb.net/heroku_565295b9785eb69?reconnect=true
 const pool = mysql.createPool({
@@ -18,5 +17,6 @@ const pool = mysql.createPool({
     password: '',
     database: 'modhiw'
 });
+
 
 module.exports = pool;
