@@ -30,13 +30,10 @@ const Restaurant = ({ navigation, route }) => {
     });
   }, []);
 
-  console.log(menu);
-  console.log(category);
-
   const dummyrestaurant = {
     name: route.params.restaurant.restaurant_name,
     image: require("../assets/rectangle-72.png"),
-    type: ["noodles","a lar carte"],
+    type: ["noodles", "a lar carte"],
     menu: menu,
     status: route.params.restaurant.restaurant_status
   }
@@ -51,73 +48,76 @@ const Restaurant = ({ navigation, route }) => {
       resizeMode="cover"
       source={require("../assets/restaurantinfo.png")}
     >
+    <Image
+      style={styles.rectangleIcon}
+      resizeMode="cover"
+      source={require("../assets/rectangle-7.png")}
+    />
+    <View style={styles.rectangleView} />
+    <View style={styles.searchView}>
+      <View style={styles.rectangleView1} />
       <Image
-        style={styles.rectangleIcon}
+        style={styles.searchIcon}
         resizeMode="cover"
-        source={require("../assets/rectangle-7.png")}
+        source={require("../assets/search.png")}
       />
-      <View style={styles.rectangleView} />
-      <View style={styles.searchView}>
-        <View style={styles.rectangleView1} />
-        <Image
-          style={styles.searchIcon}
-          resizeMode="cover"
-          source={require("../assets/search.png")}
-        />
-        <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
-      </View>
-      <Text style={styles.text}>{dummyrestaurant.name}</Text>
-      <Text style={styles.noodlesALarCarte}>{dummyrestaurant.type}</Text>
-      <Text style={styles.openNowText}>{dummyrestaurant.status}</Text>
-      <View style={styles.barView}>
-        <Image
-          style={styles.rectangleIcon1}
-          resizeMode="cover"
-          source={require("../assets/rectangle-11.png")}
-        />
-        <Image
-          style={styles.image2Icon}
-          resizeMode="cover"
-          source={require("../assets/image-2.png")}
-        />
-        <Image
-          style={styles.image3Icon}
-          resizeMode="cover"
-          source={require("../assets/image-3.png")}
-        />
-        <Image
-          style={styles.image4Icon}
-          resizeMode="cover"
-          source={require("../assets/image-4.png")}
-        />
-      </View>
-
-      <CardSilder>
-      {dummyrestaurant.menu.map((allmenu) => 
-      <View>
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
+      <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
+    </View>
+    <Text style={styles.restaurantName}>{dummyrestaurant.name}</Text>
+    <Text style={styles.noodlesALarCarte}>{dummyrestaurant.type}</Text>
+    <Text style={styles.openNowText}>{dummyrestaurant.status}</Text>
+    <CardSilder>
+    {dummyrestaurant.menu.map((allmenu) => 
+    <View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
         <View style={styles.menu1View}>
-        <View/>
-        <Image
-          style={styles.rectangleIcon2}
-          resizeMode="cover"
-          source={require("../assets/rectangle-12.png")}
-        />
-        <Text style={styles.text4}>{allmenu.menu_name}</Text>
-        <Text style={styles.text5}>{allmenu.price}</Text>
-      </View>
+          <Image
+            style={styles.rectangleIcon2}
+            resizeMode="cover"
+            source={require("../assets/rectangle-12.png")}
+          />
+          <Text style={styles.menuName}>{allmenu.menu_name}</Text>
+          <Text style={styles.menuPrice}>~ {allmenu.price} Baht</Text>
+        </View>
       </TouchableOpacity>        
-      </View>)}
-      </CardSilder>
+    </View>)}
+    </CardSilder>
 
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+    <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
       <Image
         style={styles.x1Icon}
         resizeMode="cover"
         source={require("../assets/x-1.png")}
       />
+    </TouchableOpacity>
+    
+    <View style={styles.barView}>
+      <Image
+        style={styles.rectangleIcon1}
+        resizeMode="cover"
+        source={require("../assets/rectangle-11.png")}
+      />
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket")}}>
+        <Image
+          style={styles.image2Icon}
+          resizeMode="cover"
+          source={require("../assets/ticketIcon.png")}
+        />
       </TouchableOpacity>
-    </ImageBackground>
+      <Image
+        style={styles.image3Icon}
+        resizeMode="cover"
+        source={require("../assets/logoutIcon.png")}
+      />
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}}>
+        <Image
+          style={styles.image4Icon}
+          resizeMode="cover"
+          source={require("../assets/homeIcon.png")}
+        />
+      </TouchableOpacity>
+    </View>
+   </ImageBackground>
   );
 };
 
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   searchByMenu: {
     position: "absolute",
-    top: 7,
+    top: 3,
     left: 40,
     fontSize: 16,
     fontFamily: "SF Pro Rounded",
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     width: 335,
     height: 33,
   },
-  text: {
+  restaurantName: {
     position: "absolute",
     top: 344,
     left: 30,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
   },
   barView: {
     position: "absolute",
-    top: 763,
+    top: 715,
     left: 0,
     width: 411,
     height: 60,
@@ -252,17 +252,15 @@ const styles = StyleSheet.create({
     left: 0,
     borderRadius: 10,
     backgroundColor: "#fff",
-    width: 194,
-    height: 185,
+    width: 150,
+    height: 150,
   },
   rectangleIcon2: {
     position: "absolute",
-    top: 0,
-    left: 0,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    width: 194,
-    height: 185,
+    width: 150,
+    height: 150,
   },
   text2: {
     position: "absolute",
@@ -286,8 +284,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 495,
     left: 30,
-    width: 194,
-    height: 243,
+    width: 200,
+    height: 200,
   },
   rectangleView3: {
     position: "absolute",
@@ -307,18 +305,18 @@ const styles = StyleSheet.create({
     width: 194,
     height: 185,
   },
-  text4: {
+  menuName: {
     position: "absolute",
-    top: 198,
+    top: 160,
     left: 18,
     fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
   },
-  text5: {
+  menuPrice: {
     position: "absolute",
-    top: 217,
+    top: 180,
     left: 18,
     fontSize: 12,
     fontFamily: "SF Pro Rounded",

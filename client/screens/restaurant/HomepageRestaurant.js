@@ -71,6 +71,32 @@ const HomepageRestaurant = ({ navigation }) => {
           source={require("../../assets/pencil-1.png")}
         />
       </View>
+      <View style={styles.barView}>
+        <Image
+          style={styles.barBox}
+          resizeMode="cover"
+          source={require("../../assets/rectangle-11.png")}
+        />
+        <Image
+          style={styles.homeIcon}
+          resizeMode="cover"
+          source={require("../../assets/homeIconYellow.png")}
+        />
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("OrderList")}}>
+          <Image
+            style={styles.billIcon}
+            resizeMode="cover"
+            source={require("../../assets/orderIcon.png")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity = { .5 }>
+          <Image
+            style={styles.signoutIcon}
+            resizeMode="cover"
+            source={require("../../assets/logoutIcon.png")}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -107,28 +133,28 @@ const styles = StyleSheet.create({
     textAlign: "left",
     width: 354,
   },
-  rectangleIcon: {
+  barBox: {
     position: "absolute",
     top: 0,
     left: 0,
     width: 411,
     height: 60,
   },
-  image2Icon: {
+  billIcon: {
     position: "absolute",
     top: 17,
     left: 199,
     width: 25,
     height: 25,
   },
-  image3Icon: {
+  signoutIcon: {
     position: "absolute",
     top: 17,
     left: 324,
     width: 25,
     height: 25,
   },
-  home21: {
+  homeIcon: {
     position: "absolute",
     top: 17,
     left: 74,
@@ -137,9 +163,8 @@ const styles = StyleSheet.create({
   },
   barView: {
     position: "absolute",
-    top: 763,
-    left: 0,
-    width: 411,
+    top: 715,
+    width: "100%",
     height: 60,
   },
   rectangleView1: {

@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, ScrollView } from "react-native";
+import { Image, StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { tickets } from "../dummydata";
 
-const TicketPage = () => {
+const TicketPage = ({ navigation }) => {
   return (
     <View style={styles.ticketPageView}>
       <ScrollView>
@@ -43,6 +43,32 @@ const TicketPage = () => {
         </View>
       )}
       </ScrollView>
+      <View style={styles.barView}>
+        <Image
+          style={styles.rectangleIcon1}
+          resizeMode="cover"
+          source={require("../assets/rectangle-11.png")}
+        />
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket")}}>
+          <Image
+            style={styles.image2Icon}
+            resizeMode="cover"
+            source={require("../assets/ticketIconYellow.png")}
+          />
+        </TouchableOpacity>
+        <Image
+          style={styles.image3Icon}
+          resizeMode="cover"
+          source={require("../assets/logoutIcon.png")}
+        />
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}}>
+          <Image
+            style={styles.image4Icon}
+            resizeMode="cover"
+            source={require("../assets/homeIcon.png")}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -174,10 +200,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   ticketView: {
-    marginTop: -10,
-    marginBottom: 60,
-    top: 53,
-    left: 21,
+    marginTop: 0,
+    marginBottom: 80,
+    top: 50,
+    left: 22,
     width: 370,
     height: 570,
     justifyContent: 'center',
@@ -190,10 +216,17 @@ const styles = StyleSheet.create({
     width: 411,
     height: 60,
   },
-  ticket1Icon: {
+  rectangleIcon1: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 411,
+    height: 60,
+  },
+  image2Icon: {
     position: "absolute",
     top: 17,
-    left: 193,
+    left: 199,
     width: 25,
     height: 25,
   },
@@ -213,7 +246,7 @@ const styles = StyleSheet.create({
   },
   barView: {
     position: "absolute",
-    top: 763,
+    top: 715,
     left: 0,
     width: 411,
     height: 60,

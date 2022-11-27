@@ -70,7 +70,6 @@ const App = () => {
               component={Ticket}
               options={{ headerShown: false }}
             />
-            
             {/* Restaurant Page */}
             {/* <Stack.Screen
               name="HomepageRestaurant"
