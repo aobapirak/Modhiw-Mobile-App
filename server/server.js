@@ -52,6 +52,9 @@ require("./app/routes/bookQueue.routes")(app);
 //add
 require("./app/routes/add.routes")(app);
 
+//orderList
+require("./app/routes/orderList.routes")(app);
+
 //listening
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
