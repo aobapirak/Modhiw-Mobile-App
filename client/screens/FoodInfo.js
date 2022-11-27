@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity} from "react-native";
+import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity, TextInput} from "react-native";
 import { ingredientInfo, toppingInfo } from "../dummydata";
 import {Checkbox} from 'react-native-paper';
 import axios from 'axios';
@@ -8,10 +8,11 @@ const FoodInfo = ({ navigation, route }) => {
 
   const [ingredient, setIngredient] = useState([]);
   const [toping, setToping] = useState([]);
+  const [ingredientSelected, setIngredientSelected] = useState([]);
+  const [topingSelected, setTopingSelected] = useState([]);
+  const [note, setNote] = useState("");
 
-        
   useEffect(() => {
-
     axios.get("http://10.0.2.2:8080/getIngredient")
     .then((response) => {
       setIngredient(response.data);
@@ -22,6 +23,46 @@ const FoodInfo = ({ navigation, route }) => {
       setToping(response.data);
     });
   }, []);
+
+  const selectIngredient = (newIngredient) => {
+    setIngredientSelected(newIngredient);
+  }
+
+  const deSelectToping = (index) => {
+    var buff = [];
+    var j = 0;
+
+    for (let i = 0; i < topingSelected.length; i++){
+      if (i != index) {
+        buff[j] = topingSelected[i];
+        j++;
+      }
+    }
+    
+    setTopingSelected(buff);
+  }
+
+  const selectToping = (newToping) => {
+    var buff = topingSelected;
+    var selected = 0
+
+    for (let i = 0; i < topingSelected.length; i++) {
+      if (buff[i] == newToping) {
+        deSelectToping(i);
+        selected = 1;
+        break;
+      }
+    }
+
+    if (selected == 0){
+      buff[topingSelected.length] = newToping;
+      setTopingSelected(buff);
+    }
+  }
+
+  console.log(topingSelected)
+  console.log(ingredientSelected)
+  console.log(note)
 
   const Item = (props) => {
     
@@ -47,6 +88,19 @@ const FoodInfo = ({ navigation, route }) => {
       </View>
     )
   }
+/*
+  const goConfirmBook = (ingredient) => {
+    navigation.navigate('ConfirmBook', {restaurant: route.params.restaurant, menu: route.params.menu, ingredient: ingredient, toping: "toping :D", booknote: "booknote :)"});
+  }
+*/
+  const goBookedQueue = (ingredient, toping, note) => {
+    navigation.navigate('BookedQueue', {
+      restaurant: route.params.restaurant, 
+      menu: route.params.menu, 
+      ingredient: ingredient, 
+      toping: toping, 
+      booknote: note});
+  }
 
   return (
     <ImageBackground
@@ -68,49 +122,55 @@ const FoodInfo = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../assets/map.png")}
         />
-        {/* <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} > */}
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
         <Image
           style={styles.xIcon}
           resizeMode="cover"
           source={require("../assets/x-1.png")}
         />
-        {/* </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
       <View style={styles.view}>
         <View style={styles.items}>
           {ingredient.map((ingredient) =>
-            <View>
-              <Item text={ingredient.ingredient} price={ingredient.price_adjust}/>
-            </View>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {selectIngredient(ingredient)}} >
+              <View>
+                <Item text={ingredient.ingredient} price={ingredient.price_adjust}/>
+              </View>
+          </TouchableOpacity>
           )}
-          {/*<Checkbox
-              status={checked ? 'checked' : 'unchecked'}
-              onPress={()=>{this.setState({checked: !checked});}}
-          />*/}
         </View>
         <Text style={styles.text25}>{Item}</Text>
       </View>
       <View style={styles.view1}>
         <View style={styles.items}>
-          {toppingInfo[0].toppings.map((topping) =>
+          {toping.map((topping) =>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {selectToping(topping)}} >
             <View>
-              <Topping text={topping.toppingName} price={topping.price}/>
+              <Topping text={topping.toping} price={topping.price_adjust}/>
             </View>
+            </TouchableOpacity>
           )}
         </View>
-        <Text style={styles.text29}>เพิ่มเติม</Text>
       </View>
       <View style={styles.noteView}>
-        <View style={styles.rectangleView1} />
         <Text style={styles.noteText}>Note</Text>
-        <Text style={styles.etcText}>
-          เช่น เพิ่มไข่ดาว, พิเศษ, หมูสับ, หมูชิ้น, ไม่ใส่ผัก, etc.
-        </Text>
+        <View style={styles.rectangleView1}>
+        <TextInput 
+          style={styles.etcText}
+          placeholder='เช่น เพิ่มไข่ดาว, พิเศษ, หมูสับ, หมูชิ้น, ไม่ใส่ผัก, etc.'
+          onChangeText={(text) => setNote(text)}
+        />
+        </View>
+        <TextInput>
+        </TextInput>
       </View>
-      <View style={styles.bookView}>
-        <View style={styles.rectangleView2} />
-        <Text style={styles.bookQueueText}>Book Queue</Text>
-      </View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goBookedQueue(ingredientSelected, topingSelected, note)}} >
+        <View style={styles.bookView}>
+          <View style={styles.rectangleView2} />
+          <Text style={styles.bookQueueText}>Book Queue</Text>
+        </View>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }

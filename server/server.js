@@ -46,6 +46,9 @@ require("./app/routes/restaurant.routes")(app);
 //foodInfo
 require("./app/routes/foodInfo.routes")(app);
 
+//bookQueue
+require("./app/routes/bookQueue.routes")(app);
+
 //add
 require("./app/routes/add.routes")(app);
 

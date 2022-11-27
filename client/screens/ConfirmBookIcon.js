@@ -1,7 +1,12 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, ImageBackground } from "react-native";
+import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity } from "react-native";
 
-const ConfirmBookIcon = () => {
+const ConfirmBookIcon = ({ navigation, route }) => {
+  
+  const goBookQueue = () => {
+    navigation.navigate('goBookQueue', {restaurant: route.params.restaurant, menu: route.params.menu, ingredient: route.params.menu.ingredient, toping: route.params.toping, booknote: route.params.booknote});
+  }
+  
   return (
     <ImageBackground
       style={styles.confirmBookIcon}
@@ -16,8 +21,8 @@ const ConfirmBookIcon = () => {
         />
         <View style={styles.rectangleView} />
         <View style={styles.infoView}>
-          <Text style={styles.text}>ข้าวกะเพรา</Text>
-          <Text style={styles.text1}>ร้านก๋วยเตี๋ยวลุงหนวด</Text>
+          <Text style={styles.text}>{route.params.menu.menu_name}</Text>
+          <Text style={styles.text1}>{route.params.restaurant.restaurant_name}</Text>
           <Image
             style={styles.mapIcon}
             resizeMode="cover"
@@ -124,22 +129,27 @@ const ConfirmBookIcon = () => {
       </View>
       <View style={styles.rectangleView3} />
       <View style={styles.menuView}>
-        <Text style={styles.text30}>ข้าวกะเพรา (หมูกรอบ)</Text>
-        <Text style={styles.note}>Note: พิเศษ + ไข่ดาว</Text>
+        <Text style={styles.text30}>{route.params.menu.menu_name}</Text>
+        <Text style={styles.note}>{route.params.ingredient.ingredient}</Text>
+        <Text style={styles.note}>{route.params.booknote}</Text>
         <Image
           style={styles.image5Icon}
           resizeMode="cover"
           source={require("../assets/image-5.png")}
         />
       </View>
-      <View style={styles.confirmView}>
-        <View style={styles.rectangleView4} />
-        <Text style={styles.confirmText}>Confirm</Text>
-      </View>
-      <View style={styles.cancelView}>
-        <View style={styles.rectangleView5} />
-        <Text style={styles.cancelText}>Cancel</Text>
-      </View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goBookQueue()}} >
+        <View style={styles.confirmView}>
+          <View style={styles.rectangleView4} />
+          <Text style={styles.confirmText}>Confirm</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+        <View style={styles.cancelView}>
+          <View style={styles.rectangleView5} />
+          <Text style={styles.cancelText}>Cancel</Text>
+        </View>
+      </TouchableOpacity>
       <Text style={styles.bookQueueText1}>Book queue</Text>
     </ImageBackground>
   );

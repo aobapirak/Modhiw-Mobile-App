@@ -14,6 +14,7 @@ import Verification from './screens/Verification';
 import Homepage from "./screens/Homepage";
 import Restaurant from "./screens/Restaurant";
 import FoodInfo from "./screens/FoodInfo";
+import ConfirmBook from "./screens/ConfirmBookIcon";
 import BookedQueue from "./screens/BookedQueue";
 import Ticket from "./screens/Ticket";
 
@@ -60,6 +61,11 @@ const App = () => {
               component={FoodInfo}
               options={{ headerShown: false }}
             />
+            {/* <Stack.Screen
+              name="ConfirmBook"
+              component={ConfirmBook}
+              options={{ headerShown: false }}
+            /> */}
             <Stack.Screen
               name="BookedQueue"
               component={BookedQueue}

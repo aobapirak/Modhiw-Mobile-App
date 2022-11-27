@@ -1,8 +1,34 @@
-import * as React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
-import { booking, TouchableOpacity } from "../dummydata";
+import React, {useState,useEffect} from "react";
+import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity } from "react-native";
+import { booking } from "../dummydata";
+import axios from 'axios';
 
-const Booked = ({ navigation }) => {
+const Booked = ({ navigation, route }) => {
+
+  const [listToping, setlistToping] = useState([]);
+
+  useEffect(() => {
+
+    let buff = "";
+    for (let i = 0; i < route.params.toping.length; i++) {
+      buff += route.params.toping[i].toping;
+        buff += ", ";
+    }
+    buff += "note: " + route.params.booknote;
+
+    axios.post("http://10.0.2.2:8080/BookQueue",{
+      restaurant_name: route.params.restaurant.restaurant_name,
+      phone_number: "0951236987",
+      menu_name: route.params.menu.menu_name,
+      ingredient: route.params.ingredient.ingredient,
+      note: buff
+    })
+    
+    setlistToping(buff);
+  }, []);
+
+  //console.log(listToping);
+
   return (
     <View style={styles.bookedView}>
       <View style={styles.ticketView}>
@@ -21,8 +47,10 @@ const Booked = ({ navigation }) => {
 
         <View style={styles.lineView} />
         <View style={styles.menuView}>
-          <Text style={styles.text}>{booking.food}</Text>
-          <Text style={styles.note}>{booking.note}</Text>
+          <Text style={styles.text}>{route.params.menu.menu_name}</Text>
+          <Text style={styles.note}>{route.params.ingredient.ingredient}</Text>
+          <Text style={styles.note}>{listToping}</Text>
+          <Text style={styles.note}>{route.params.booknote}</Text>
           <Image
             style={styles.foodIcon}
             resizeMode="cover"
@@ -30,8 +58,8 @@ const Booked = ({ navigation }) => {
           />
         </View>
         <View style={styles.restaurantView}>
-          <Text style={styles.text1}>{booking.restaurantName}</Text>
-          <Text style={styles.text2}>{booking.location}</Text>
+          <Text style={styles.text1}>{route.params.restaurant.restaurant_name}</Text>
+          <Text style={styles.text2}>{route.params.restaurant.area}</Text>
           <Image
             style={styles.locationIcon}
             resizeMode="cover"
@@ -44,7 +72,7 @@ const Booked = ({ navigation }) => {
             The restaurant has received your queue!
           </Text>
           <Text style={styles.pleaseWait}>
-            {"\n"}Please wait :)
+            {"\n"}Please wait :D
           </Text>
         </Text>
       </View>
