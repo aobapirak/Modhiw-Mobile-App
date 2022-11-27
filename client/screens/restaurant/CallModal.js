@@ -2,8 +2,6 @@ import React from 'react';
 import { Image, StyleSheet, View, Text, Modal, Pressable } from "react-native";
 
 const CallModal = ({ modalVisible,setModalVisible,data,status,updateStatus}) => {
-    console.log(data);
-    console.log(status);
     return (
         <Modal
           animationType="slide"
@@ -18,8 +16,18 @@ const CallModal = ({ modalVisible,setModalVisible,data,status,updateStatus}) => 
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Order approval</Text>
               <View style={styles.menuViewModal}>
-              <Text style={styles.foodModal}>ข้าวกะเพรา (หมูกรอบ)</Text>
-              <Text style={styles.noteModal}>Note: ไข่ดาว</Text>
+              {data == undefined ?
+              <View>
+                <Text style={styles.foodModal}>ข้าวกะเพรา (หมูกรอบ)</Text>
+                <Text style={styles.noteModal}>Note: พิเศษ</Text>
+              </View>
+              :
+              <View>
+                <Text style={styles.foodModal}>{data.menu_name} ({data.ingredient})</Text>
+                <Text style={styles.noteModal}>Note: {data.note}</Text>
+              </View>
+              }
+              
               <Image
                 style={styles.image5Icon}
                 resizeMode="cover"
