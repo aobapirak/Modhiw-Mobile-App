@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Image, StyleSheet, View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { tickets } from "../../dummydata";
 
-const OrderList = () => {
+const OrderList = ({ navigation }) => {
   const [isDone, setIsDone] = useState(false);
 
   return (
@@ -56,6 +56,32 @@ const OrderList = () => {
       </View>
       )}
       </ScrollView>
+      <View style={styles.barView}>
+        <Image
+          style={styles.barBox}
+          resizeMode="cover"
+          source={require("../../assets/rectangle-11.png")}
+        />
+        <TouchableOpacity activeOpacity = { .5 } onPress = {() => navigation.navigate("HomepageRestaurant")}>
+          <Image
+            style={styles.homeIcon}
+            resizeMode="cover"
+            source={require("../../assets/homeIcon.png")}
+          />
+        </TouchableOpacity>
+        <Image
+          style={styles.billIcon}
+          resizeMode="cover"
+          source={require("../../assets/orderIconYellow.png")}
+        />
+        <TouchableOpacity activeOpacity = { .5 }>
+          <Image
+            style={styles.signoutIcon}
+            resizeMode="cover"
+            source={require("../../assets/logoutIcon.png")}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -123,7 +149,7 @@ const styles = StyleSheet.create({
   },
   bookView: {
     position: "absolute",
-    top: 510,
+    top: 460,
     left: 78,
     width: 227,
     height: 35,
@@ -134,7 +160,6 @@ const styles = StyleSheet.create({
     left: 25,
     borderStyle: "dashed",
     borderColor: "#000",
-    // borderRadius: 1,
     borderTopWidth: 2.8,
     width: 320,
     height: 1,
@@ -156,13 +181,6 @@ const styles = StyleSheet.create({
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
-  },
-  image5Icon: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: 25,
-    height: 25,
   },
   menuView: {
     position: "absolute",
@@ -205,26 +223,45 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image4Icon: {
+  barBox: {
     position: "absolute",
-    top: 17,
-    left: 74,
-    width: 25,
-    height: 25,
+    top: 0,
+    left: 0,
+    width: 411,
+    height: 60,
   },
-  receipt1Icon: {
+  billIcon: {
     position: "absolute",
     top: 17,
     left: 199,
     width: 25,
     height: 25,
   },
+  signoutIcon: {
+    position: "absolute",
+    top: 17,
+    left: 324,
+    width: 25,
+    height: 25,
+  },
+  homeIcon: {
+    position: "absolute",
+    top: 17,
+    left: 74,
+    width: 25,
+    height: 25,
+  },
+  barView: {
+    position: "absolute",
+    top: 715,
+    width: "100%",
+    height: 60,
+  },
   orderListView: {
     position: "relative",
     backgroundColor: "#f3c776",
     flex: 1,
     width: "100%",
-    height: 823,
     overflow: "hidden",
   },
 });
