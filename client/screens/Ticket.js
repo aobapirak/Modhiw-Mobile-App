@@ -3,8 +3,10 @@ import { Image, StyleSheet, View, Text, ScrollView, TouchableOpacity } from "rea
 import { tickets } from "../dummydata";
 
 const TicketPage = ({ navigation }) => {
+  
   return (
     <View style={styles.ticketPageView}>
+    <View style={styles.barAndContent}>
       <ScrollView>
       {tickets.map( (ticket) =>
         <View style={styles.ticketView}>
@@ -43,6 +45,7 @@ const TicketPage = ({ navigation }) => {
         </View>
       )}
       </ScrollView>
+      </View>
       <View style={styles.barView}>
         <Image
           style={styles.rectangleIcon1}
@@ -200,8 +203,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   ticketView: {
-    marginTop: 0,
-    marginBottom: 80,
+    marginTop: -10,
+    marginBottom: 60,
     top: 50,
     left: 22,
     width: 370,
@@ -259,6 +262,9 @@ const styles = StyleSheet.create({
     height: 823,
     overflow: "hidden",
   },
+  barAndContent: {
+    marginBottom: 59
+  }
 });
 
 export default TicketPage;

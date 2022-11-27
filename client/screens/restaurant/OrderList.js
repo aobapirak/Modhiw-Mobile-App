@@ -42,7 +42,6 @@ const OrderList = ({navigation}) => {
     })
   }
 
-
   const pressHandle = (ticket,status_id) => {
     setModalVisible(true);
     setData(ticket);
@@ -90,8 +89,11 @@ const OrderList = ({navigation}) => {
         }
         <View style={styles.lineView} />
         <View style={styles.menuView}>
-          <Text style={styles.food}>{ticket.menu_name} ({ticket.ingredient})</Text>
+          <Text style={styles.food}>
+          {ticket.menu_name} ({ticket.ingredient}) {'\n'}
           <Text style={styles.note}>Note: {ticket.note}</Text>
+          </Text>
+
           <Image
             style={styles.image5Icon}
             resizeMode="cover"

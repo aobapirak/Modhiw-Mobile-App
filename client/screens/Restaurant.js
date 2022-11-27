@@ -67,58 +67,38 @@ const Restaurant = ({ navigation, route }) => {
         resizeMode="cover"
         source={require("../assets/search.png")}
       />
+    </View>
 
-      <View style={styles.rectangleView} />
-      <View style={styles.searchView}>
-        <View style={styles.rectangleView1} />
-        <Image
-          style={styles.searchIcon}
-          resizeMode="cover"
-          source={require("../assets/search.png")}
-        />
-        <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
-      </View>
-      <Text style={styles.text}>{route.params.restaurant.restaurant_name}</Text>
-      <Text style={styles.noodlesALarCarte}>{category}</Text>
-      <Text style={styles.openNowText}>{route.params.restaurant.restaurant_status}</Text>
-      <View style={styles.barView}>
-        <Image
-          style={styles.rectangleIcon1}
-          resizeMode="cover"
-          source={require("../assets/rectangle-11.png")}
-        />
-        <Image
-          style={styles.image2Icon}
-          resizeMode="cover"
-          source={require("../assets/image-2.png")}
-        />
-        <Image
-          style={styles.image3Icon}
-          resizeMode="cover"
-          source={require("../assets/image-3.png")}
-        />
-        <Image
-          style={styles.image4Icon}
-          resizeMode="cover"
-          source={require("../assets/image-4.png")}
-        />
-      </View>
+    <View style={styles.rectangleView} />
+    <View style={styles.searchView}>
+      <View style={styles.rectangleView1} />
+      <Image
+        style={styles.searchIcon}
+        resizeMode="cover"
+        source={require("../assets/search.png")}
+      />
+      <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
+    </View>
+    <Text style={styles.text}>{route.params.restaurant.restaurant_name}</Text>
+    <Text style={styles.noodlesALarCarte}>{category}</Text>
+    <Text style={styles.openNowText}>{route.params.restaurant.restaurant_status}</Text>
 
-      <CardSilder>
+    <CardSilder>
       {dummyrestaurant.menu.map((allmenu) => 
-      <View>
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
-        <View style={styles.menu1View}>
-          <Image
-            style={styles.rectangleIcon2}
-            resizeMode="cover"
-            source={require("../assets/rectangle-12.png")}
-          />
-          <Text style={styles.menuName}>{allmenu.menu_name}</Text>
-          <Text style={styles.menuPrice}>~ {allmenu.price} Baht</Text>
-        </View>
-      </TouchableOpacity>        
-    </View>)}
+        <View>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
+            <View style={styles.menu1View}>
+              <Image
+                style={styles.rectangleIcon2}
+                resizeMode="cover"
+                source={require("../assets/rectangle-12.png")}
+              />
+              <Text style={styles.menuName}>{allmenu.menu_name}</Text>
+              <Text style={styles.menuPrice}>~ {allmenu.price} Baht</Text>
+            </View>
+          </TouchableOpacity>        
+        </View>)
+      }
     </CardSilder>
 
     <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
@@ -219,7 +199,7 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "left",
   },
-  text1: {
+  text: {
     position: "absolute",
     top: 344,
     left: 30,
@@ -299,24 +279,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     width: 150,
     height: 150,
-  },
-  text2: {
-    position: "absolute",
-    top: 198,
-    left: 19,
-    fontSize: 14,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  text3: {
-    position: "absolute",
-    top: 217,
-    left: 19,
-    fontSize: 12,
-    fontFamily: "SF Pro Rounded",
-    color: "#00790c",
-    textAlign: "left",
   },
   menu1View: {
     position: "absolute",

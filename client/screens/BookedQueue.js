@@ -14,7 +14,7 @@ const Booked = ({ navigation, route }) => {
       buff += route.params.toping[i].toping;
         buff += ", ";
     }
-    buff += "note: " + route.params.booknote;
+    buff += route.params.booknote;
 
     axios.post("http://10.0.2.2:8080/BookQueue",{
       restaurant_name: route.params.restaurant.restaurant_name,
@@ -75,6 +75,12 @@ const Booked = ({ navigation, route }) => {
             {"\n"}Please wait :D
           </Text>
         </Text>
+        <View style={styles.bookView}>
+          <TouchableOpacity onPress = { () => {navigation.navigate("Ticket")}}>
+            <View style={styles.doneButton} />
+            <Text style={styles.doneText}>Done</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -95,10 +101,17 @@ const styles = StyleSheet.create({
     width: 280,
     height: 35,
   },
+  doneButton: {
+    position: "absolute",
+    borderRadius: 10,
+    backgroundColor: "#E59E00",
+    width: 200,
+    height: 35,
+  },
   doneText: {
     position: "absolute",
-    top: 8,
-    left: 121,
+    top: 6,
+    left: 80,
     fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
@@ -108,8 +121,8 @@ const styles = StyleSheet.create({
   bookView: {
     position: "absolute",
     top: 510,
-    left: 45,
-    width: 280,
+    left: 78,
+    width: 227,
     height: 35,
   },
   lineView: {
