@@ -67,7 +67,7 @@ const Restaurant = ({ navigation, route }) => {
         resizeMode="cover"
         source={require("../assets/search.png")}
       />
-
+      </View>
       <View style={styles.rectangleView} />
       <View style={styles.searchView}>
         <View style={styles.rectangleView1} />
@@ -81,28 +81,6 @@ const Restaurant = ({ navigation, route }) => {
       <Text style={styles.text}>{route.params.restaurant.restaurant_name}</Text>
       <Text style={styles.noodlesALarCarte}>{category}</Text>
       <Text style={styles.openNowText}>{route.params.restaurant.restaurant_status}</Text>
-      <View style={styles.barView}>
-        <Image
-          style={styles.rectangleIcon1}
-          resizeMode="cover"
-          source={require("../assets/rectangle-11.png")}
-        />
-        <Image
-          style={styles.image2Icon}
-          resizeMode="cover"
-          source={require("../assets/image-2.png")}
-        />
-        <Image
-          style={styles.image3Icon}
-          resizeMode="cover"
-          source={require("../assets/image-3.png")}
-        />
-        <Image
-          style={styles.image4Icon}
-          resizeMode="cover"
-          source={require("../assets/image-4.png")}
-        />
-      </View>
 
       <CardSilder>
       {dummyrestaurant.menu.map((allmenu) => 
