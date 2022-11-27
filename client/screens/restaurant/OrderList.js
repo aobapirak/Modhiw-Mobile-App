@@ -1,38 +1,88 @@
-import React, {useState} from "react";
-import { Image, StyleSheet, View, Text, TouchableOpacity, ScrollView } from "react-native";
-import { tickets } from "../../dummydata";
+import React, {useState,useEffect} from "react";
+import { Image, StyleSheet, View, Text, TouchableOpacity, ScrollView, Modal, Pressable } from "react-native";
+import axios from "axios";
+import CallModal from "./CallModal";
 
-const OrderList = ({ navigation }) => {
-  const [isDone, setIsDone] = useState(false);
+const OrderList = ({navigation}) => {
+  const [tickets,settickets] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [data,setData] = useState();
+  const [status,setStatus] = useState(0);
+  
+  //จริงๆต้องรับจากหน้า HomepageRestaurant
+  const restaurant_name = "ชิกกี้ชิก";
+  
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getOrderList",{
+      params: {
+        restaurantName: restaurant_name
+      }
+    }).then((response) => {
+      settickets(response.data);
+    })
+  }, []);
+
+  const getDatabase = () => {
+    axios.get("http://10.0.2.2:8080/getOrderList",{
+      params: {
+        restaurantName: restaurant_name
+      }
+    }).then((response) => {
+      settickets(response.data);
+    })
+  }
+
+  const updateStatus = (id,status_id) => {
+    console.log(id);
+    axios.patch("http://10.0.2.2:8080/updateStatus",{
+      queue_id: id,
+      status: status_id
+    }).then(() => {
+      getDatabase();
+    })
+  }
+
+
+  const pressHandle = (ticket,status_id) => {
+    setModalVisible(true);
+    setData(ticket);
+    setStatus(status_id);
+  }
 
   return (
     <View style={styles.orderListView}>
+      <CallModal 
+        modalVisible={modalVisible} 
+        setModalVisible={()=> setModalVisible(!modalVisible)} 
+        data={data}
+        status={status}
+        updateStatus={() => updateStatus(data.queue_id, status)}
+      />
+      <View style={styles.barAndContent}> 
       <ScrollView>
       {tickets.map( (ticket) =>
+      
       <View style={styles.ticketView}>
         <Image
           style={styles.subtractIcon}
           resizeMode="cover"
           source={require("../../assets/subtract.png")}
         />
-        {isDone?
+        {ticket.order_status != 0?
+        
         <View style={styles.bookView}>
+          <TouchableOpacity onPress={ () => {pressHandle(ticket,2)}}>
           <View style={styles.approveButton} />
           <Text style={styles.approveText}>Approve</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => {pressHandle(ticket,3)}}>
           <View style={styles.rejectButton} />
           <Text style={styles.rejectText}>Reject</Text>
+          </TouchableOpacity>
         </View>
         :
         <View style={styles.bookView}>
-          {/* โน๊ต: อันนี้จะกดปุ๊บเปลี่ยนหมดเลย เพราะเป็น dummy data
-                   ต้องไปแก้ว่า onPress => ไปแก้ database 
-                   (order status) ยังไม่กด Done => 0 อาหารยังไม่เสร็จ
-                   (order status) กด Done => 1 อาหารเสร็จ
-                   (order status) กด Approve => 2 ลูกค้าจ่ายตัง
-                   (order status) กด Reject => 3 ลูกค้าไม่จ่ายตัง
-                   Code line: 18-40 คือส่วนของปุ่ม
-          */}
-          <TouchableOpacity onPress={ () => {setIsDone(true)}}>
+          <TouchableOpacity onPress={ () => {updateStatus(ticket.queue_id,1)}}>
             <View style={styles.doneButton} />
             <Text style={styles.doneText}>Done</Text>
           </TouchableOpacity>
@@ -40,22 +90,23 @@ const OrderList = ({ navigation }) => {
         }
         <View style={styles.lineView} />
         <View style={styles.menuView}>
-          <Text style={styles.food}>{ticket.food}</Text>
-          <Text style={styles.note}>{ticket.note}</Text>
+          <Text style={styles.food}>{ticket.menu_name} ({ticket.ingredient})</Text>
+          <Text style={styles.note}>Note: {ticket.note}</Text>
           <Image
             style={styles.image5Icon}
             resizeMode="cover"
             source={require("../../assets/image-53.png")}
           />
         </View>
-        <Text style={styles.ticketId}>{ticket.queue}</Text>
+        <Text style={styles.ticketId}>E{ticket.queue_id}</Text>
         <Text style={styles.phoneNumberView}>
-          <Text>Phone number: {ticket.phoneNumber}</Text>
-          <Text>{"\n"}Time : {ticket.time}</Text>
+          <Text>Phone number: {ticket.phone_number}</Text>
+          <Text>{"\n"}Time : {ticket.order_time.substring(0,10)} {ticket.order_time.substring(11,16)}</Text>
         </Text>
       </View>
       )}
       </ScrollView>
+      </View>
       <View style={styles.barView}>
         <Image
           style={styles.barBox}
@@ -264,6 +315,9 @@ const styles = StyleSheet.create({
     width: "100%",
     overflow: "hidden",
   },
+  barAndContent: {
+    marginBottom: 59
+  }
 });
 
 export default OrderList;

@@ -44,7 +44,7 @@ const App = () => {
               name="Verification"
               component={Verification}
               options={{ headerShown: false }}
-            /> */}
+            />
             <Stack.Screen
               name="Homepage"
               component={Homepage}
@@ -69,7 +69,8 @@ const App = () => {
               name="Ticket"
               component={Ticket}
               options={{ headerShown: false }}
-            />
+            /> */}
+            
             {/* Restaurant Page */}
             {/* <Stack.Screen
               name="HomepageRestaurant"
@@ -95,12 +96,12 @@ const App = () => {
               name="AddToping"
               component={AddToping}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
               name="OrderList"
               component={OrderList}
               options={{ headerShown: false }}
-            /> */}
+            />
           </Stack.Navigator>
         ) : (
           <SplashScreen />
