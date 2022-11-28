@@ -73,7 +73,12 @@ const Booked = ({ navigation, route }) => {
             source={require("../assets/image-6.png")}
           />
         </View>
+        {lastQueue[0] == undefined?
+        <Text style={styles.queue}>E</Text>
+        :
         <Text style={styles.queue}>E{lastQueue[0].queue_id + 1}</Text>
+        }
+        
         <Text style={styles.word}>
           <Text style={styles.received}>
             The restaurant has received your queue!
