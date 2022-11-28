@@ -1,6 +1,8 @@
 # Modhiw-Mobile-App
 Food Booking Mobile Application
 
+![image](Client/assets/modhiwIcon.jpg)
+
 ### Created by Group ลบรูปเธอออกจากฮาร์ดดิสก์แต่เธอดันติดอยู่ในดิสฮาร์ท
 > For CPE327 Software Engineering
 
