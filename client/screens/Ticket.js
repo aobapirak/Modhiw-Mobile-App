@@ -33,7 +33,7 @@ const TicketPage = ({ navigation }) => {
             <Text style={styles.positionView}>
               Here is your position{"\n"} in the queue:
             </Text>
-            {ticket.queue_wait != 0 ?
+            {ticket.order_status == 0 ?
               <Text style={styles.positionInQueue}>
                 <Text style={styles.text3}>{ticket.queue_wait} position</Text>
                 <Text style={styles.inQueue}> in queue</Text>
@@ -56,8 +56,7 @@ const TicketPage = ({ navigation }) => {
             />
           </View>
           <View style={styles.menuView}>
-            <Text style={styles.text}>{ticket.menu_name} ({ticket.ingredient})</Text>
-            <Text style={styles.note}>Note: {ticket.note}</Text>
+            <Text style={styles.text}>{ticket.menu_name} ({ticket.ingredient}) {"\n"}<Text style={styles.note}>Note: {ticket.note}</Text></Text>
             <Image
               style={styles.foodIcon}
               resizeMode="cover"
