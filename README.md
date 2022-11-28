@@ -9,7 +9,7 @@ Food Booking Mobile Application
 * Server - NodeJS, Express
 * Database - MySQL
 
-## Run the web
+## Run the application
 
 ### Import Database
 ```
@@ -34,7 +34,7 @@ cd Server
 npm i --force
 ```
 
-### Run the web
+### Run the application
 ```
 npm start
 ```
