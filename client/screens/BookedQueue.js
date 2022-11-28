@@ -6,8 +6,15 @@ import axios from 'axios';
 const Booked = ({ navigation, route }) => {
 
   const [listToping, setlistToping] = useState([]);
+  const [lastQueue, setLastQueue] = useState([]);
 
   useEffect(() => {
+
+    axios.get("http://10.0.2.2:8080/getLastQueue")
+    .then((response) => {
+      setLastQueue(response.data);
+      console.log(response.data);
+    })
 
     let buff = "";
     for (let i = 0; i < route.params.toping.length; i++) {
@@ -66,7 +73,7 @@ const Booked = ({ navigation, route }) => {
             source={require("../assets/image-6.png")}
           />
         </View>
-        <Text style={styles.queue}>{booking.queue}</Text>
+        <Text style={styles.queue}>E{lastQueue[0].queue_id + 1}</Text>
         <Text style={styles.word}>
           <Text style={styles.received}>
             The restaurant has received your queue!

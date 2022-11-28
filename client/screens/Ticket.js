@@ -1,9 +1,23 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
-import { tickets } from "../dummydata";
+import axios from "axios";
 
 const TicketPage = ({ navigation }) => {
-  
+  const phoneNumber = "0951236987";
+  const [tickets,settickets] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getQueue",{
+      params: {
+        phoneNumber: phoneNumber
+      }
+    })
+    .then((response) => {
+      settickets(response.data);
+      console.log(response.data);
+    })
+  }, []);
+
   return (
     <View style={styles.ticketPageView}>
     <View style={styles.barAndContent}>
@@ -15,18 +29,26 @@ const TicketPage = ({ navigation }) => {
             resizeMode="cover"
             source={require("../assets/subtract.png")}
           />
-            <Text style={styles.queueNumber}>{ticket.queue}</Text>
+            <Text style={styles.queueNumber}>E{ticket.queue_id}</Text>
             <Text style={styles.positionView}>
-              Here is your position in the queue:
+              Here is your position{"\n"} in the queue:
             </Text>
-            <Text style={styles.positionInQueue}>
-              <Text style={styles.text3}>{ticket.position} position</Text>
-              <Text style={styles.inQueue}> in queue</Text>
-            </Text>
+            {ticket.queue_wait != 0 ?
+              <Text style={styles.positionInQueue}>
+                <Text style={styles.text3}>{ticket.queue_wait} position</Text>
+                <Text style={styles.inQueue}> in queue</Text>
+              </Text>
+            :
+              <Text style={styles.positionTakeOrder}>
+                <Text style={{color: '#00790c', fontSize: 14}}>It's your turn now{"\n"}</Text>
+                <Text style={{color: '#ce0808', fontSize: 14}}>Please take your order within 15 mins</Text>
+              </Text>
+            }
+            
           <View style={styles.lineView} />
           <View style={styles.restaurantView}>
-            <Text style={styles.text1}>{ticket.restaurantName}</Text>
-            <Text style={styles.text2}>{ticket.location}</Text>
+            <Text style={styles.text1}>{ticket.restaurant_name}</Text>
+            <Text style={styles.text2}>{ticket.area}</Text>
             <Image
               style={styles.locationIcon}
               resizeMode="cover"
@@ -34,7 +56,7 @@ const TicketPage = ({ navigation }) => {
             />
           </View>
           <View style={styles.menuView}>
-            <Text style={styles.text}>{ticket.food}</Text>
+            <Text style={styles.text}>{ticket.menu_name} ({ticket.ingredient})</Text>
             <Text style={styles.note}>Note: {ticket.note}</Text>
             <Image
               style={styles.foodIcon}
@@ -198,6 +220,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 232,
     left: 121,
+    fontSize: 16,
+    fontFamily: "SF Pro Rounded",
+    textAlign: "center",
+  },
+  positionTakeOrder: {
+    position: "absolute",
+    top: 230,
+    left: 65,
     fontSize: 16,
     fontFamily: "SF Pro Rounded",
     textAlign: "center",
