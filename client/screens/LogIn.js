@@ -37,6 +37,7 @@ const LogIn = ({ navigation }) => {
           <TextInput 
             style={styles.text} 
             keyboardType={'phone-pad'}
+            placeholder=""
             onChangeText={(number) => setPhoneNumber(number)}
           />
         </View>
