@@ -78,12 +78,12 @@ const App = () => {
             />
             
             {/* Restaurant Page */}
-             <Stack.Screen
+            {/* <Stack.Screen
               name="HomepageRestaurant"
               component={HomepageRestaurant}
               options={{ headerShown: false }}
             />
-            {/*
+            
             <Stack.Screen
               name="Add"
               component={Add}
