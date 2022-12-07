@@ -71,18 +71,23 @@ const HomepageRestaurant = ({ navigation }) => {
           />
         </View>
       </TouchableOpacity>
-      <View style={styles.editView}>
-        <View style={styles.rectangleView2} />
-        <Text style={styles.editText}>
-          * Edit not available now * 
-          {/* Edit restaurant, menu, ingredients, toping */}
-        </Text>
-        <Image
-          style={styles.pencilIcon}
-          resizeMode="cover"
-          source={require("../../assets/pencil-1.png")}
-        />
-      </View>
+      <TouchableOpacity 
+        activeOpacity = { .5 }
+        onPress = { () => {navigation.navigate("Edit", {name: restaurant_name})}}
+      >
+        <View style={styles.editView}>
+          <View style={styles.rectangleView2} />
+          <Text style={styles.editText}>
+            * Edit not available now * 
+            {/* Edit restaurant, menu, ingredients, toping */}
+          </Text>
+          <Image
+            style={styles.pencilIcon}
+            resizeMode="cover"
+            source={require("../../assets/pencil-1.png")}
+          />
+        </View>
+      </TouchableOpacity>
       <View style={styles.barView}>
         <Image
           style={styles.barBox}

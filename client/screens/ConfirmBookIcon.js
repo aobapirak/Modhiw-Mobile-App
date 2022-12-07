@@ -4,7 +4,12 @@ import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity } from
 const ConfirmBookIcon = ({ navigation, route }) => {
   
   const goBookQueue = () => {
-    navigation.navigate('goBookQueue', {restaurant: route.params.restaurant, menu: route.params.menu, ingredient: route.params.menu.ingredient, toping: route.params.toping, booknote: route.params.booknote});
+    navigation.navigate('goBookQueue', {
+      restaurant: route.params.restaurant, 
+      menu: route.params.menu, 
+      ingredient: route.params.menu.ingredient, 
+      toping: route.params.toping, booknote: 
+      route.params.booknote});
   }
   
   return (

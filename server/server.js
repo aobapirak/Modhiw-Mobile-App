@@ -37,6 +37,10 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 //   res.send(req.file);
 // });
 
+
+//login
+require("./app/routes/login.routes")(app);
+
 //home
 require("./app/routes/userHomepage.routes")(app);
 

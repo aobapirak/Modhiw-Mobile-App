@@ -1,10 +1,41 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity} from "react-native";
 import PhoneInput from 'react-native-phone-number-input';
+import axios from "axios";
+
+const client = require("twilio")(otp.accountSid, otp.authToken);
 
 const LogIn = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [formatedPhonenum, setFormatedPhonenum] = useState("");
+  const [sendOTP, setSendOTP] = useState(0);
   const [isEnter, setIsEnter] = useState(false);
+
+  const formatPhonenum = (phonenumber) => {
+    let zerostart = 0;
+    let buffPhonenum = ""
+    if (phonenumber[0] == "0") {
+        for (let i = 1; i < phonenumber.length; i++) {
+            buffPhonenum[i-1] = phonenumber[i];
+        }
+    } else {
+        buffPhonenum = phonenumber
+    }
+
+    setFormatedPhonenum("+66" + buffPhonenum);
+  }
+
+  formatPhonenum("0964418826");
+
+  const createOTP = (phonenumber) => {
+      client.verify.v2
+          .services(otp.verifySid)
+          .verifications.create({ to: formatedPhonenum, channel: "sms" })
+  }
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <View style={styles.logInView}>
