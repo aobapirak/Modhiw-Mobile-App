@@ -140,7 +140,9 @@ const tickets = [
         restaurantName: "ร้านก๋วยเตี๋ยวลุงหนวด",
         location: "ใต้หอพักนักศึกษาหญิง",
         food: "ข้าวกะเพรา (หมูกรอบ)",
-        note: "พิเศษ + ไข่ดาว"
+        note: "พิเศษ + ไข่ดาว",
+        phoneNumber: "0815873097",
+        time: "03-Oct-2022"
     },
     {
         queue: "A02",
@@ -148,7 +150,9 @@ const tickets = [
         restaurantName: "ร้านแม่น้องพั๊นซ์",
         location: "ใต้หอพักนักศึกษาหญิง",
         food: "กะเต๊ว (หมูตุ๋น)",
-        note: "ไม่ใส่เส้น"
+        note: "ไม่ใส่เส้น",
+        phoneNumber: "0815873097",
+        time: "03-Oct-2022"
     }
 ]
 

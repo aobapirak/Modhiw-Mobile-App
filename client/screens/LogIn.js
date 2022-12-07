@@ -1,9 +1,38 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity} from "react-native";
 import PhoneInput from 'react-native-phone-number-input';
+import axios from "axios";
+
+// const client = require("twilio")(otp.accountSid, otp.authToken);
 
 const LogIn = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [formatedPhonenum, setFormatedPhonenum] = useState("");
+  const [sendOTP, setSendOTP] = useState(0);
+  const [isEnter, setIsEnter] = useState(false);
+
+  const formatPhonenum = (phonenumber) => {
+    let zerostart = 0;
+    let buffPhonenum = ""
+    if (phonenumber[0] == "0") {
+        for (let i = 1; i < phonenumber.length; i++) {
+            buffPhonenum[i-1] = phonenumber[i];
+        }
+    } else {
+        buffPhonenum = phonenumber
+    }
+    setFormatedPhonenum("+66" + buffPhonenum);
+  }
+
+  const createOTP = (phonenumber) => {
+      client.verify.v2
+          .services(otp.verifySid)
+          .verifications.create({ to: formatedPhonenum, channel: "sms" })
+  }
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <View style={styles.logInView}>
@@ -12,33 +41,64 @@ const LogIn = ({ navigation }) => {
       <Text style={styles.pleaseEnterYourPhoneNumber}>
         Please enter your phone number
       </Text>
-      <View style={styles.phoneNumView}>
-        <View style={styles.rectangleView2} />
-        <TouchableOpacity 
-          activeOpacity = { .5 } 
-          onPress = { () => {
-            navigation.navigate("Verification", {phoneNumber})}}
-        >
-          <View style={styles.rectangleView3} />
+      {isEnter?
+        <View style={styles.phoneNumView2}>
+          <View style={styles.rectangleView2} />
+          <TouchableOpacity 
+            activeOpacity = { .5 } 
+            onPress = { () => {
+              navigation.navigate("Verification", {phoneNumber})}}
+          >
+            <View style={styles.rectangleView3} />
+            <Image
+              style={styles.arrowSmallRight1Icon}
+              resizeMode="cover"
+              source={require("../assets/arrowsmallright-1.png")}
+            />
+          </TouchableOpacity>
           <Image
-            style={styles.arrowSmallRight1Icon}
+            style={styles.phoneCall11}
             resizeMode="cover"
-            source={require("../assets/arrowsmallright-1.png")}
+            source={require("../assets/phonecall-1-1.png")}
           />
-        </TouchableOpacity>
-        <Image
-          style={styles.phoneCall11}
-          resizeMode="cover"
-          source={require("../assets/phonecall-1-1.png")}
-        />
-        <Text style={styles.phoneNumberText}>Phone number</Text>
-        <TextInput 
-          style={styles.text} 
-          keyboardType={'phone-pad'}
-          onChangeText={(number) => setPhoneNumber(number)}
-        />
-      </View>
-      <Text style={styles.welcomeLogInToBookAFood}>
+          <Text style={styles.phoneNumberText}>Phone number</Text>
+          <TextInput 
+            style={styles.text} 
+            keyboardType={'phone-pad'}
+            onChangeText={(number) => setPhoneNumber(number)}
+          />
+        </View>
+        :
+        <View style={styles.phoneNumView}>
+          <View style={styles.rectangleView2} />
+          <TouchableOpacity 
+            activeOpacity = { .5 } 
+            onPress = { () => {
+              navigation.navigate("Verification", {phoneNumber})}}
+          >
+            <View style={styles.rectangleView3} />
+            <Image
+              style={styles.arrowSmallRight1Icon}
+              resizeMode="cover"
+              source={require("../assets/arrowsmallright-1.png")}
+            />
+          </TouchableOpacity>
+          <Image
+            style={styles.phoneCall11}
+            resizeMode="cover"
+            source={require("../assets/phonecall-1-1.png")}
+          />
+          <Text style={styles.phoneNumberText}>Phone number</Text>
+            <TextInput 
+              style={styles.text}
+              keyboardType={'phone-pad'}
+              onChangeText={(number) => setPhoneNumber(number)}
+              onFocus={() => setIsEnter(true)}
+            >
+            </TextInput>
+        </View>
+      }
+      <Text style={styles.welcome}>
         <Text style={styles.welcomeText}>Welcome, </Text>
         <Text style={styles.logInTo}>Log in to {"\n"}</Text>
         <Text style={styles.foodQueueText}>book a food queue</Text>
@@ -127,6 +187,13 @@ const styles = StyleSheet.create({
     width: 317,
     height: 65,
   },
+  phoneNumView2: {
+    position: "absolute",
+    top: 370,
+    left: 47,
+    width: 317,
+    height: 65,
+  },
   welcomeText: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
@@ -138,7 +205,7 @@ const styles = StyleSheet.create({
   foodQueueText: {
     margin: 0,
   },
-  welcomeLogInToBookAFood: {
+  welcome: {
     position: "absolute",
     top: 445,
     left: 33,
