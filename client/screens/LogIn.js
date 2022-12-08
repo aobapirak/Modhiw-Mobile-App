@@ -1,38 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity} from "react-native";
 import PhoneInput from 'react-native-phone-number-input';
-import axios from "axios";
-
-// const client = require("twilio")(otp.accountSid, otp.authToken);
 
 const LogIn = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [formatedPhonenum, setFormatedPhonenum] = useState("");
-  const [sendOTP, setSendOTP] = useState(0);
   const [isEnter, setIsEnter] = useState(false);
 
-  const formatPhonenum = (phonenumber) => {
-    let zerostart = 0;
-    let buffPhonenum = ""
-    if (phonenumber[0] == "0") {
-        for (let i = 1; i < phonenumber.length; i++) {
-            buffPhonenum[i-1] = phonenumber[i];
-        }
-    } else {
-        buffPhonenum = phonenumber
-    }
-    setFormatedPhonenum("+66" + buffPhonenum);
+  const goVerification = (phoneNumber) => {
+    //navigation.navigate('Verification', { user_phonenum: phoneNumber });
+    navigation.navigate('Homepage', { user_phonenum: phoneNumber });
+    //navigation.navigate('HomepageRestaurant', { user_phonenum: phoneNumber });
   }
-
-  const createOTP = (phonenumber) => {
-      client.verify.v2
-          .services(otp.verifySid)
-          .verifications.create({ to: formatedPhonenum, channel: "sms" })
-  }
-
-  useEffect(() => {
-
-  }, []);
 
   return (
     <View style={styles.logInView}>
@@ -46,8 +24,7 @@ const LogIn = ({ navigation }) => {
           <View style={styles.rectangleView2} />
           <TouchableOpacity 
             activeOpacity = { .5 } 
-            onPress = { () => {
-              navigation.navigate("Verification", {phoneNumber})}}
+            onPress = { () => { goVerification(phoneNumber) }}
           >
             <View style={styles.rectangleView3} />
             <Image
@@ -74,7 +51,7 @@ const LogIn = ({ navigation }) => {
           <TouchableOpacity 
             activeOpacity = { .5 } 
             onPress = { () => {
-              navigation.navigate("Verification", {phoneNumber})}}
+              navigation.navigate( goVerification(phoneNumber) )}}
           >
             <View style={styles.rectangleView3} />
             <Image

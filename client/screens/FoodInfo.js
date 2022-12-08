@@ -13,12 +13,20 @@ const FoodInfo = ({ navigation, route }) => {
   const [note, setNote] = useState("");
 
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getIngredient")
+    axios.get("http://10.0.2.2:8080/getIngredient", {
+      params: {
+        restaurant_name: route.params.restaurant.restaurant_name
+      }
+    })
     .then((response) => {
       setIngredient(response.data);
     });
 
-    axios.get("http://10.0.2.2:8080/getToping")
+    axios.get("http://10.0.2.2:8080/getToping", {
+      params: {
+        restaurant_name: route.params.restaurant.restaurant_name
+      }
+    })
     .then((response) => {
       setToping(response.data);
     });
@@ -60,9 +68,9 @@ const FoodInfo = ({ navigation, route }) => {
     }
   }
 
-  console.log(topingSelected)
-  console.log(ingredientSelected)
-  console.log(note)
+  //console.log(topingSelected)
+  //console.log(ingredientSelected)
+  //console.log(note)
 
   const Item = (props) => {
     
@@ -94,12 +102,14 @@ const FoodInfo = ({ navigation, route }) => {
   }
 */
   const goBookedQueue = (ingredient, toping, note) => {
-    navigation.navigate('BookedQueue', {
+    navigation.navigate('BookedQueue', { 
+      user_phonenum: route.params.user_phonenum,
       restaurant: route.params.restaurant, 
       menu: route.params.menu, 
       ingredient: ingredient, 
       toping: toping, 
-      booknote: note});
+      booknote: note
+    });
   }
 
   return (

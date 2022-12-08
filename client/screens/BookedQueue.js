@@ -18,14 +18,16 @@ const Booked = ({ navigation, route }) => {
 
     let buff = "";
     for (let i = 0; i < route.params.toping.length; i++) {
-      buff += route.params.toping[i].toping;
+      if (i > 0) {
         buff += ", ";
+      }
+      buff += route.params.toping[i].toping;
     }
     buff += route.params.booknote;
 
     axios.post("http://10.0.2.2:8080/BookQueue",{
       restaurant_name: route.params.restaurant.restaurant_name,
-      phone_number: "0951236987",
+      phone_number: route.params.user_phonenum,
       menu_name: route.params.menu.menu_name,
       ingredient: route.params.ingredient.ingredient,
       note: buff
@@ -45,7 +47,7 @@ const Booked = ({ navigation, route }) => {
           source={require("../assets/subtract.png")}
         />
 
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
           <View style={styles.bookView}>
             <View style={styles.rectangleView} />
             <Text style={styles.doneText}>Done</Text>
@@ -88,7 +90,7 @@ const Booked = ({ navigation, route }) => {
           </Text>
         </Text>
         <View style={styles.bookView}>
-          <TouchableOpacity onPress = { () => {navigation.navigate("Ticket")}}>
+          <TouchableOpacity onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
             <View style={styles.doneButton} />
             <Text style={styles.doneText}>Done</Text>
           </TouchableOpacity>

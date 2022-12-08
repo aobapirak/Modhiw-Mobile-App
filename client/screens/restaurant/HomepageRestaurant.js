@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image, Switch, TouchableOpacity } from "react-native";
 import axios from "axios";
 
-const HomepageRestaurant = ({ navigation }) => {
+const HomepageRestaurant = ({ navigation, route }) => {
   const [switchOpen, setSwitchOpen] = useState(true);
-  const restaurant_name = "ชิกกี้ชิก";
-
+  const [userRestaurant, setUserRestaurant] = useState(true);
+  
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getUserRestaurant",{
+      params: {
+        phonenum: route.params.user_phonenum
+      }
+    })
+    .then((response) => {
+      setUserRestaurant(response.data);
+      console.log(response.data);
+    })
+  }, []);
   
   function toggleSwitch() {
     let status = "";
@@ -29,7 +40,7 @@ const HomepageRestaurant = ({ navigation }) => {
           <Text style={styles.helloText}>{`Hello, `}</Text>
         </Text>
         <Text style={styles.restaurantView}>
-          <Text style={styles.restaurantName}>คุณร้านก๋วยเตี๋ยวลุงหนวด :)</Text>
+          <Text style={styles.restaurantName}>{userRestaurant[0].restaurant_name}</Text>
         </Text>
       </Text>
       <View style={styles.openCloseView}>
@@ -57,7 +68,7 @@ const HomepageRestaurant = ({ navigation }) => {
       </View>
       <TouchableOpacity 
         activeOpacity = { .5 }
-        onPress = { () => {navigation.navigate("Add", {name: restaurant_name})}}
+        onPress = { () => {navigation.navigate("Add", { user_phonenum: route.params.user_phonenum, name: restaurant_name})}}
       >
         <View style={styles.addView}>
           <View style={styles.rectangleView1} />
@@ -73,7 +84,7 @@ const HomepageRestaurant = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity 
         activeOpacity = { .5 }
-        onPress = { () => {navigation.navigate("Edit", {name: restaurant_name})}}
+        onPress = { () => {navigation.navigate("Edit", { user_phonenum: route.params.user_phonenum, name: restaurant_name})}}
       >
         <View style={styles.editView}>
           <View style={styles.rectangleView2} />
@@ -99,7 +110,7 @@ const HomepageRestaurant = ({ navigation }) => {
           resizeMode="cover"
           source={require("../../assets/homeIconYellow.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("OrderList")}}>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("OrderList", { user_phonenum: route.params.user_phonenum})}}>
           <Image
             style={styles.billIcon}
             resizeMode="cover"

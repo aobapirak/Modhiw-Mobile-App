@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
 import axios from "axios";
 
-const TicketPage = ({ navigation }) => {
-  const phoneNumber = "0951236987";
-  const [tickets,settickets] = useState([]);
+const TicketPage = ({ navigation, route }) => {
+  const phoneNumber = route.params.user_phonenum;
+  const [tickets, settickets] = useState([]);
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getQueue",{
@@ -73,7 +73,7 @@ const TicketPage = ({ navigation }) => {
           resizeMode="cover"
           source={require("../assets/rectangle-11.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket")}}>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
           <Image
             style={styles.image2Icon}
             resizeMode="cover"
@@ -85,7 +85,7 @@ const TicketPage = ({ navigation }) => {
           resizeMode="cover"
           source={require("../assets/logoutIcon.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}}>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
           <Image
             style={styles.image4Icon}
             resizeMode="cover"

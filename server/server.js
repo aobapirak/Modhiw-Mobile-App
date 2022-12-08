@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 
 //login
-require("./app/routes/login.routes")(app);
+require("./app/routes/verification.routes")(app);
 
 //home
 require("./app/routes/userHomepage.routes")(app);

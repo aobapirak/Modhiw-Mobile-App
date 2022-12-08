@@ -2,18 +2,18 @@ import React, {useState,useEffect} from "react";
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import axios from 'axios';
 
-const Homepage = ({ navigation }) => {
-  const [items, setItems] = useState([]);
+const Homepage = ({ navigation, route }) => {
+  const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getRestaurantList")
     .then((response) => {
-      setItems(response.data);
+      setRestaurants(response.data);
     })
   }, []);
 
   const goRestaurant = (restaurant) => {
-    navigation.navigate('Restaurant', {restaurant: restaurant});
+    navigation.navigate('Restaurant', { user_phonenum: route.params.user_phonenum, restaurant: restaurant});
   }
 
   return (
@@ -51,7 +51,7 @@ const Homepage = ({ navigation }) => {
       </View>
 
       <View style={styles.restaurantChoice}>
-      {items.map((restaurant) => 
+      {restaurants.map((restaurant) => 
       <View>
           <View style={styles.restaurantView}> 
           <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goRestaurant(restaurant)}}>
@@ -80,7 +80,7 @@ const Homepage = ({ navigation }) => {
           resizeMode="cover"
           source={require("../assets/homeIconYellow.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket")}}>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
           <Image
             style={styles.billIcon}
             resizeMode="cover"

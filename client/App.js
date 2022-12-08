@@ -51,7 +51,7 @@ const App = () => {
               component={LogIn}
               options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
+             <Stack.Screen
               name="Verification"
               component={Verification}
               options={{ headerShown: false }}
@@ -85,10 +85,10 @@ const App = () => {
               name="Ticket"
               component={Ticket}
               options={{ headerShown: false }}
-            /> */}
+            />
             
             {/* Restaurant Page */}
-            {/*<Stack.Screen
+            <Stack.Screen
               name="HomepageRestaurant"
               component={HomepageRestaurant}
               options={{ headerShown: false }}
