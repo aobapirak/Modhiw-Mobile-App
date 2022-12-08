@@ -4,11 +4,13 @@ import axios from 'axios';
 
 const Homepage = ({ navigation }) => {
   const [items, setItems] = useState([]);
+  const [img,setImg] = useState();
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getRestaurantList")
     .then((response) => {
       setItems(response.data);
+      console.log(response.data);
     })
   }, []);
 
@@ -58,7 +60,9 @@ const Homepage = ({ navigation }) => {
           <Image
             style={styles.imageStyle}
             resizeMode="cover"
-            source={restaurant.image}
+            source={{
+              uri: "http://10.0.2.2:8080" + `/image/${restaurant.picture}`,
+            }}
           />
           <View style={styles.whitebox} />
           <Text style={styles.restaurantName}>{restaurant.restaurant_name}</Text>

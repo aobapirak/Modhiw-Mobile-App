@@ -36,8 +36,6 @@ const addToping = (req,res) => {
         const restaurantName = req.body.restaurant_name;
         const toping = req.body.name;
         const price = parseInt(req.body.price);
-        console.log(restaurantName, toping, price);
-        console.log(typeof price);
         db.query(`INSERT INTO toping_t (toping, restaurant_name, price_adjust) VALUES (?, ?, ?)`,
         [toping, restaurantName, price],
         (err, result) => {
@@ -54,7 +52,35 @@ const addToping = (req,res) => {
     });
 }
 
+const addMenu = (req,res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const restaurantName = req.body.restaurant_name;
+        const menu_name = req.body.menu_name;
+        const price = parseInt(req.body.price);
+        const picture = req.body.picture;
+        db.query(`INSERT INTO menu_t (menu_name, restaurant_name, price, picture) VALUES (?, ?, ?, ?)`,
+        [menu_name, restaurantName, price, picture],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json({'error':err});
+                db.release();
+                return;
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
+
 module.exports = {
     addIngredient,
-    addToping
+    addToping,
+    addMenu
 }
