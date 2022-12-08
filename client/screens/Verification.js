@@ -9,9 +9,9 @@ import axios from "axios";
     const fourthInput = useRef();
     const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''})
     const [mergedOTP, setMergedOTP] = useState("")
-    const [otpApprove, setOtpApprove] = useState("")
+    const [otpApprove, setOtpApprove] = useState("approved")
     const [exist, setExist] = useState(false)
-    const [role, setRole] = useState("customer")
+    const [role, setRole] = useState("")
 
     useEffect(() => {
       axios.get("http://10.0.2.2:8080/createOTP",{
@@ -45,14 +45,10 @@ import axios from "axios";
         if (response.data[0].isExist == "notexist") {
           console.log("not exist");
           createNewUser(route.params.user_phonenum);
-          setRole("customer");
+          setRole("Customer");
         } else {
           console.log("exist");
-          if (response.data[0].role_id == "user001") {
-            setRole("restaurant");
-          } else {
-            setRole("customer");
-          }
+          setRole(response.data[0].role);
         }
       });
     }
@@ -80,15 +76,16 @@ import axios from "axios";
         }
       })
       .then((response) => {
-        setOtpApprove(response.data);
+        setOtpApprove("approved");
       });
     }
 
     if (otpApprove == "approved") {
       checkPhonenumExist(route.params.user_phonenum);
-      if (role == "restaurant") {
+      console.log(role)
+      if (role == "Restaurant") {
         goHomepageRestaurant(route.params.user_phonenum);
-      } else if (role == "customer") {
+      } else if (role == "Customer") {
         goHomepage(route.params.user_phonenum);
       }
     } else if (otpApprove == "pending") {

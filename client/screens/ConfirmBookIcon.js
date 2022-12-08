@@ -149,7 +149,7 @@ const ConfirmBookIcon = ({ navigation, route }) => {
           <Text style={styles.confirmText}>Confirm</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
         <View style={styles.cancelView}>
           <View style={styles.rectangleView5} />
           <Text style={styles.cancelText}>Cancel</Text>

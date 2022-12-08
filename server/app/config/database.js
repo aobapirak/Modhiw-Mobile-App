@@ -1,22 +1,22 @@
 const mysql = require('mysql');
 const express = require('express');
 const app = express()
-/*
-// mysql://ba4aecff227c7d:b7e715cd@us-cdbr-east-06.cleardb.net/heroku_565295b9785eb69?reconnect=true
+
+// mysql://bdabc0fc04da4b:c2707441@us-cdbr-east-06.cleardb.net/heroku_26e0bd1dccba19b?reconnect=true
 const pool = mysql.createPool({
     host: 'us-cdbr-east-06.cleardb.net',
-    user: "ba4aecff227c7d",
-    password: 'b7e715cd',
-    database: 'heroku_565295b9785eb69'
+    user: "bdabc0fc04da4b",
+    password: 'c2707441',
+    database: 'heroku_26e0bd1dccba19b'
 });
-*/
 
+/*
 const pool = mysql.createPool({
     host: 'localhost',
     user: "root",
     password: '',
     database: 'modhiw'
 });
-
+*/
 
 module.exports = pool;

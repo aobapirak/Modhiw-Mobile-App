@@ -13,11 +13,10 @@ const HomepageRestaurant = ({ navigation, route }) => {
       }
     })
     .then((response) => {
-      setUserRestaurant(response.data);
-      console.log(response.data);
+      setUserRestaurant(response.data[0]);
     })
   }, []);
-  
+
   function toggleSwitch() {
     let status = "";
     setSwitchOpen(switchOpen => !switchOpen)
@@ -40,7 +39,7 @@ const HomepageRestaurant = ({ navigation, route }) => {
           <Text style={styles.helloText}>{`Hello, `}</Text>
         </Text>
         <Text style={styles.restaurantView}>
-          <Text style={styles.restaurantName}>{userRestaurant[0].restaurant_name}</Text>
+          <Text style={styles.restaurantName}>{userRestaurant.restaurant_name}</Text>
         </Text>
       </Text>
       <View style={styles.openCloseView}>

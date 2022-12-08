@@ -132,7 +132,7 @@ const FoodInfo = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../assets/map.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
         <Image
           style={styles.xIcon}
           resizeMode="cover"
