@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TextInput } from "react-native";
 
 const EditIngredientDetails = () => {
   return (
@@ -19,27 +19,26 @@ const EditIngredientDetails = () => {
       <View style={styles.nameInputView}>
         <Text style={styles.nameText}>Name</Text>
         <View style={styles.rectangleView1} />
-        <Text style={styles.enterTheNewName}>Enter the new name</Text>
+        <TextInput style={styles.enterTheNewName}>
+          Enter the new name
+        </TextInput>
       </View>
       <View style={styles.priceInputView}>
         <Text style={styles.priceText}>Price</Text>
         <View style={styles.rectangleView2} />
-        <Text style={styles.enterTheNewPrice}>Enter the new price</Text>
+        <TextInput style={styles.enterTheNewPrice}>
+          Enter the new price
+        </TextInput>
       </View>
       <View style={styles.editButtonView}>
         <View style={styles.rectangleView3} />
-        <Text style={styles.signIn2}>Edit</Text>
+        <Text style={styles.editButton}>Edit</Text>
       </View>
       <View style={styles.deleteButtonView}>
         <View style={styles.rectangleView4} />
-        <Text style={styles.signIn21}>Delete</Text>
+        <Text style={styles.deleteButton}>Delete</Text>
       </View>
       <View style={styles.availableView}>
-        <Image
-          style={styles.d546d1dce5c7f2832a396d0516cfRIcon}
-          resizeMode="cover"
-          source={require("../assets/5348d546d1dce5c7f2832a396d0516cfremovebgpreview-1.png")}
-        />
         <Text style={styles.availableText}>Available</Text>
       </View>
     </View>
@@ -81,9 +80,9 @@ const styles = StyleSheet.create({
   },
   nameText: {
     position: "absolute",
-    top: 0,
+    top: -5,
     left: 0,
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
@@ -99,9 +98,9 @@ const styles = StyleSheet.create({
   },
   enterTheNewName: {
     position: "absolute",
-    top: 33,
+    top: 26,
     left: 15,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
@@ -115,9 +114,9 @@ const styles = StyleSheet.create({
   },
   priceText: {
     position: "absolute",
-    top: 0,
+    top: -5,
     left: 0,
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
@@ -133,9 +132,9 @@ const styles = StyleSheet.create({
   },
   enterTheNewPrice: {
     position: "absolute",
-    top: 33,
+    top: 26,
     left: 15,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
@@ -156,11 +155,11 @@ const styles = StyleSheet.create({
     width: 280,
     height: 30,
   },
-  signIn2: {
+  editButton: {
     position: "absolute",
-    top: 9,
+    top: 4,
     left: 62,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
     color: "#fff",
@@ -168,8 +167,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: 156.89,
-    height: 12.63,
+    width: 157,
   },
   editButtonView: {
     position: "absolute",
@@ -187,11 +185,11 @@ const styles = StyleSheet.create({
     width: 280,
     height: 30,
   },
-  signIn21: {
+  deleteButton: {
     position: "absolute",
-    top: 9,
+    top: 4,
     left: 62,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
     color: "#fff",
@@ -199,8 +197,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: 156.89,
-    height: 12.63,
+    width: 157,
   },
   deleteButtonView: {
     position: "absolute",
@@ -220,7 +217,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 7,
     left: 63,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "500",
     fontFamily: "SF Pro Rounded",
     color: "#00790c",

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
-const Edit = () => {
+const Edit = ({ navigation }) => {
   return (
     <View style={styles.editView}>
       <View style={styles.rectangleView} />
@@ -10,43 +10,55 @@ const Edit = () => {
         resizeMode="cover"
         source={require("../../assets/bar.png")}
       />
-      <Text style={styles.editText}>Edit</Text>
-      <View style={styles.editMenuView}>
-        <View style={styles.rectangleView1} />
-        <Text style={styles.menuText}>Menu</Text>
-        <Image
-          style={styles.image5Icon}
-          resizeMode="cover"
-          source={require("../../assets/image-5.png")}
-        />
-      </View>
-      <View style={styles.editIngredientView}>
-        <View style={styles.rectangleView2} />
-        <Text style={styles.ingredientText}>Ingredient</Text>
-        <Image
-          style={styles.image5Icon1}
-          resizeMode="cover"
-          source={require("../../assets/editingredienticon.png")}
-        />
-      </View>
-      <View style={styles.editTopingView}>
-        <View style={styles.rectangleView3} />
-        <Text style={styles.topingText}>Toping</Text>
-        <Image
-          style={styles.image5Icon2}
-          resizeMode="cover"
-          source={require("../../assets/edittopingicon.png")}
-        />
-      </View>
-      <View style={styles.editRestaurantView}>
-        <View style={styles.rectangleView4} />
-        <Text style={styles.restaurantText}>Restaurant</Text>
-        <Image
-          style={styles.image5Icon3}
-          resizeMode="cover"
-          source={require("../../assets/editmenuicon.png")}
-        />
-      </View>
+      
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditMenu")}}>
+        <Text style={styles.editText}>Edit</Text>
+        <View style={styles.editMenuView}>
+          <View style={styles.rectangleView1} />
+          <Text style={styles.menuText}>Menu</Text>
+          <Image
+            style={styles.image5Icon}
+            resizeMode="cover"
+            source={require("../../assets/image-5.png")}
+          />
+        </View>
+      </TouchableOpacity>
+      
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditIngredient")}}>
+        <View style={styles.editIngredientView}>
+          <View style={styles.rectangleView2} />
+          <Text style={styles.ingredientText}>Ingredient</Text>
+          <Image
+            style={styles.image5Icon1}
+            resizeMode="cover"
+            source={require("../../assets/editingredienticon.png")}
+          />
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditToping")}}>
+        <View style={styles.editTopingView}>
+          <View style={styles.rectangleView3} />
+          <Text style={styles.topingText}>Toping</Text>
+          <Image
+            style={styles.image5Icon2}
+            resizeMode="cover"
+            source={require("../../assets/edittopingicon.png")}
+          />
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditRestaurant")}}>
+        <View style={styles.editRestaurantView}>
+          <View style={styles.rectangleView4} />
+          <Text style={styles.restaurantText}>Restaurant</Text>
+          <Image
+            style={styles.image5Icon3}
+            resizeMode="cover"
+            source={require("../../assets/editmenuicon.png")}
+          />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -88,9 +100,9 @@ const styles = StyleSheet.create({
   },
   menuText: {
     position: "absolute",
-    top: 103,
-    left: 40,
-    fontSize: 20,
+    top: 102,
+    left: 36,
+    fontSize: 24,
     fontWeight: "500",
     fontFamily: "SF Pro Rounded",
     color: "#1b1a17",
@@ -121,9 +133,9 @@ const styles = StyleSheet.create({
   },
   ingredientText: {
     position: "absolute",
-    top: 103,
-    left: 21,
-    fontSize: 20,
+    top: 102,
+    left: 14,
+    fontSize: 24,
     fontWeight: "500",
     fontFamily: "SF Pro Rounded",
     color: "#1b1a17",

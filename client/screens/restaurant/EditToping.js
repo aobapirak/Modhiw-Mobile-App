@@ -1,15 +1,10 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
-const EditToping = () => {
+const EditToping = ({ navigation }) => {
   return (
     <View style={styles.editTopingView}>
-      <View style={styles.rectangleView} />
-      <Image
-        style={styles.barIcon}
-        resizeMode="cover"
-        source={require("../../assets/bar.png")}
-      />
+      <View style={styles.bgView} />
       <Text style={styles.editTopingText}>Edit toping</Text>
       <Image
         style={styles.editTopingIcon}
@@ -19,27 +14,23 @@ const EditToping = () => {
       <Text style={styles.topingHeadText}>Toping</Text>
       <Text style={styles.priceHeadText}>Price</Text>
       <Text style={styles.topingText}>
-        <Text style={styles.text}>ไข่ดาว</Text>
-        <Text style={styles.text1}>ไข่เจียว</Text>
-        <Text style={styles.text2}>ไข่ข้น</Text>
-        <Text style={styles.text3}>พิเศษ</Text>
+        <Text style={styles.ingredientName}>ไข่ดาว</Text>
       </Text>
       <Text style={styles.priceText}>
-        <Text style={styles.text4}>10</Text>
-        <Text style={styles.text5}>10</Text>
-        <Text style={styles.text6}>20</Text>
-        <Text style={styles.text7}>20</Text>
+        <Text style={styles.price}>10</Text>
       </Text>
-      <View style={styles.editButtonView}>
-        <View style={styles.rectangleView1} />
-        <Text style={styles.eDITText}>EDIT</Text>
-      </View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditTopingDetails")}}>
+        <View style={styles.editButtonView}>
+          <View style={styles.editButton} />
+          <Text style={styles.editButtonText}>EDIT</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  rectangleView: {
+  bgView: {
     position: "absolute",
     top: -6,
     left: 0,
@@ -91,31 +82,20 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "left",
   },
-  text: {
+  ingredientName: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
-  },
-  text1: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text2: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text3: {
-    margin: 0,
   },
   topingText: {
     position: "absolute",
     top: 237,
     left: 49,
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
   },
-  text4: {
+  price: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
   },
@@ -134,33 +114,31 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 237,
     left: 222,
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "center",
   },
-  rectangleView1: {
+  editButton: {
     position: "absolute",
     top: 0,
-    left: 0,
+    left: 5,
     borderRadius: 3,
     backgroundColor: "#eebe16",
-    width: 60,
-    height: 20,
+    width: 65,
+    height: 25,
   },
-  eDITText: {
+  editButtonText: {
     position: "absolute",
-    marginTop: -7,
-    marginLeft: -13,
+    marginTop: -6,
+    marginLeft: -6,
     top: "50%",
     left: "50%",
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "500",
     fontFamily: "SF Pro Rounded",
     color: "#fff",
-    textAlign: "left",
-    width: 25,
-    height: 13,
+    textAlign: "center",
   },
   editButtonView: {
     position: "absolute",
