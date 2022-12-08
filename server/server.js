@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-// const multer = require('multer');
-// const path = require('path');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 cors
@@ -32,10 +32,12 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 // const upload = multer({storage});
 
-// app.post('/upload', upload.single('image'), (req, res) => {
-//   console.log("file Uploaded sucessfully");
-//   res.send(req.file);
-// });
+app.post('/upload', upload.single('image'), (req, res) => {
+  console.log("file Uploaded sucessfully");
+  console.log(req);
+  res.send(req.file);
+});
+
 
 //home
 require("./app/routes/userHomepage.routes")(app);
