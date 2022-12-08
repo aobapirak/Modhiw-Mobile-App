@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TextInput } from "react-native";
 
 const EditRestaurant = () => {
   return (
@@ -28,21 +28,27 @@ const EditRestaurant = () => {
       <View style={styles.nameInputView}>
         <Text style={styles.nameText}>Name</Text>
         <View style={styles.rectangleView2} />
-        <Text style={styles.enterTheNewName}>Enter the new name</Text>
+        <TextInput style={styles.enterTheNewName}>
+          Enter the new name
+        </TextInput>
       </View>
       <View style={styles.categoryInputView}>
         <Text style={styles.categoryText}>Category</Text>
         <View style={styles.rectangleView3} />
-        <Text style={styles.enterTheNewCategory}>Enter the new category</Text>
+        <TextInput style={styles.enterTheNewCategory}>
+          Enter the new category
+        </TextInput>
       </View>
       <View style={styles.areaInputView}>
         <Text style={styles.areaText}>Area</Text>
         <View style={styles.rectangleView4} />
-        <Text style={styles.enterTheNewArea}>Enter the new area</Text>
+        <TextInput style={styles.enterTheNewArea}>
+          Enter the new area
+        </TextInput>
       </View>
       <View style={styles.addButtonView}>
         <View style={styles.rectangleView5} />
-        <Text style={styles.signIn2}>Edit</Text>
+        <Text style={styles.editButton}>Edit</Text>
       </View>
     </View>
   );
@@ -97,7 +103,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 132,
     left: 0,
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "center",
@@ -128,9 +134,9 @@ const styles = StyleSheet.create({
   },
   nameText: {
     position: "absolute",
-    top: 0,
+    top: -5,
     left: 0,
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
@@ -146,9 +152,9 @@ const styles = StyleSheet.create({
   },
   enterTheNewName: {
     position: "absolute",
-    top: 33,
+    top: 26,
     left: 15,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
@@ -162,9 +168,9 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     position: "absolute",
-    top: 0,
+    top: -5,
     left: 0,
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
@@ -180,9 +186,9 @@ const styles = StyleSheet.create({
   },
   enterTheNewCategory: {
     position: "absolute",
-    top: 33,
+    top: 26,
     left: 15,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
@@ -196,9 +202,9 @@ const styles = StyleSheet.create({
   },
   areaText: {
     position: "absolute",
-    top: 0,
+    top: -5,
     left: 0,
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
@@ -214,9 +220,9 @@ const styles = StyleSheet.create({
   },
   enterTheNewArea: {
     position: "absolute",
-    top: 33,
+    top: 26,
     left: 15,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
@@ -237,11 +243,11 @@ const styles = StyleSheet.create({
     width: 280,
     height: 30,
   },
-  signIn2: {
+  editButton: {
     position: "absolute",
-    top: 9,
+    top: 4,
     left: 62,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
     color: "#fff",
@@ -249,8 +255,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: 156.89,
-    height: 12.63,
+    width: 156,
   },
   addButtonView: {
     position: "absolute",

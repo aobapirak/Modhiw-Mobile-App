@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-// const multer = require('multer');
-// const path = require('path');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 cors
@@ -34,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 // app.post('/upload', upload.single('image'), (req, res) => {
 //   console.log("file Uploaded sucessfully");
+//   console.log(req);
 //   res.send(req.file);
 // });
 
@@ -61,6 +62,9 @@ require("./app/routes/orderList.routes")(app);
 
 //restaurantHomepage
 require("./app/routes/restaurantHomepage.routes")(app);
+
+//edit
+require("./app/routes/edit.routes")(app);
 
 //listening
 const PORT = process.env.PORT || 8080;

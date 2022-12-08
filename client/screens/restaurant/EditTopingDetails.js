@@ -1,7 +1,67 @@
-import * as React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import axios from 'axios';
 
-const EditTopingDetails = () => {
+const EditTopingDetails = ({ route, navigation }) => {
+  const [switchOpen, setSwitchOpen] = useState(1);
+  const [newName, setNewName] = useState(route.params.name);
+  const [newPrice, setNewPrice] = useState(route.params.price);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getTopingStatus", {
+      params: {
+        restaurant_name: "ชิกกี้ชิก",
+        toping: route.params.name
+      }
+    })
+    .then((response) => {
+      setSwitchOpen(response.data[0].toping_status);
+    })
+  }, []);
+
+  const Edit = () => {
+    axios.patch("http://10.0.2.2:8080/updateToping",{
+      restaurant_name: "ชิกกี้ชิก",
+      newName: newName,
+      newPrice: newPrice,
+      oldName: route.params.name
+    }).then((response) => {
+      alert("Successfully edited");
+    }).catch((err) => {
+      alert("Error to edit " + newName);
+    });
+    navigation.navigate("Edit");
+  }
+
+  const Delete = () => {
+    axios.delete("http://10.0.2.2:8080/deleteToping",{
+      params: {
+        restaurant_name: "ชิกกี้ชิก",
+        toping: route.params.name
+      }
+    }).then((response) => {
+      alert("Successfully deleted");
+    }).catch((err) => {
+      alert("Error to delete " + route.params.name);
+    });
+    navigation.navigate("Edit");
+  }
+
+  function toggleSwitch() {
+    let status = 0;
+    setSwitchOpen(switchOpen => !switchOpen)
+    if(!switchOpen == 1){
+      status = 1;
+    } else{
+      status = 0;
+    }
+    axios.patch("http://10.0.2.2:8080/updateTopingStatus",{
+      restaurant_name: "ชิกกี้ชิก",
+      toping: route.params.name,
+      status: status
+    })
+  }
+
   return (
     <View style={styles.editTopingDetailsView}>
       <View style={styles.rectangleView} />
@@ -10,7 +70,7 @@ const EditTopingDetails = () => {
         resizeMode="cover"
         source={require("../../assets/bar.png")}
       />
-      <Text style={styles.editText}>Edit ไข่ข้น</Text>
+      <Text style={styles.editText}>Edit {route.params.name}</Text>
       <Image
         style={styles.editTopingIcon}
         resizeMode="cover"
@@ -19,28 +79,54 @@ const EditTopingDetails = () => {
       <View style={styles.nameInputView}>
         <Text style={styles.nameText}>Name</Text>
         <View style={styles.rectangleView1} />
-        <Text style={styles.enterTheNewName}>Enter the new name</Text>
+        <TextInput 
+          style={styles.enterTheNewName}
+          onChangeText={setNewName}
+          value={newName}
+        />
       </View>
       <View style={styles.priceInputView}>
         <Text style={styles.priceText}>Price</Text>
         <View style={styles.rectangleView2} />
-        <Text style={styles.enterTheNewPrice}>Enter the new price</Text>
-      </View>
-      <View style={styles.editButtonView}>
-        <View style={styles.rectangleView3} />
-        <Text style={styles.signIn2}>Edit</Text>
-      </View>
-      <View style={styles.deleteButtonView}>
-        <View style={styles.rectangleView4} />
-        <Text style={styles.signIn21}>Delete</Text>
-      </View>
-      <View style={styles.availableView}>
-        <Image
-          style={styles.d546d1dce5c7f2832a396d0516cfRIcon}
-          resizeMode="cover"
-          source={require("../assets/5348d546d1dce5c7f2832a396d0516cfremovebgpreview-1.png")}
+        <TextInput 
+          style={styles.enterTheNewPrice}
+          onChangeText={setNewPrice}
+          value={newPrice}
         />
-        <Text style={styles.availableText}>Available</Text>
+      </View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {Edit()}}>
+        <View style={styles.editButtonView}>
+          <View style={styles.rectangleView3} />
+          <Text style={styles.editButton}>Edit</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {Delete()}}>
+        <View style={styles.deleteButtonView}>
+          <View style={styles.rectangleView4} />
+          <Text style={styles.deleteButton}>Delete</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={styles.availableView}>
+        <TouchableOpacity 
+          style={[
+          styles.outterSwitch, 
+          switchOpen
+          ? {justifyContent:'flex-end', backgroundColor: '#00790c'}
+          : {justifyContent: 'flex-start', backgroundColor: '#B40707'}
+          ]} 
+          activeOpacity={1} 
+          onPress={(toggleSwitch)}
+          >
+          <View
+            style={[styles.innerSwitch]}
+          />
+        </TouchableOpacity>
+        {
+          switchOpen
+          ? <Text style={styles.availableText}>Available</Text>
+          : <Text style={styles.notAvailableText}>Not available</Text>
+        }
       </View>
     </View>
   );
@@ -81,9 +167,9 @@ const styles = StyleSheet.create({
   },
   nameText: {
     position: "absolute",
-    top: 0,
+    top: -5,
     left: 0,
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
@@ -99,9 +185,9 @@ const styles = StyleSheet.create({
   },
   enterTheNewName: {
     position: "absolute",
-    top: 33,
+    top: 26,
     left: 15,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
@@ -115,9 +201,9 @@ const styles = StyleSheet.create({
   },
   priceText: {
     position: "absolute",
-    top: 0,
+    top: -5,
     left: 0,
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
@@ -133,9 +219,9 @@ const styles = StyleSheet.create({
   },
   enterTheNewPrice: {
     position: "absolute",
-    top: 33,
+    top: 26,
     left: 15,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
@@ -156,11 +242,11 @@ const styles = StyleSheet.create({
     width: 280,
     height: 30,
   },
-  signIn2: {
+  editButton: {
     position: "absolute",
-    top: 9,
+    top: 4,
     left: 62,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
     color: "#fff",
@@ -168,8 +254,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: 156.89,
-    height: 12.63,
+    width: 157,
   },
   editButtonView: {
     position: "absolute",
@@ -187,11 +272,11 @@ const styles = StyleSheet.create({
     width: 280,
     height: 30,
   },
-  signIn21: {
+  deleteButton: {
     position: "absolute",
-    top: 9,
+    top: 4,
     left: 62,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
     color: "#fff",
@@ -199,8 +284,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: 156.89,
-    height: 12.63,
+    width: 157,
   },
   deleteButtonView: {
     position: "absolute",
@@ -218,12 +302,20 @@ const styles = StyleSheet.create({
   },
   availableText: {
     position: "absolute",
-    top: 7,
-    left: 63,
-    fontSize: 14,
+    left: 55,
+    fontSize: 16,
     fontWeight: "500",
     fontFamily: "SF Pro Rounded",
     color: "#00790c",
+    textAlign: "left",
+  },
+  notAvailableText: {
+    position: "absolute",
+    left: 55,
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "SF Pro Rounded",
+    color: '#B40707',
     textAlign: "left",
   },
   availableView: {
@@ -239,6 +331,36 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 823,
     overflow: "hidden",
+  },
+  openText: {
+    position: "absolute",
+    flexDirection:'row', 
+    flexWrap:'wrap',
+    top: 0,
+    // left: 38,
+    fontSize: 12,
+    fontWeight: "500",
+    fontFamily: "SF Pro Rounded",
+    textAlign: "left",
+  },
+  innerSwitch: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    elevation: 8,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
+  },
+  outterSwitch: {
+    width: 40,
+    height: 20,
+    backgroundColor: 'gray',
+    borderRadius: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 2,
   },
 });
 

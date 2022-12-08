@@ -35,6 +35,14 @@ import EditToping from "./screens/restaurant/EditToping";
 import EditTopingDetails from "./screens/restaurant/EditTopingDetails";
 */
 import OrderList from "./screens/restaurant/OrderList";
+import Edit from "./screens/restaurant/Edit";
+import EditIngredient from "./screens/restaurant/EditIngredient";
+import EditIngredientDetails from "./screens/restaurant/EditIngredientDetails";
+import EditMenu from "./screens/restaurant/EditMenu";
+import EditMenuDetails from "./screens/restaurant/EditMenuDetails";
+import EditRestaurant from "./screens/restaurant/EditRestaurant";
+import EditToping from "./screens/restaurant/EditToping";
+import EditTopingDetails from "./screens/restaurant/EditTopingDetails";
 
 
 const App = () => {
@@ -159,6 +167,46 @@ const App = () => {
               component={OrderList}
               options={{ headerShown: false }}
             /> */}
+            <Stack.Screen
+              name="Edit"
+              component={Edit}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditIngredient"
+              component={EditIngredient}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditIngredientDetails"
+              component={EditIngredientDetails}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditMenu"
+              component={EditMenu}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditMenuDetails"
+              component={EditMenuDetails}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditRestaurant"
+              component={EditRestaurant}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditToping"
+              component={EditToping}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditTopingDetails"
+              component={EditTopingDetails}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : (
           <SplashScreen />
