@@ -1,27 +1,24 @@
 import React, {useState,useEffect} from "react";
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
-import { restaurants } from "../dummydata";
+import axios from 'axios';
 
-const Homepage = ({ navigation }) => {
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
+const Homepage = ({ navigation, route }) => {
+  const [restaurants, setRestaurants] = useState([]);
+
   useEffect(() => {
-    fetch('http://10.0.2.2:5000/api/home')
-    .then(res => res.json())
-    .then((result) => {
-        setItems(result)
-        setIsLoading(false)
+    axios.get("http://10.0.2.2:8080/getRestaurantList")
+    .then((response) => {
+      setRestaurants(response.data);
     })
-  }, [isLoading])
+  }, []);
 
   const goRestaurant = (restaurant) => {
-    navigation.navigate('Restaurant', {restaurant: restaurant});
+    navigation.navigate('Restaurant', { user_phonenum: route.params.user_phonenum, restaurant: restaurant});
   }
 
   return (
-    <ScrollView>
     <View style={styles.homepageView}>
+      <ScrollView>
       <View style={styles.rectangleView} />
       <Text style={styles.helloAreYouHungryYet}>
         <Text style={styles.helloText}>Hello,</Text>
@@ -54,7 +51,7 @@ const Homepage = ({ navigation }) => {
       </View>
 
       <View style={styles.restaurantChoice}>
-      {items.map((restaurant) => 
+      {restaurants.map((restaurant) => 
       <View>
           <View style={styles.restaurantView}> 
           <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goRestaurant(restaurant)}}>
@@ -70,7 +67,7 @@ const Homepage = ({ navigation }) => {
           </View>
       </View>)}
       </View>
-      
+      </ScrollView>
 
       <View style={styles.barView}>
         <Image
@@ -79,23 +76,26 @@ const Homepage = ({ navigation }) => {
           source={require("../assets/rectangle-11.png")}
         />
         <Image
-          style={styles.billIcon}
-          resizeMode="cover"
-          source={require("../assets/image-2.png")}
-        />
-        <Image
-          style={styles.signoutIcon}
-          resizeMode="cover"
-          source={require("../assets/image-3.png")}
-        />
-        <Image
           style={styles.homeIcon}
           resizeMode="cover"
-          source={require("../assets/home-2-1.png")}
+          source={require("../assets/homeIconYellow.png")}
         />
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
+          <Image
+            style={styles.billIcon}
+            resizeMode="cover"
+            source={require("../assets/ticketIcon.png")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity = { .5 }>
+          <Image
+            style={styles.signoutIcon}
+            resizeMode="cover"
+            source={require("../assets/logoutIcon.png")}
+          />
+        </TouchableOpacity>
       </View>
     </View>
-    </ScrollView>
   );
 };
 
@@ -342,9 +342,8 @@ const styles = StyleSheet.create({
   },
   barView: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
-    width: 411,
+    top: 715,
+    width: "100%",
     height: 60,
   },
   homepageView: {

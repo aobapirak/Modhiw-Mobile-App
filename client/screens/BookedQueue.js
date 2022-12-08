@@ -1,8 +1,43 @@
-import * as React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
-import { booking, TouchableOpacity } from "../dummydata";
+import React, {useState,useEffect} from "react";
+import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity } from "react-native";
+import { booking } from "../dummydata";
+import axios from 'axios';
 
-const Booked = ({ navigation }) => {
+const Booked = ({ navigation, route }) => {
+
+  const [listToping, setlistToping] = useState([]);
+  const [lastQueue, setLastQueue] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://10.0.2.2:8080/getLastQueue")
+    .then((response) => {
+      setLastQueue(response.data);
+      console.log(response.data);
+    })
+
+    let buff = "";
+    for (let i = 0; i < route.params.toping.length; i++) {
+      if (i > 0) {
+        buff += ", ";
+      }
+      buff += route.params.toping[i].toping;
+    }
+    buff += route.params.booknote;
+
+    axios.post("http://10.0.2.2:8080/BookQueue",{
+      restaurant_name: route.params.restaurant.restaurant_name,
+      phone_number: route.params.user_phonenum,
+      menu_name: route.params.menu.menu_name,
+      ingredient: route.params.ingredient.ingredient,
+      note: buff
+    })
+    
+    setlistToping(buff);
+  }, []);
+
+  //console.log(listToping);
+
   return (
     <View style={styles.bookedView}>
       <View style={styles.ticketView}>
@@ -12,7 +47,7 @@ const Booked = ({ navigation }) => {
           source={require("../assets/subtract.png")}
         />
 
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
           <View style={styles.bookView}>
             <View style={styles.rectangleView} />
             <Text style={styles.doneText}>Done</Text>
@@ -21,8 +56,10 @@ const Booked = ({ navigation }) => {
 
         <View style={styles.lineView} />
         <View style={styles.menuView}>
-          <Text style={styles.text}>{booking.food}</Text>
-          <Text style={styles.note}>{booking.note}</Text>
+          <Text style={styles.text}>{route.params.menu.menu_name}</Text>
+          <Text style={styles.note}>{route.params.ingredient.ingredient}</Text>
+          <Text style={styles.note}>{listToping}</Text>
+          <Text style={styles.note}>{route.params.booknote}</Text>
           <Image
             style={styles.foodIcon}
             resizeMode="cover"
@@ -30,23 +67,34 @@ const Booked = ({ navigation }) => {
           />
         </View>
         <View style={styles.restaurantView}>
-          <Text style={styles.text1}>{booking.restaurantName}</Text>
-          <Text style={styles.text2}>{booking.location}</Text>
+          <Text style={styles.text1}>{route.params.restaurant.restaurant_name}</Text>
+          <Text style={styles.text2}>{route.params.restaurant.area}</Text>
           <Image
             style={styles.locationIcon}
             resizeMode="cover"
             source={require("../assets/image-6.png")}
           />
         </View>
-        <Text style={styles.queue}>{booking.queue}</Text>
+        {lastQueue[0] == undefined?
+        <Text style={styles.queue}>E</Text>
+        :
+        <Text style={styles.queue}>E{lastQueue[0].queue_id + 1}</Text>
+        }
+        
         <Text style={styles.word}>
           <Text style={styles.received}>
             The restaurant has received your queue!
           </Text>
           <Text style={styles.pleaseWait}>
-            {"\n"}Please wait :)
+            {"\n"}Please wait :D
           </Text>
         </Text>
+        <View style={styles.bookView}>
+          <TouchableOpacity onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
+            <View style={styles.doneButton} />
+            <Text style={styles.doneText}>Done</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -67,10 +115,17 @@ const styles = StyleSheet.create({
     width: 280,
     height: 35,
   },
+  doneButton: {
+    position: "absolute",
+    borderRadius: 10,
+    backgroundColor: "#E59E00",
+    width: 200,
+    height: 35,
+  },
   doneText: {
     position: "absolute",
-    top: 8,
-    left: 121,
+    top: 6,
+    left: 80,
     fontSize: 16,
     fontWeight: "600",
     fontFamily: "SF Pro Rounded",
@@ -80,8 +135,8 @@ const styles = StyleSheet.create({
   bookView: {
     position: "absolute",
     top: 510,
-    left: 45,
-    width: 280,
+    left: 78,
+    width: 227,
     height: 35,
   },
   lineView: {
