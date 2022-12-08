@@ -1,10 +1,26 @@
-import * as React from "react";
-import { Image, StyleSheet, View, Text, ScrollView } from "react-native";
-import { tickets } from "../dummydata";
+import React, { useState, useEffect } from "react";
+import { Image, StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
+import axios from "axios";
 
-const TicketPage = () => {
+const TicketPage = ({ navigation }) => {
+  const phoneNumber = "0951236987";
+  const [tickets,settickets] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getQueue",{
+      params: {
+        phoneNumber: phoneNumber
+      }
+    })
+    .then((response) => {
+      settickets(response.data);
+      console.log(response.data);
+    })
+  }, []);
+
   return (
     <View style={styles.ticketPageView}>
+    <View style={styles.barAndContent}>
       <ScrollView>
       {tickets.map( (ticket) =>
         <View style={styles.ticketView}>
@@ -13,18 +29,26 @@ const TicketPage = () => {
             resizeMode="cover"
             source={require("../assets/subtract.png")}
           />
-            <Text style={styles.queueNumber}>{ticket.queue}</Text>
+            <Text style={styles.queueNumber}>E{ticket.queue_id}</Text>
             <Text style={styles.positionView}>
-              Here is your position in the queue:
+              Here is your position{"\n"} in the queue:
             </Text>
-            <Text style={styles.positionInQueue}>
-              <Text style={styles.text3}>{ticket.position} position</Text>
-              <Text style={styles.inQueue}> in queue</Text>
-            </Text>
+            {ticket.order_status == 0 ?
+              <Text style={styles.positionInQueue}>
+                <Text style={styles.text3}>{ticket.queue_wait} position</Text>
+                <Text style={styles.inQueue}> in queue</Text>
+              </Text>
+            :
+              <Text style={styles.positionTakeOrder}>
+                <Text style={{color: '#00790c', fontSize: 14}}>It's your turn now{"\n"}</Text>
+                <Text style={{color: '#ce0808', fontSize: 14}}>Please take your order within 15 mins</Text>
+              </Text>
+            }
+            
           <View style={styles.lineView} />
           <View style={styles.restaurantView}>
-            <Text style={styles.text1}>{ticket.restaurantName}</Text>
-            <Text style={styles.text2}>{ticket.location}</Text>
+            <Text style={styles.text1}>{ticket.restaurant_name}</Text>
+            <Text style={styles.text2}>{ticket.area}</Text>
             <Image
               style={styles.locationIcon}
               resizeMode="cover"
@@ -32,8 +56,7 @@ const TicketPage = () => {
             />
           </View>
           <View style={styles.menuView}>
-            <Text style={styles.text}>{ticket.food}</Text>
-            <Text style={styles.note}>Note: {ticket.note}</Text>
+            <Text style={styles.text}>{ticket.menu_name} ({ticket.ingredient}) {"\n"}<Text style={styles.note}>Note: {ticket.note}</Text></Text>
             <Image
               style={styles.foodIcon}
               resizeMode="cover"
@@ -43,6 +66,33 @@ const TicketPage = () => {
         </View>
       )}
       </ScrollView>
+      </View>
+      <View style={styles.barView}>
+        <Image
+          style={styles.rectangleIcon1}
+          resizeMode="cover"
+          source={require("../assets/rectangle-11.png")}
+        />
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket")}}>
+          <Image
+            style={styles.image2Icon}
+            resizeMode="cover"
+            source={require("../assets/ticketIconYellow.png")}
+          />
+        </TouchableOpacity>
+        <Image
+          style={styles.image3Icon}
+          resizeMode="cover"
+          source={require("../assets/logoutIcon.png")}
+        />
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}}>
+          <Image
+            style={styles.image4Icon}
+            resizeMode="cover"
+            source={require("../assets/homeIcon.png")}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -173,11 +223,19 @@ const styles = StyleSheet.create({
     fontFamily: "SF Pro Rounded",
     textAlign: "center",
   },
+  positionTakeOrder: {
+    position: "absolute",
+    top: 230,
+    left: 65,
+    fontSize: 16,
+    fontFamily: "SF Pro Rounded",
+    textAlign: "center",
+  },
   ticketView: {
     marginTop: -10,
     marginBottom: 60,
-    top: 53,
-    left: 21,
+    top: 50,
+    left: 22,
     width: 370,
     height: 570,
     justifyContent: 'center',
@@ -190,10 +248,17 @@ const styles = StyleSheet.create({
     width: 411,
     height: 60,
   },
-  ticket1Icon: {
+  rectangleIcon1: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 411,
+    height: 60,
+  },
+  image2Icon: {
     position: "absolute",
     top: 17,
-    left: 193,
+    left: 199,
     width: 25,
     height: 25,
   },
@@ -213,7 +278,7 @@ const styles = StyleSheet.create({
   },
   barView: {
     position: "absolute",
-    top: 763,
+    top: 715,
     left: 0,
     width: 411,
     height: 60,
@@ -226,6 +291,9 @@ const styles = StyleSheet.create({
     height: 823,
     overflow: "hidden",
   },
+  barAndContent: {
+    marginBottom: 59
+  }
 });
 
 export default TicketPage;
