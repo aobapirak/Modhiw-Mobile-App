@@ -1,7 +1,31 @@
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import axios from 'axios';
 
 const EditIngredient = ({ navigation }) => {
+  const items = [
+    {
+      name: "ไก่",
+      price: "10",
+    },
+    {
+      name: "หมู",
+      price: "10",
+    }
+  ]
+  const [ingredient, setIngredient] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getIngredient", {
+      params: {
+        restaurant_name: "ชิกกี้ชิก"
+      }
+    })
+    .then((response) => {
+      setIngredient(response.data);
+    });
+  }, []);
+
   return (
     <View style={styles.editIngredientView}>
       <View style={styles.bgView} />
@@ -13,23 +37,30 @@ const EditIngredient = ({ navigation }) => {
       />
       <Text style={styles.ingredientHeadText}>Ingredient</Text>
       <Text style={styles.priceHeadText}>Price</Text>
-      <Text style={styles.ingredientsText}>
-        <Text style={styles.ingredientName}>ไก่</Text>
-      </Text>
-      <Text style={styles.priceText}>
-        <Text style={styles.price}>10</Text>
-      </Text>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditIngredientDetails")}}>
-        <View style={styles.editButtonView}>
-          <View style={styles.editButton} />
-          <Text style={styles.editButtonText}>EDIT</Text>
+      {ingredient.map((item) =>
+        <View style={styles.item}>
+          <Text style={styles.ingredientsText}>
+            <Text style={styles.ingredientName}>{item.ingredient}</Text>
+          </Text>
+          <Text style={styles.priceText}>
+            <Text style={styles.price}>{item.price}</Text>
+          </Text>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditIngredientDetails", {name: item.ingredient, price: item.price_adjust})}}>
+            <View style={styles.editButtonView}>
+              <View style={styles.editButton} />
+              <Text style={styles.editButtonText}>EDIT</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  item: {
+    marginBottom: 32
+  },
   bgView: {
     position: "absolute",
     top: -6,
@@ -76,8 +107,13 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   ingredientName: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
+    position: "absolute",
+    top: 237,
+    left: 49,
+    fontSize: 22,
+    fontFamily: "SF Pro Rounded",
+    color: "#000",
+    textAlign: "left",
   },
   ingredientsText: {
     position: "absolute",

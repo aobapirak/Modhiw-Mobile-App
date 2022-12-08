@@ -1,7 +1,21 @@
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import axios from 'axios';
 
-const EditToping = ({ navigation }) => {
+const EditToping = ({ navigation, route }) => {
+  const [toping, setToping] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getToping", {
+      params: {
+        restaurant_name: "ชิกกี้ชิก"
+      }
+    })
+    .then((response) => {
+      setToping(response.data);
+    });
+  }, []);
+
   return (
     <View style={styles.editTopingView}>
       <View style={styles.bgView} />
@@ -13,23 +27,30 @@ const EditToping = ({ navigation }) => {
       />
       <Text style={styles.topingHeadText}>Toping</Text>
       <Text style={styles.priceHeadText}>Price</Text>
-      <Text style={styles.topingText}>
-        <Text style={styles.ingredientName}>ไข่ดาว</Text>
-      </Text>
-      <Text style={styles.priceText}>
-        <Text style={styles.price}>10</Text>
-      </Text>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditTopingDetails")}}>
-        <View style={styles.editButtonView}>
-          <View style={styles.editButton} />
-          <Text style={styles.editButtonText}>EDIT</Text>
+      {toping.map((item) =>
+        <View style={styles.item}>
+          <Text style={styles.topingText}>
+            <Text style={styles.ingredientName}>{item.toping}</Text>
+          </Text>
+          <Text style={styles.priceText}>
+            <Text style={styles.price}>{item.price_adjust}</Text>
+          </Text>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditTopingDetails", {name: item.toping, price: item.price_adjust})}}>
+            <View style={styles.editButtonView}>
+              <View style={styles.editButton} />
+              <Text style={styles.editButtonText}>EDIT</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  item: {
+    marginBottom: 32
+  },
   bgView: {
     position: "absolute",
     top: -6,

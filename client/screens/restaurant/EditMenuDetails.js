@@ -1,7 +1,22 @@
-import * as React from "react";
-import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 
 const EditMenuDetails = () => {
+  const [switchOpen, setSwitchOpen] = useState(true);
+  function toggleSwitch() {
+    let status = "";
+    setSwitchOpen(switchOpen => !switchOpen)
+    if(!switchOpen == true){
+      status = "Available"
+    } else{
+      status = "Not available"
+    }
+    // axios.patch("http://10.0.2.2:8080/updateRestaurantStatus",{
+    //   restaurant_status: status,
+    //   restaurant_name: restaurant_name
+    // })
+  }
+
   return (
     <View style={styles.editMenuDetailsView}>
       <View style={styles.rectangleView} />
@@ -48,12 +63,25 @@ const EditMenuDetails = () => {
         <Text style={styles.deleteButton}>Delete</Text>
       </View>
       <View style={styles.availableView}>
-        {/* <Image
-          style={styles.switchIcon}
-          resizeMode="cover"
-          source={require("../../assets/5348d546d1dce5c7f2832a396d0516cfremovebgpreview-1.png")}
-        /> */}
-        <Text style={styles.availableText}>Available</Text>
+        <TouchableOpacity 
+          style={[
+          styles.outterSwitch, 
+          switchOpen
+          ? {justifyContent:'flex-end', backgroundColor: '#00790c'}
+          : {justifyContent: 'flex-start', backgroundColor: '#B40707'}
+          ]} 
+          activeOpacity={1} 
+          onPress={(toggleSwitch)}
+          >
+          <View
+            style={[styles.innerSwitch]}
+          />
+        </TouchableOpacity>
+        {
+          switchOpen
+          ? <Text style={styles.availableText}>Available</Text>
+          : <Text style={styles.notAvailableText}>Not available</Text>
+        }
       </View>
     </View>
   );
@@ -274,12 +302,20 @@ const styles = StyleSheet.create({
   },
   availableText: {
     position: "absolute",
-    top: 7,
-    left: 63,
+    left: 55,
     fontSize: 16,
     fontWeight: "500",
     fontFamily: "SF Pro Rounded",
     color: "#00790c",
+    textAlign: "left",
+  },
+  notAvailableText: {
+    position: "absolute",
+    left: 55,
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "SF Pro Rounded",
+    color: '#B40707',
     textAlign: "left",
   },
   availableView: {
@@ -295,6 +331,36 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 823,
     overflow: "hidden",
+  },
+  openText: {
+    position: "absolute",
+    flexDirection:'row', 
+    flexWrap:'wrap',
+    top: 0,
+    // left: 38,
+    fontSize: 12,
+    fontWeight: "500",
+    fontFamily: "SF Pro Rounded",
+    textAlign: "left",
+  },
+  innerSwitch: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    elevation: 8,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
+  },
+  outterSwitch: {
+    width: 40,
+    height: 20,
+    backgroundColor: 'gray',
+    borderRadius: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 2,
   },
 });
 
