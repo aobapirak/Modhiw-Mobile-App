@@ -1,8 +1,5 @@
 const pool = require("../config/database");
-<<<<<<< HEAD
 
-=======
->>>>>>> 6c1cfaa23216f7959ac0718feef5854ef89b69ee
 const getIngredient = (req, res) => {
     pool.getConnection((err, db) => {
         if (err) {
@@ -22,10 +19,7 @@ const getIngredient = (req, res) => {
         });
     });
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 6c1cfaa23216f7959ac0718feef5854ef89b69ee
 const getToping = (req, res) => {
     pool.getConnection((err, db) => {
         if (err) {
@@ -45,6 +39,7 @@ const getToping = (req, res) => {
         });
     });
 }
+
 module.exports = {
     getIngredient,
     getToping
