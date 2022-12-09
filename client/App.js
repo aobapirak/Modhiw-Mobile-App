@@ -54,7 +54,7 @@ const App = () => {
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
+             <Stack.Screen
               name="LogIn"
               component={LogIn}
               options={{ headerShown: false }}
@@ -122,7 +122,7 @@ const App = () => {
               component={AddToping}
               options={{ headerShown: false }}
             /> 
-            {/*<Stack.Screen
+            <Stack.Screen
               name="Edit"
               component={Edit}
               options={{ headerShown: false }}
@@ -161,50 +161,10 @@ const App = () => {
               name="EditTopingDetails"
               component={EditTopingDetails}
               options={{ headerShown: false }}
-          />*/}
-            {/* <Stack.Screen
+            />
+             <Stack.Screen
               name="OrderList"
               component={OrderList}
-              options={{ headerShown: false }}
-            /> */}
-            <Stack.Screen
-              name="Edit"
-              component={Edit}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditIngredient"
-              component={EditIngredient}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditIngredientDetails"
-              component={EditIngredientDetails}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditMenu"
-              component={EditMenu}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditMenuDetails"
-              component={EditMenuDetails}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditRestaurant"
-              component={EditRestaurant}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditToping"
-              component={EditToping}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditTopingDetails"
-              component={EditTopingDetails}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

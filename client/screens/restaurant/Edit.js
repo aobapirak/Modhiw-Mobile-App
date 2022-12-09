@@ -10,9 +10,8 @@ const Edit = ({ navigation }) => {
         resizeMode="cover"
         source={require("../../assets/bar.png")}
       />
-      
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditMenu")}}>
         <Text style={styles.editText}>Edit</Text>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditMenu")}}>
         <View style={styles.editMenuView}>
           <View style={styles.rectangleView1} />
           <Text style={styles.menuText}>Menu</Text>

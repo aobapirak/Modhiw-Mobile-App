@@ -84,7 +84,7 @@ import axios from "axios";
 
     if (otpApprove == "approved") {
       checkPhonenumExist(route.params.user_phonenum);
-      console.log(role)
+      console.log("role ", role)
       if (role == "Restaurant") {
         goHomepageRestaurant(route.params.user_phonenum);
       } else if (role == "Customer") {
@@ -100,11 +100,13 @@ import axios from "axios";
     return (
         <View style={styles.verificationView}>
           <Text style={styles.verifyPhoneText}>Verify Phone</Text>
-          <Text style={styles.user_phonenum}>
+          <Text style={styles.phoneNumber}>
             Code is sent to {route.params.user_phonenum}
           </Text>
           <Text style={styles.didNotRecieveCodeResendN}>
-            <Text style={styles.didNotRecieve}>Did not recieve code? </Text>
+            <TouchableOpacity activeOpacity = { 1 } >
+              <Text style={styles.didNotRecieve}>Did not recieve code? </Text>
+            </TouchableOpacity>
             <TouchableOpacity activeOpacity = { .5 } onPress = { () => { reSendOTP() }} >
               <Text style={styles.resendNewCode}>Resend New Code</Text>
             </TouchableOpacity>
@@ -196,12 +198,13 @@ const styles = StyleSheet.create({
       color: "#777",
     },
     resendNewCode: {
+      marginTop: 10,
       color: "#e59e00",
     },
     didNotRecieveCodeResendN: {
       position: "absolute",
       top: 307,
-      left: 65,
+      left: 82,
       fontSize: 16,
       fontWeight: "500",
       fontFamily: "SF Pro Rounded",

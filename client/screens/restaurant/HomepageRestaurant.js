@@ -67,7 +67,7 @@ const HomepageRestaurant = ({ navigation, route }) => {
       </View>
       <TouchableOpacity 
         activeOpacity = { .5 }
-        onPress = { () => {navigation.navigate("Add", { user_phonenum: route.params.user_phonenum, name: restaurant_name})}}
+        onPress = { () => {navigation.navigate("Add", { user_phonenum: route.params.user_phonenum, name: userRestaurant.restaurant_name})}}
       >
         <View style={styles.addView}>
           <View style={styles.rectangleView1} />
@@ -83,13 +83,12 @@ const HomepageRestaurant = ({ navigation, route }) => {
       </TouchableOpacity>
       <TouchableOpacity 
         activeOpacity = { .5 }
-        onPress = { () => {navigation.navigate("Edit", { user_phonenum: route.params.user_phonenum, name: restaurant_name})}}
+        onPress = { () => {navigation.navigate("Edit", { user_phonenum: route.params.user_phonenum, name: userRestaurant.restaurant_name})}}
       >
         <View style={styles.editView}>
           <View style={styles.rectangleView2} />
           <Text style={styles.editText}>
-            * Edit not available now * 
-            {/* Edit restaurant, menu, ingredients, toping */}
+            Edit restaurant, menu, ingredients, toping
           </Text>
           <Image
             style={styles.pencilIcon}
@@ -232,8 +231,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     borderRadius: 30,
-    // "#4C8492"
-    backgroundColor: "#808080",
+    backgroundColor: "#4C8492",
     width: 335,
     height: 150,
   },

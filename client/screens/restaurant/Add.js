@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
 const Add = ({ navigation, route}) => {
   const restaurant_name = route.params.name;
+  // const restaurant_name = "ชิกกี้ชิก";
 
   return (
     <View style={styles.addView}>
