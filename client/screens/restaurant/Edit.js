@@ -1,7 +1,9 @@
 import * as React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
-const Edit = ({ navigation }) => {
+const Edit = ({ navigation, route }) => {
+  const restaurant_name = route.params.name;
+  
   return (
     <View style={styles.editView}>
       <View style={styles.rectangleView} />
@@ -11,7 +13,7 @@ const Edit = ({ navigation }) => {
         source={require("../../assets/bar.png")}
       />
         <Text style={styles.editText}>Edit</Text>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditMenu")}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate('EditMenu', { restaurant_name: restaurant_name})}}>
         <View style={styles.editMenuView}>
           <View style={styles.rectangleView1} />
           <Text style={styles.menuText}>Menu</Text>
@@ -22,8 +24,7 @@ const Edit = ({ navigation }) => {
           />
         </View>
       </TouchableOpacity>
-      
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditIngredient")}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate('EditIngredient', { restaurant_name: restaurant_name})}}>
         <View style={styles.editIngredientView}>
           <View style={styles.rectangleView2} />
           <Text style={styles.ingredientText}>Ingredient</Text>
@@ -34,8 +35,7 @@ const Edit = ({ navigation }) => {
           />
         </View>
       </TouchableOpacity>
-
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditToping")}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate('EditToping', { restaurant_name: restaurant_name})}}>
         <View style={styles.editTopingView}>
           <View style={styles.rectangleView3} />
           <Text style={styles.topingText}>Toping</Text>
@@ -46,8 +46,7 @@ const Edit = ({ navigation }) => {
           />
         </View>
       </TouchableOpacity>
-
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditRestaurant")}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate('EditRestaurant', { restaurant_name: restaurant_name})}}>
         <View style={styles.editRestaurantView}>
           <View style={styles.rectangleView4} />
           <Text style={styles.restaurantText}>Restaurant</Text>

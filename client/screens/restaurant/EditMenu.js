@@ -1,7 +1,53 @@
-import * as React from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import React, {useEffect,useState} from "react";
+import { StyleSheet, View, Image, Text, TouchableOpacity, FlatList } from "react-native";
+import axios from "axios";
 
-const EditMenu = ({ navigation }) => {
+
+const Item = ({ name, price, picture, restaurant_name, navigation}) => (
+  <View style={styles.item}>
+  <TouchableOpacity activeOpacity = { .5 } 
+  onPress = { () => {
+    navigation.navigate("EditMenuDetails", { menu_name: name,price: price,picture: picture,restaurant_name: restaurant_name })
+  }}>
+        <View style={styles.menuView}>
+          <Image
+            style={styles.imageStyle}
+            resizeMode="cover"
+            source={{uri:picture}}
+          />
+          <Text style={styles.menuName}>{name}</Text>
+          <Text style={styles.menuPrice}>{price}฿</Text>
+        </View>
+    </TouchableOpacity>
+
+  </View>
+);
+
+const EditMenu = ({ navigation, route }) => {
+  const restaurant_name = route.params.restaurant_name;
+  const [menu,setMenu] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getMenu",{
+      params: {
+        restaurantName: restaurant_name
+      }
+    }).then((response) => {
+      setMenu(response.data);
+      console.log(response.data);
+    })
+  }, []);
+
+  const renderItem = ({ item }) => (
+    <Item 
+    name={item.menu_name} 
+    price={item.price} 
+    picture={item.picture} 
+    restaurant_name={restaurant_name}
+    navigation= {navigation}
+    />
+  );
+
   return (
     <View style={styles.editMenuView}>
       <View style={styles.bgView} />
@@ -16,18 +62,17 @@ const EditMenu = ({ navigation }) => {
         resizeMode="cover"
         source={require("../../assets/image-5.png")}
       />
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditMenuDetails")}}>
-        <View style={styles.menuView}>
-          <View style={styles.menuBgView} />
-          <Image
-            style={styles.imageStyle}
-            resizeMode="cover"
-            source={require("../../assets/rectangle-12.png")}
-          />
-          <Text style={styles.menuName}>ข้าวกะเพรา</Text>
-          <Text style={styles.menuPrice}>35฿</Text>
-        </View>
-      </TouchableOpacity>
+
+      <View style={styles.allMenuView}>
+      <FlatList
+        data={menu}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+      </View>
+
+     
+
     </View>
   );
 };
@@ -40,6 +85,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     width: 411,
     height: 823,
+  },
+  allMenuView: {
+    top: 180,
+    width: "100%",
+    marginBottom: 150
+  },
+  item: {
+    marginBottom: 300,
+    marginTop: 0
+  },
+  title: {
+    fontSize: 32,
   },
   barIcon: {
     position: "absolute",
@@ -103,10 +160,7 @@ const styles = StyleSheet.create({
   },
   menuView: {
     position: "absolute",
-    top: 242,
     left: 109,
-    width: 194,
-    height: 243,
   },
 });
 

@@ -1,16 +1,94 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
+import axios from "axios";
 
-const EditMenuDetails = () => {
-  const [switchOpen, setSwitchOpen] = useState(true);
-  function toggleSwitch() {
-    let status = "";
-    setSwitchOpen(switchOpen => !switchOpen)
-    if(!switchOpen == true){
-      status = "Available"
-    } else{
-      status = "Not available"
+const EditMenuDetails = ({navigation, route}) => {
+  const [switchOpen, setSwitchOpen] = useState(1);
+  const menu_name = route.params.menu_name;
+  const restaurant_name = route.params.restaurant_name;
+  const [price,setPrice] = useState(route.params.price);
+  const [image,setImage] = useState(route.params.picture);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getMenuStatus", {
+      params: {
+        restaurant_name: restaurant_name,
+        menu_name: menu_name
+      }
+    })
+    .then((response) => {
+      setSwitchOpen(response.data[0].menu_status);
+    })
+  }, []);
+  
+  const openImageLibrary = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
     }
+    if (status === 'granted') {
+      const response = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+      });
+      if (!response.cancelled) {
+        setImage(response.uri);
+      }
+    }
+  };
+
+  const update = async () => {
+    const formData = new FormData();
+    formData.append('image', {
+      name: new Date() + '_menuImage',
+      uri: image,
+      restaurantName: restaurant_name,
+      type: 'image/jpg',
+    });
+    try {
+      const res = await axios.post('http://10.0.2.2:8080/upload', formData, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      });
+      console.log(res.data);
+      try{
+        axios.patch("http://10.0.2.2:8080/updateMenu",{
+          restaurant_name: restaurant_name,
+          menu_name: menu_name,
+          price: price,
+          picture: res.data
+        }).then((response) => {
+          alert("Successfully update");
+        }).catch((err) => {
+          alert("Error to edit data");
+        });
+        navigation.navigate("Edit", {name: restaurant_name});
+      }
+      catch(err){
+          console.log("err:",err);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
+
+  function toggleSwitch() {
+    let status = 0;
+    setSwitchOpen(switchOpen => !switchOpen)
+    if(!switchOpen == 1){
+      status = 1;
+    } else{
+      status = 0;
+    }
+    axios.patch("http://10.0.2.2:8080/updateMenuStatus",{
+      restaurant_name: restaurant_name,
+      menu_name: menu_name,
+      status: status
+    })
   }
 
   return (
@@ -21,43 +99,53 @@ const EditMenuDetails = () => {
         resizeMode="cover"
         source={require("../../assets/bar.png")}
       />
-      <Text style={styles.editText}>Edit ข้าวกะเพรา</Text>
+      <Text style={styles.editText}>Edit {menu_name}</Text>
       <Image
         style={styles.editMenuIcon}
         resizeMode="cover"
         source={require("../../assets/editmenuicon.png")}
       />
-      <View style={styles.dropImageHereView}>
+
+
+      {image == "" ? 
+      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
         <View style={styles.rectangleView1} />
         <Text style={styles.dropYourImageHere}>Drop your image here</Text>
         <Image
           style={styles.vectorIcon}
-          resizeMode="cover"
-          source={require("../../assets/vector.png")}
+            resizeMode="cover"
+            source={require("../../assets/vector.png")}
         />
+      </TouchableOpacity>
+      :
+      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
+      <View style={styles.dropYourImageHere}>
+        <Image source={{uri:image}} style={{width:200,height:200,top:-45,opacity: 0.6,borderRadius:10}}/>
+        <Text style={{top: -150,color: "black"}}>Click here to change image</Text>
       </View>
-      <View style={styles.nameInputView}>
-        <Text style={styles.nameText}>Name</Text>
-        <View style={styles.rectangleView2} />
-        <TextInput style={styles.enterTheNewName}>
-          Enter the new name
-        </TextInput>
-      </View>
+      </TouchableOpacity>
+      }
+
       <View style={styles.priceInputView}>
         <Text style={styles.priceText}>Price</Text>
         <View style={styles.rectangleView3} />
-        <TextInput style={styles.enterTheNewPrice}>
-          Enter the new price
-        </TextInput>
+        <TextInput 
+          style={styles.enterTheNewPrice}
+          onChangeText={setPrice}
+          value={price}
+          placeholder="Enter the new price"
+          keyboardType="numeric"
+        />
       </View>
+
+      <TouchableOpacity activeOpacity={.5} onPress= {() => {update()}}>
       <View style={styles.editButtonView}>
         <View style={styles.rectangleView4} />
         <Text style={styles.editButton}>Edit</Text>
       </View>
-      <View style={styles.deleteButtonView}>
-        <View style={styles.rectangleView5} />
-        <Text style={styles.deleteButton}>Delete</Text>
-      </View>
+      </TouchableOpacity>
+
+
       <View style={styles.availableView}>
         <TouchableOpacity 
           style={[
@@ -118,8 +206,8 @@ const styles = StyleSheet.create({
   },
   rectangleView1: {
     position: "absolute",
-    top: 0,
-    left: 3,
+    top: 184,
+    left: 103,
     borderRadius: 25,
     backgroundColor: "#fff",
     borderStyle: "dashed",
@@ -130,9 +218,9 @@ const styles = StyleSheet.create({
   },
   dropYourImageHere: {
     position: "absolute",
-    top: 132,
-    left: 0,
-    fontSize: 16,
+    top: 316,
+    left: 100,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "center",
@@ -144,14 +232,9 @@ const styles = StyleSheet.create({
   },
   vectorIcon: {
     position: "absolute",
-    height: "29.8%",
-    width: "27.96%",
-    top: "31.82%",
-    right: "36.49%",
-    bottom: "38.38%",
-    left: "35.55%",
+    top: 240,
+    left: 177,
     maxWidth: "100%",
-    overflow: "hidden",
     maxHeight: "100%",
   },
   dropImageHereView: {
@@ -224,7 +307,7 @@ const styles = StyleSheet.create({
   },
   priceInputView: {
     position: "absolute",
-    top: 484,
+    top: 404,
     left: 66,
     width: 280,
     height: 55,
@@ -254,7 +337,7 @@ const styles = StyleSheet.create({
   },
   editButtonView: {
     position: "absolute",
-    top: 569,
+    top: 489,
     left: 66,
     width: 280,
     height: 30,
@@ -316,7 +399,7 @@ const styles = StyleSheet.create({
   },
   availableView: {
     position: "absolute",
-    top: 659,
+    top: 539,
     left: 66,
     width: 118,
     height: 32,

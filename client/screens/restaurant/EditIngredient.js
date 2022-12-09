@@ -2,17 +2,20 @@ import React, {useState, useEffect} from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import axios from 'axios';
 
-const EditIngredient = ({ navigation }) => {
+const EditIngredient = ({ navigation, route }) => {
   const [ingredient, setIngredient] = useState([]);
+
+  const restaurant_name = route.params.restaurant_name
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getIngredient", {
       params: {
-        restaurant_name: "ชิกกี้ชิก"
+        restaurant_name: restaurant_name
       }
     })
     .then((response) => {
       setIngredient(response.data);
+      console.log(response.data);
     });
   }, []);
 
@@ -33,9 +36,9 @@ const EditIngredient = ({ navigation }) => {
             <Text style={styles.ingredientName}>{item.ingredient}</Text>
           </Text>
           <Text style={styles.priceText}>
-            <Text style={styles.price}>{item.price}</Text>
+            <Text style={styles.price}>{item.price_adjust}</Text>
           </Text>
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditIngredientDetails", {name: item.ingredient, price: item.price_adjust})}}>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditIngredientDetails", {name: item.ingredient, price: item.price_adjust,restaurant_name: restaurant_name})}}>
             <View style={styles.editButtonView}>
               <View style={styles.editButton} />
               <Text style={styles.editButtonText}>EDIT</Text>

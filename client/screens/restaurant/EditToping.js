@@ -4,11 +4,12 @@ import axios from 'axios';
 
 const EditToping = ({ navigation, route }) => {
   const [toping, setToping] = useState([]);
+  const restaurant_name = route.params.restaurant_name;
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getToping", {
       params: {
-        restaurant_name: "ชิกกี้ชิก"
+        restaurant_name: restaurant_name
       }
     })
     .then((response) => {
@@ -35,7 +36,7 @@ const EditToping = ({ navigation, route }) => {
           <Text style={styles.priceText}>
             <Text style={styles.price}>{item.price_adjust}</Text>
           </Text>
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditTopingDetails", {name: item.toping, price: item.price_adjust})}}>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditTopingDetails", {name: item.toping, price: item.price_adjust,restaurant_name: restaurant_name})}}>
             <View style={styles.editButtonView}>
               <View style={styles.editButton} />
               <Text style={styles.editButtonText}>EDIT</Text>

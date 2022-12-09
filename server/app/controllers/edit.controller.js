@@ -159,12 +159,132 @@ const deleteToping = (req, res) => {
     });
 }
 
+const getRestaurant = (req, res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const restaurant_name = req.query.restaurant_name;
+        db.query(`SELECT * FROM restaurant WHERE restaurant_name = ?`,
+        [restaurant_name],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
+
+const updateRestaurantInfo = (req, res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const restaurant_name = req.body.restaurant_name;
+        const area = req.body.area;
+        const picture = req.body.picture;
+        db.query("UPDATE restaurant SET area = ?, picture = ? WHERE restaurant_name = ?",
+        [area, picture, restaurant_name],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
+
+const updateMenu = (req, res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const restaurant_name = req.body.restaurant_name;
+        const menu_name = req.body.menu_name;
+        const price = req.body.price;
+        const picture = req.body.picture;
+        db.query("UPDATE menu_t SET price = ?, picture = ? WHERE restaurant_name = ? AND menu_name = ?",
+        [price, picture, restaurant_name, menu_name],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
+
+const getMenuStatus = (req, res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const menu_name = req.query.menu_name;
+        const restaurant_name = req.query.restaurant_name;
+        db.query(`SELECT menu_status FROM menu_t WHERE menu_name = ? AND restaurant_name = ?`,
+        [menu_name, restaurant_name],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
+
+const updateMenuStatus = (req, res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const restaurant_name = req.body.restaurant_name;
+        const menu_name = req.body.menu_name;
+        const status = req.body.status;
+        db.query("UPDATE menu_t SET menu_status = ? WHERE restaurant_name = ? AND menu_name = ?",
+        [status, restaurant_name, menu_name],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
+
+
+
 module.exports = {
     getIngredientStatus,
+    getRestaurant,
     updateIngredient,
     getTopingStatus,
+    getMenuStatus,
     updateToping,
     updateTopingStatus,
     updateIngredientStatus,
+    updateRestaurantInfo,
+    updateMenuStatus,
+    updateMenu,
     deleteToping
 }
