@@ -1,10 +1,11 @@
 import React, {useState,useEffect} from "react";
-import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import CardSilder from 'react-native-cards-slider';
 import axios from 'axios';
 
 const Restaurant = ({ navigation, route }) => {
   const [menu, setMenu] = useState([]);
+  const [menuToShow, setMenuToShow] = useState([]);
   const [category, setCategory] = useState([]);
   
   useEffect(() => {
@@ -14,7 +15,8 @@ const Restaurant = ({ navigation, route }) => {
       }
     }).then((response) => {
       setMenu(response.data);
-      console.log(response.data);
+      setMenuToShow(response.data);
+      //console.log(response.data);
     })
   
     axios.get("http://10.0.2.2:8080/getCategory",{
@@ -33,6 +35,10 @@ const Restaurant = ({ navigation, route }) => {
     });
   }, []);
 
+  const search = (toSearch) => {
+    setMenuToShow(menu.filter(menu => menu.menu_name.search(toSearch) != -1));
+  }
+
   const goFoodInfo = (menu) => {
     navigation.navigate('FoodInfo', { user_phonenum: route.params.user_phonenum, restaurant: route.params.restaurant, menu: menu});
   }
@@ -50,15 +56,6 @@ const Restaurant = ({ navigation, route }) => {
             uri: `${route.params.restaurant.picture}`,
         }}
     />
-    <View style={styles.rectangleView} />
-    <View style={styles.searchView}>
-      <View style={styles.rectangleView1} />
-      <Image
-        style={styles.searchIcon}
-        resizeMode="cover"
-        source={require("../assets/search.png")}
-      />
-    </View>
 
     <View style={styles.rectangleView} />
     <View style={styles.searchView}>
@@ -68,14 +65,26 @@ const Restaurant = ({ navigation, route }) => {
         resizeMode="cover"
         source={require("../assets/search.png")}
       />
-      <TextInput style={styles.searchByMenu}>Search by menu</TextInput>
+      <TextInput 
+          style={styles.searchByMenu}
+          placeholder="Search by menu"
+          onChangeText={(text) => search(text)}
+        />
     </View>
     <Text style={styles.text}>{route.params.restaurant.restaurant_name}</Text>
     <Text style={styles.noodlesALarCarte}>{category}</Text>
     <Text style={styles.openNowText}>{route.params.restaurant.restaurant_status}</Text>
+    
+    <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
+      <Image
+        style={styles.x1Icon}
+        resizeMode="cover"
+        source={require("../assets/x-1.png")}
+      />
+    </TouchableOpacity>
 
-    <CardSilder>
-      {menu.map((allmenu) => 
+    <CardSilder style={{marginTop: 500}}>
+      {menuToShow.map((allmenu) => 
         <View>
           <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
             <View style={styles.menu1View}>
@@ -93,14 +102,6 @@ const Restaurant = ({ navigation, route }) => {
         </View>)
       }
     </CardSilder>
-
-    <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
-      <Image
-        style={styles.x1Icon}
-        resizeMode="cover"
-        source={require("../assets/x-1.png")}
-      />
-    </TouchableOpacity>
     
     <View style={styles.barView}>
       <Image
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
   },
   menu1View: {
     position: "absolute",
-    top: 495,
+    top: 0,
     left: 30,
     width: 200,
     height: 200,

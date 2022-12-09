@@ -4,7 +4,6 @@ import axios from 'axios';
 
 const Homepage = ({ navigation, route }) => {
   const [restaurants, setRestaurants] = useState([]);
-  const [restaurantNameToShow, setRestaurantNameToShow] = useState([]);
   const [restaurantToShow, setRestaurantToShow] = useState([]);
   const [restaurantCategory, setRestaurantCategory] = useState([]);
 
@@ -21,7 +20,7 @@ const Homepage = ({ navigation, route }) => {
     })
   }, []);
 
-  const CategorizeRestaurant = (categorySelected) => {
+  const categorizeRestaurant = (categorySelected) => {
     if (categorySelected == "All"){
       setRestaurantToShow(restaurants);
     } else {
@@ -30,7 +29,7 @@ const Homepage = ({ navigation, route }) => {
       for (let i = 0; i < filteredRestaurant.length; i++){
         buff[i] = filteredRestaurant[i].restaurant_name;
       }
-      setRestaurantToShow(restaurants.filter(restaurants => (buff.some(rnToShow => rnToShow == restaurants.restaurant_name)) == true))
+      setRestaurantToShow(restaurants.filter(restaurants => (buff.some(rnToShow => rnToShow == restaurants.restaurant_name)) == true));
     }
   }
 
@@ -38,8 +37,12 @@ const Homepage = ({ navigation, route }) => {
     navigation.navigate('Restaurant', { user_phonenum: route.params.user_phonenum, restaurant: restaurant});
   }
 
+  const search = (toSearch) => {
+    setRestaurantToShow(restaurants.filter(restaurants => restaurants.restaurant_name.search(toSearch) != -1));
+  }
+
   //console.log(category);
-  console.log(restaurantToShow);
+  //console.log(restaurantToShow);
 
   return (
     <View style={styles.homepageView}>
@@ -56,27 +59,31 @@ const Homepage = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../assets/search.png")}
         />
-        <TextInput style={styles.searchByRestaurant}>Search by restaurant</TextInput>
+        <TextInput 
+          style={styles.searchByRestaurant}
+          placeholder="Search by restaurant"
+          onChangeText={(text) => search(text)}
+        />
       </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { CategorizeRestaurant("All") }}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("All") }}>
         <View style={styles.allBox}>
           <View style={styles.allType} />
           <Text style={styles.allText}>All</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { CategorizeRestaurant("À la carte") }}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("À la carte") }}>
         <View style={styles.aLaCarteBox}>
           <View style={styles.aLaCarteType} />
           <Text style={styles.aLaCarte}>À la carte</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { CategorizeRestaurant("Noodle") }}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("Noodle") }}>
         <View style={styles.noodlesBox}>
           <View style={styles.noodleType} />
           <Text style={styles.noodlesText}>Noodle</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { CategorizeRestaurant("Fast Food") }}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("Fast Food") }}>
         <View style={styles.fastFoodBox}>
           <View style={styles.fastFoodType} />
           <Text style={styles.fastFoodText}>Fast Food</Text>
