@@ -14,11 +14,13 @@ import axios from "axios";
     const [role, setRole] = useState("")
 
     useEffect(() => {
+      /*
       axios.get("http://10.0.2.2:8080/createOTP",{
         params: {
           phonenum: route.params.user_phonenum
         }
       })
+      */
     }, []);
 
     const goHomepage = (phonenum) => {
