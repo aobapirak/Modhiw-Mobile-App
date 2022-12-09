@@ -1,6 +1,5 @@
 import React, {useState,useEffect} from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from "react-native";
-import { restaurantInfo } from "../dummydata";
 import CardSilder from 'react-native-cards-slider';
 import axios from 'axios';
 
@@ -15,6 +14,7 @@ const Restaurant = ({ navigation, route }) => {
       }
     }).then((response) => {
       setMenu(response.data);
+      console.log(response.data);
     })
   
     axios.get("http://10.0.2.2:8080/getCategory",{
@@ -33,17 +33,6 @@ const Restaurant = ({ navigation, route }) => {
     });
   }, []);
 
-  //console.log(menu);
-  //console.log(category);
-
-  const dummyrestaurant = {
-    name: route.params.restaurant.restaurant_name,
-    image: require("../assets/rectangle-72.png"),
-    type: ["noodles", "a lar carte"],
-    menu: menu,
-    status: route.params.restaurant.restaurant_status
-  }
-
   const goFoodInfo = (menu) => {
     navigation.navigate('FoodInfo', { user_phonenum: route.params.user_phonenum, restaurant: route.params.restaurant, menu: menu});
   }
@@ -57,7 +46,9 @@ const Restaurant = ({ navigation, route }) => {
     <Image
       style={styles.rectangleIcon}
       resizeMode="cover"
-      source={require("../assets/rectangle-7.png")}
+      source={{
+            uri: `${route.params.restaurant.picture}`,
+        }}
     />
     <View style={styles.rectangleView} />
     <View style={styles.searchView}>
@@ -84,14 +75,16 @@ const Restaurant = ({ navigation, route }) => {
     <Text style={styles.openNowText}>{route.params.restaurant.restaurant_status}</Text>
 
     <CardSilder>
-      {dummyrestaurant.menu.map((allmenu) => 
+      {menu.map((allmenu) => 
         <View>
           <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
             <View style={styles.menu1View}>
               <Image
                 style={styles.rectangleIcon2}
                 resizeMode="cover"
-                source={require("../assets/rectangle-12.png")}
+                source={{
+                  uri: `${allmenu.picture}`,
+                }}
               />
               <Text style={styles.menuName}>{allmenu.menu_name}</Text>
               <Text style={styles.menuPrice}>~ {allmenu.price} Baht</Text>

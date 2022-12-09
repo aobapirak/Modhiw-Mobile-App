@@ -8,7 +8,7 @@ const getMenu = (req,res) => {
             return;
         }
         const restaurantName = req.query.restaurantName;
-        db.query("SELECT menu_name, price, restaurant_name FROM menu_t WHERE restaurant_name = ?", [restaurantName],
+        db.query("SELECT menu_name, price, restaurant_name, picture FROM menu_t WHERE restaurant_name = ?", [restaurantName],
         (err, result) => {
             if (err) {
                 console.log(err);

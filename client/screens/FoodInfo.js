@@ -121,7 +121,9 @@ const FoodInfo = ({ navigation, route }) => {
       <Image
         style={styles.rectangleIcon}
         resizeMode="cover"
-        source={require("../assets/rectangle-74.png")}
+        source={{
+          uri: `${route.params.restaurant.picture}`,
+        }}
       />
       <View style={styles.rectangleView} />
       <View style={styles.infoView}>
