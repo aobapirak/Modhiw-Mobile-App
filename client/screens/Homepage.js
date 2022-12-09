@@ -4,17 +4,38 @@ import axios from 'axios';
 
 const Homepage = ({ navigation, route }) => {
   const [restaurants, setRestaurants] = useState([]);
+  const [restaurantToShow, setRestaurantToShow] = useState([]);
+  const [restaurantCategory, setRestaurantCategory] = useState([]);
+  const [category, setCategory] = useState(0);
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getRestaurantList")
     .then((response) => {
       setRestaurants(response.data);
+      setRestaurantToShow(response.data);
+    })
+    
+    axios.get("http://10.0.2.2:8080/getRestaurantCategory")
+    .then((response) => {
+      setRestaurantCategory(response.data);
     })
   }, []);
+
+  const sortCategory = (category) => {
+    setCategory(category);
+    if (category == "All"){
+      setRestaurantToShow(restaurants);
+    } else {
+      setRestaurantToShow(restaurantCategory.filter(restaurantCategory => restaurantCategory.category == category));
+    }
+  }
 
   const goRestaurant = (restaurant) => {
     navigation.navigate('Restaurant', { user_phonenum: route.params.user_phonenum, restaurant: restaurant});
   }
+
+  console.log(category);
+  console.log(restaurantToShow);
 
   return (
     <View style={styles.homepageView}>
@@ -33,32 +54,42 @@ const Homepage = ({ navigation, route }) => {
         />
         <TextInput style={styles.searchByRestaurant}>Search by restaurant</TextInput>
       </View>
-      <View style={styles.allBox}>
-        <View style={styles.allType} />
-        <Text style={styles.allText}>All</Text>
-      </View>
-      <View style={styles.aLaCarteBox}>
-        <View style={styles.aLaCarteType} />
-        <Text style={styles.aLaCarte}>A la carte</Text>
-      </View>
-      <View style={styles.noodlesBox}>
-        <View style={styles.noodleType} />
-        <Text style={styles.noodlesText}>Noodles</Text>
-      </View>
-      <View style={styles.fastFoodBox}>
-        <View style={styles.fastFoodType} />
-        <Text style={styles.fastFoodText}>Fast food</Text>
-      </View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { sortCategory("All") }}>
+        <View style={styles.allBox}>
+          <View style={styles.allType} />
+          <Text style={styles.allText}>All</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { sortCategory("À la carte") }}>
+        <View style={styles.aLaCarteBox}>
+          <View style={styles.aLaCarteType} />
+          <Text style={styles.aLaCarte}>À la carte</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { sortCategory("Noodle") }}>
+        <View style={styles.noodlesBox}>
+          <View style={styles.noodleType} />
+          <Text style={styles.noodlesText}>Noodle</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { sortCategory("Fast Food") }}>
+        <View style={styles.fastFoodBox}>
+          <View style={styles.fastFoodType} />
+          <Text style={styles.fastFoodText}>Fast Food</Text>
+        </View>
+      </TouchableOpacity>
 
       <View style={styles.restaurantChoice}>
-      {restaurants.map((restaurant) => 
+      {restaurantToShow.map((restaurant) => 
       <View>
           <View style={styles.restaurantView}> 
           <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goRestaurant(restaurant)}}>
           <Image
             style={styles.imageStyle}
             resizeMode="cover"
-            source={restaurant.image}
+            source={{
+              uri: "http://10.0.2.2:8080" + `/image/${restaurant.picture}`,
+            }}
           />
           <View style={styles.whitebox} />
           <Text style={styles.restaurantName}>{restaurant.restaurant_name}</Text>
