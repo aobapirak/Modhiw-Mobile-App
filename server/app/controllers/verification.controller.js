@@ -37,7 +37,7 @@ const getExistPhonenumber = (req, res) => {
             return;
         }
         const phonenum = req.query.phonenum;
-        db.query("SELECT IF((SELECT phone_number FROM user_t WHERE phone_number = ? LIMIT 1), 'exist', 'notexist') AS isExist, role FROM user_t  WHERE phone_number = ?", 
+        db.query("SELECT IF((SELECT phone_number FROM user_t WHERE phone_number = ? LIMIT 1), 'exist', 'notexist') AS isExist, role FROM user_t WHERE phone_number = ?", 
         [phonenum, phonenum],
         (err, result) => {
             if (err) {
@@ -58,12 +58,13 @@ const insertUser = (req, res) => {
             return;
         }
         
-        db.query(`INSERT INTO user_t (phone_number, role_id) VALUES (?, ?)`,
-        [req.body.phonenum, "user002"],
+        db.query(`INSERT INTO user_t (phone_number, role) VALUES (?, ?)`,
+        [req.body.phonenum, "Customer"],
         (err, result) => {
             if (err) {
                 console.log(err);
             } else {
+
                 res.send(result);
             }
             db.release();

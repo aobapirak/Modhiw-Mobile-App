@@ -4,17 +4,45 @@ import axios from 'axios';
 
 const Homepage = ({ navigation, route }) => {
   const [restaurants, setRestaurants] = useState([]);
+  const [restaurantToShow, setRestaurantToShow] = useState([]);
+  const [restaurantCategory, setRestaurantCategory] = useState([]);
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getRestaurantList")
     .then((response) => {
       setRestaurants(response.data);
+      setRestaurantToShow(response.data);
+    })
+    
+    axios.get("http://10.0.2.2:8080/getRestaurantCategory")
+    .then((response) => {
+      setRestaurantCategory(response.data);
     })
   }, []);
+
+  const categorizeRestaurant = (categorySelected) => {
+    if (categorySelected == "All"){
+      setRestaurantToShow(restaurants);
+    } else {
+      let buff = [];
+      let filteredRestaurant = restaurantCategory.filter(restaurantCategory => restaurantCategory.category == categorySelected);
+      for (let i = 0; i < filteredRestaurant.length; i++){
+        buff[i] = filteredRestaurant[i].restaurant_name;
+      }
+      setRestaurantToShow(restaurants.filter(restaurants => (buff.some(rnToShow => rnToShow == restaurants.restaurant_name)) == true));
+    }
+  }
 
   const goRestaurant = (restaurant) => {
     navigation.navigate('Restaurant', { user_phonenum: route.params.user_phonenum, restaurant: restaurant});
   }
+
+  const search = (toSearch) => {
+    setRestaurantToShow(restaurants.filter(restaurants => restaurants.restaurant_name.search(toSearch) != -1));
+  }
+
+  //console.log(category);
+  //console.log(restaurantToShow);
 
   return (
     <View style={styles.homepageView}>
@@ -31,27 +59,39 @@ const Homepage = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../assets/search.png")}
         />
-        <TextInput style={styles.searchByRestaurant}>Search by restaurant</TextInput>
+        <TextInput 
+          style={styles.searchByRestaurant}
+          placeholder="Search by restaurant"
+          onChangeText={(text) => search(text)}
+        />
       </View>
-      <View style={styles.allBox}>
-        <View style={styles.allType} />
-        <Text style={styles.allText}>All</Text>
-      </View>
-      <View style={styles.aLaCarteBox}>
-        <View style={styles.aLaCarteType} />
-        <Text style={styles.aLaCarte}>A la carte</Text>
-      </View>
-      <View style={styles.noodlesBox}>
-        <View style={styles.noodleType} />
-        <Text style={styles.noodlesText}>Noodles</Text>
-      </View>
-      <View style={styles.fastFoodBox}>
-        <View style={styles.fastFoodType} />
-        <Text style={styles.fastFoodText}>Fast food</Text>
-      </View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("All") }}>
+        <View style={styles.allBox}>
+          <View style={styles.allType} />
+          <Text style={styles.allText}>All</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("À la carte") }}>
+        <View style={styles.aLaCarteBox}>
+          <View style={styles.aLaCarteType} />
+          <Text style={styles.aLaCarte}>À la carte</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("Noodle") }}>
+        <View style={styles.noodlesBox}>
+          <View style={styles.noodleType} />
+          <Text style={styles.noodlesText}>Noodle</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("Fast Food") }}>
+        <View style={styles.fastFoodBox}>
+          <View style={styles.fastFoodType} />
+          <Text style={styles.fastFoodText}>Fast Food</Text>
+        </View>
+      </TouchableOpacity>
 
       <View style={styles.restaurantChoice}>
-      {restaurants.map((restaurant) => 
+      {restaurantToShow.map((restaurant) => 
       <View>
           <View style={styles.restaurantView}> 
           <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goRestaurant(restaurant)}}>
