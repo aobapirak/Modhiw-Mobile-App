@@ -86,6 +86,9 @@ require("./app/routes/orderList.routes")(app);
 //restaurantHomepage
 require("./app/routes/restaurantHomepage.routes")(app);
 
+//edit
+require("./app/routes/edit.routes")(app);
+
 //listening
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
