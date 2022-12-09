@@ -3,6 +3,21 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: 'dvd8h29zr',
+  api_key: '495187684313245',
+  api_secret: 'AgjexikYnxCUG6pqBk2XXT6AYgc',
+  secure: true
+});
+
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_USER_NAME,
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+//   secure: true
+// });
 
 const app = express();
 cors
@@ -18,24 +33,35 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-// app.use("/image",express.static(path.join(__dirname, 'uploads')));
+const storage = multer.diskStorage({});
 
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb('invalid image file!', false);
+  }
+};
 
-// const storage = multer.diskStorage({
-//   destination: function(req, file, callback) {
-//     callback(null, path.join(__dirname, 'uploads'));
-//   },
-//   filename: function (req, file, callback) {
-//     callback(null, Date.now() + "-" + file.originalname);
-//   }
-//   });
+const uploads = multer({ storage, fileFilter });
 
-// const upload = multer({storage});
+app.post('/upload', uploads.single('image'),async (req, res) => {
+  const { user } = req;
 
-app.post('/upload', upload.single('image'), (req, res) => {
-  console.log("file Uploaded sucessfully");
-  console.log(req);
-  res.send(req.file);
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      public_id: new Date() + '_image',
+      width: 500,
+      height: 500,
+      crop: 'fill',
+    });
+    res.send(result.url);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: 'server error, try after some time' });
+    console.log('Error while uploading profile image', error.message);
+  }
 });
 
 

@@ -60,9 +60,9 @@ const Homepage = ({ navigation }) => {
           <Image
             style={styles.imageStyle}
             resizeMode="cover"
-            source={{
-              uri: "http://10.0.2.2:8080" + `/image/${restaurant.picture}`,
-            }}
+            // source={{
+            //   uri: "http://10.0.2.2:8080" + `/image/${restaurant.picture}`,
+            // }}
           />
           <View style={styles.whitebox} />
           <Text style={styles.restaurantName}>{restaurant.restaurant_name}</Text>
