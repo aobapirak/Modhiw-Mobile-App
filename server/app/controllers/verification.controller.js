@@ -37,7 +37,7 @@ const getExistPhonenumber = (req, res) => {
             return;
         }
         const phonenum = req.query.phonenum;
-        db.query("SELECT IF((SELECT phone_number FROM user_t WHERE phone_number = ? LIMIT 1), 'exist', 'notexist') AS isExist, role FROM user_t  WHERE phone_number = ?", 
+        db.query("SELECT IF((SELECT phone_number FROM user_t WHERE phone_number = ? LIMIT 1), 'exist', 'notexist') AS isExist, role FROM user_t WHERE phone_number = ?", 
         [phonenum, phonenum],
         (err, result) => {
             if (err) {

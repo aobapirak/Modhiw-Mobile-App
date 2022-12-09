@@ -8,9 +8,8 @@ const getRestaurantList = (req, res) => {
             return;
         }
         db.query(`SELECT r.* 
-        FROM (restaurant r JOIN menu_t m ON r.restaurant_name = m.restaurant_name) JOIN category_t c ON m.menu_name = c.menu_name
-        GROUP BY r.restaurant_name
-        ORDER BY c.category`,
+        FROM restaurant r JOIN menu_t m ON r.restaurant_name = m.restaurant_name
+        GROUP BY r.restaurant_name`,
         (err, result) => {
             if (err) {
                 console.log(err);
