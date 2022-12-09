@@ -4,7 +4,12 @@ import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity } from
 const ConfirmBookIcon = ({ navigation, route }) => {
   
   const goBookQueue = () => {
-    navigation.navigate('goBookQueue', {restaurant: route.params.restaurant, menu: route.params.menu, ingredient: route.params.menu.ingredient, toping: route.params.toping, booknote: route.params.booknote});
+    navigation.navigate('goBookQueue', {
+      restaurant: route.params.restaurant, 
+      menu: route.params.menu, 
+      ingredient: route.params.menu.ingredient, 
+      toping: route.params.toping, booknote: 
+      route.params.booknote});
   }
   
   return (
@@ -144,7 +149,7 @@ const ConfirmBookIcon = ({ navigation, route }) => {
           <Text style={styles.confirmText}>Confirm</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
         <View style={styles.cancelView}>
           <View style={styles.rectangleView5} />
           <Text style={styles.cancelText}>Cancel</Text>

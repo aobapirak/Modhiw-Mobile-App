@@ -11,10 +11,6 @@ const EditMenuDetails = () => {
     } else{
       status = "Not available"
     }
-    // axios.patch("http://10.0.2.2:8080/updateRestaurantStatus",{
-    //   restaurant_status: status,
-    //   restaurant_name: restaurant_name
-    // })
   }
 
   return (

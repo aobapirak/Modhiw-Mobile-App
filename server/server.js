@@ -65,6 +65,9 @@ app.post('/upload', uploads.single('image'),async (req, res) => {
 });
 
 
+//login
+require("./app/routes/verification.routes")(app);
+
 //home
 require("./app/routes/userHomepage.routes")(app);
 

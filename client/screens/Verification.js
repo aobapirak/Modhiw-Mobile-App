@@ -1,26 +1,115 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import axios from "axios";
 
-const Verification = ({
-    route: {
-        params: {phoneNumber},
-    },
-}) => {
+  const Verification = ({ navigation, route }) => {
     const firstInput = useRef();
     const secondInput = useRef();
     const thirdInput = useRef();
     const fourthInput = useRef();
     const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''})
+    const [mergedOTP, setMergedOTP] = useState("")
+    const [otpApprove, setOtpApprove] = useState("approved")
+    const [exist, setExist] = useState(false)
+    const [role, setRole] = useState("")
+
+    useEffect(() => {
+      /*
+      axios.get("http://10.0.2.2:8080/createOTP",{
+        params: {
+          phonenum: route.params.user_phonenum
+        }
+      })
+      */
+    }, []);
+
+    const goHomepage = (phonenum) => {
+      navigation.navigate('Homepage', {user_phonenum: phonenum});
+    }
+
+    const goHomepageRestaurant = (phonenum) => {
+      navigation.navigate('HomepageRestaurant', {user_phonenum: phonenum});
+    }
+
+    const createNewUser = (phonenum) => {
+      axios.post("http://10.0.2.2:8080/insertUser",{
+          phonenum: phonenum
+      })
+    }
+
+    const checkPhonenumExist = (phonenumToCheck) => {
+      axios.get("http://10.0.2.2:8080/existPhonenumber",{
+        params: {
+          phonenum: route.params.user_phonenum
+        }
+      })
+      .then((response) => {
+        if (response.data[0].isExist == "notexist") {
+          console.log("not exist");
+          createNewUser(route.params.user_phonenum);
+          setRole("Customer");
+        } else {
+          console.log("exist");
+          setRole(response.data[0].role);
+        }
+      });
+    }
+
+    const mergeOTP = (OTPtoMerge) => {
+      let buffOTP = "";
+      buffOTP = OTPtoMerge[1] + OTPtoMerge[2] + OTPtoMerge[3] + OTPtoMerge[4];
+      setMergedOTP(buffOTP);
+    }
+
+    const reSendOTP = () => {
+      axios.get("http://10.0.2.2:8080/createOTP", {
+        params: {
+          phonenum: route.params.user_phonenum
+        }
+      })
+    }
+
+    const verifyOTP = () => {
+      mergeOTP(otp);
+      axios.get("http://10.0.2.2:8080/verifyOTP",{
+        params: {
+          phonenum: route.params.user_phonenum,
+          code: mergedOTP
+        }
+      })
+      .then((response) => {
+        setOtpApprove("approved");
+      });
+    }
+
+    if (otpApprove == "approved") {
+      checkPhonenumExist(route.params.user_phonenum);
+      console.log("role ", role)
+      if (role == "Restaurant") {
+        goHomepageRestaurant(route.params.user_phonenum);
+      } else if (role == "Customer") {
+        goHomepage(route.params.user_phonenum);
+      }
+    } else if (otpApprove == "pending") {
+      alert("Invalid OTP");
+      setOtpApprove("");
+    }
+
+    console.log(otpApprove)
 
     return (
         <View style={styles.verificationView}>
           <Text style={styles.verifyPhoneText}>Verify Phone</Text>
           <Text style={styles.phoneNumber}>
-            Code is sent to {phoneNumber}
+            Code is sent to {route.params.user_phonenum}
           </Text>
           <Text style={styles.didNotRecieveCodeResendN}>
-            <Text style={styles.didNotRecieve}>Did not recieve code? </Text>
-            <Text style={styles.resendNewCode}>Resend New Code</Text>
+            <TouchableOpacity activeOpacity = { 1 } >
+              <Text style={styles.didNotRecieve}>Did not recieve code? </Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity = { .5 } onPress = { () => { reSendOTP() }} >
+              <Text style={styles.resendNewCode}>Resend New Code</Text>
+            </TouchableOpacity>
           </Text>
           <View style={styles.numberInputView}>
             <View style={styles.firstInput}>
@@ -73,7 +162,7 @@ const Verification = ({
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => console.log(otp)}
+            onPress={() => verifyOTP()}
           >
             <View style={styles.continueView}>
                 <View style={styles.rectangleView4} />
@@ -109,12 +198,13 @@ const styles = StyleSheet.create({
       color: "#777",
     },
     resendNewCode: {
+      marginTop: 10,
       color: "#e59e00",
     },
     didNotRecieveCodeResendN: {
       position: "absolute",
       top: 307,
-      left: 65,
+      left: 82,
       fontSize: 16,
       fontWeight: "500",
       fontFamily: "SF Pro Rounded",

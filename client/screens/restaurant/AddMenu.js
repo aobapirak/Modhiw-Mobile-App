@@ -188,8 +188,8 @@ const styles = StyleSheet.create({
   },
   vectorIcon: {
     position: "absolute",
-    top: 230,
-    left: 170,
+    top: 240,
+    left: 177,
     maxWidth: "100%",
     maxHeight: "100%",
   },
@@ -302,114 +302,3 @@ const styles = StyleSheet.create({
 });
 
 export default AddMenu;
-
-
-// const pickImage = async () => {
-//   // No permissions request is necessary for launching the image library
-//   let result = await ImagePicker.launchImageLibraryAsync({
-//     mediaTypes: ImagePicker.MediaTypeOptions.All,
-//     allowsEditing: true,
-//     aspect: [4, 3],
-//     quality: 1,
-//   });
-
-//   console.log(result);
-
-//   if (!result.canceled) {
-//     setImage(result);
-//   }
-// };
-
-
-// //   const Add = async () => {
-// //     console.log(image);
-// //     const formData = new FormData();
-// //     formData.append('image', {
-// //       name: image.fileName,
-// //       type: image.type,
-// //       uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
-// //     });
-
-// //     fetch(`http://10.0.2.2:8080/upload`, {
-// //       method: 'POST',
-// //       data: formData,
-// //       headers: { "Content-Type": "multipart/form-data" }
-// //     })
-// //       .then((response) => response.json())
-// //       .then((response) => {
-// //         console.log('response', response);
-// //       })
-// //       .catch((error) => {
-// //         console.log('error', error);
-// //       });
-
-// //     // try {
-// //     //     const response = await axios({
-// //     //     method: "post",
-// //     //     url: "http://10.0.2.2:8080/upload",
-// //     //     data: formData,
-// //     //     headers: { "Content-Type": "multipart/form-data" },
-// //     //     });
-// //     //     try{
-// //     //         axios.post("http://10.0.2.2:8080/addMenu",{
-// //     //         menu_name: menu_name,
-// //     //         restaurant_name: restaurant_name,
-// //     //         price: price,
-// //     //         picture: response.data.filename
-// //     //         }).then((response) => {
-// //     //           alert("Successfully added");
-// //     //         }).catch((err) => {
-// //     //           alert("Error to add topping because this topping already exists");
-// //     //         });
-// //     //     }
-// //     //     catch(err){
-// //     //         console.log("err:",err);
-// //     //     }
-// //     //   } catch(error) {
-// //     //     console.log("err on upload photo",error);
-// //     //   }
-// // }
-
-// const createFormData = (image, body = {}) => {
-// const data = new FormData();
-
-// data.append('image', {
-//   name: image.fileName,
-//   type: image.type,
-//   uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
-// });
-
-// Object.keys(body).forEach((key) => {
-//   data.append(key, body[key]);
-// });
-
-// return data;
-// };
-
-// const Add = async () => {
-// const formData = new FormData();
-// console.log(image, "image");
-// formData.append('image',image);
-
-// try {
-//     const response = await axios({
-//     method: "post",
-//     url: "http://10.0.2.2:8080/upload",
-//     data: formData,
-//     headers: { "Content-Type": "multipart/form-data" },
-//     });
-//     // try{
-//     //     axios.post("http://10.0.2.2:8080/uploadTopup",{
-//     //     user_id: user_id,
-//     //     amount: amount,
-//     //     receipt: response.data.filename,
-//     //     is_withdrawal: 0
-//     //     })
-//     // }
-//     // catch(err){
-//     //     console.log("err:",err);
-//     // }
-//   } catch(error) {
-//     console.log("err on upload photo",error);
-//   }
-// }

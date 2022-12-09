@@ -6,6 +6,10 @@ const LogIn = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isEnter, setIsEnter] = useState(false);
 
+  const goVerification = (phoneNumber) => {
+    navigation.navigate('Verification', { user_phonenum: phoneNumber });
+  }
+
   return (
     <View style={styles.logInView}>
       <View style={styles.rectangleView} />
@@ -18,8 +22,7 @@ const LogIn = ({ navigation }) => {
           <View style={styles.rectangleView2} />
           <TouchableOpacity 
             activeOpacity = { .5 } 
-            onPress = { () => {
-              navigation.navigate("Verification", {phoneNumber})}}
+            onPress = { () => { goVerification(phoneNumber) }}
           >
             <View style={styles.rectangleView3} />
             <Image
@@ -46,7 +49,7 @@ const LogIn = ({ navigation }) => {
           <TouchableOpacity 
             activeOpacity = { .5 } 
             onPress = { () => {
-              navigation.navigate("Verification", {phoneNumber})}}
+              navigation.navigate( goVerification(phoneNumber) )}}
           >
             <View style={styles.rectangleView3} />
             <Image

@@ -1,5 +1,24 @@
 const pool = require("../config/database");
 
+const getUserRestaurant = (req, res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const phonenum = req.query.phonenum;
+        db.query("SELECT * FROM restaurant WHERE phone_number = ?", [phonenum],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
 
 const updateRestaurantStatus = (req, res) => {
     pool.getConnection((err, db) => {
@@ -20,9 +39,10 @@ const updateRestaurantStatus = (req, res) => {
             }
             db.release();
         });
-});
+    });
 }
 
 module.exports = {
+    getUserRestaurant,
     updateRestaurantStatus
 }

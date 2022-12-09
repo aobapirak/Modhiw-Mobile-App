@@ -3,16 +3,6 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import axios from 'axios';
 
 const EditIngredient = ({ navigation }) => {
-  const items = [
-    {
-      name: "ไก่",
-      price: "10",
-    },
-    {
-      name: "หมู",
-      price: "10",
-    }
-  ]
   const [ingredient, setIngredient] = useState([]);
 
   useEffect(() => {

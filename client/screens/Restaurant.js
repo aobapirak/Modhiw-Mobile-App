@@ -45,7 +45,7 @@ const Restaurant = ({ navigation, route }) => {
   }
 
   const goFoodInfo = (menu) => {
-    navigation.navigate('FoodInfo', {restaurant: route.params.restaurant, menu: menu});
+    navigation.navigate('FoodInfo', { user_phonenum: route.params.user_phonenum, restaurant: route.params.restaurant, menu: menu});
   }
   
   return (
@@ -101,7 +101,7 @@ const Restaurant = ({ navigation, route }) => {
       }
     </CardSilder>
 
-    <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}} >
+    <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
       <Image
         style={styles.x1Icon}
         resizeMode="cover"
@@ -115,7 +115,7 @@ const Restaurant = ({ navigation, route }) => {
         resizeMode="cover"
         source={require("../assets/rectangle-11.png")}
       />
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket")}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
         <Image
           style={styles.image2Icon}
           resizeMode="cover"
@@ -127,7 +127,7 @@ const Restaurant = ({ navigation, route }) => {
         resizeMode="cover"
         source={require("../assets/logoutIcon.png")}
       />
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage")}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
         <Image
           style={styles.image4Icon}
           resizeMode="cover"
