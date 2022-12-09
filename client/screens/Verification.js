@@ -8,7 +8,6 @@ import axios from "axios";
     const thirdInput = useRef();
     const fourthInput = useRef();
     const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''})
-    const [mergedOTP, setMergedOTP] = useState("")
     const [otpApprove, setOtpApprove] = useState("approved")
     const [exist, setExist] = useState(false)
     const [role, setRole] = useState("")
@@ -55,12 +54,6 @@ import axios from "axios";
       });
     }
 
-    const mergeOTP = (OTPtoMerge) => {
-      let buffOTP = "";
-      buffOTP = OTPtoMerge[1] + OTPtoMerge[2] + OTPtoMerge[3] + OTPtoMerge[4];
-      setMergedOTP(buffOTP);
-    }
-
     const reSendOTP = () => {
       axios.get("http://10.0.2.2:8080/createOTP", {
         params: {
@@ -70,11 +63,12 @@ import axios from "axios";
     }
 
     const verifyOTP = () => {
-      mergeOTP(otp);
+      let buffOTP = "";
+      buffOTP = otp[1] + otp[2] + otp[3] + otp[4];
       axios.get("http://10.0.2.2:8080/verifyOTP",{
         params: {
           phonenum: route.params.user_phonenum,
-          code: mergedOTP
+          code: buffOTP
         }
       })
       .then((response) => {
