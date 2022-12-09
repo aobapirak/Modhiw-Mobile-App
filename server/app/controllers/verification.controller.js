@@ -58,12 +58,13 @@ const insertUser = (req, res) => {
             return;
         }
         
-        db.query(`INSERT INTO user_t (phone_number, role_id) VALUES (?, ?)`,
-        [req.body.phonenum, "user002"],
+        db.query(`INSERT INTO user_t (phone_number, role) VALUES (?, ?)`,
+        [req.body.phonenum, "Customer"],
         (err, result) => {
             if (err) {
                 console.log(err);
             } else {
+
                 res.send(result);
             }
             db.release();

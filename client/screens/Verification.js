@@ -44,13 +44,13 @@ import axios from "axios";
         }
       })
       .then((response) => {
-        if (response.data[0].isExist == "notexist") {
+        if (response.data[0]) {
+          console.log("exist");
+          setRole(response.data[0].role);
+        } else {
           console.log("not exist");
           createNewUser(route.params.user_phonenum);
           setRole("Customer");
-        } else {
-          console.log("exist");
-          setRole(response.data[0].role);
         }
       });
     }
