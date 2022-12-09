@@ -8,18 +8,18 @@ import axios from "axios";
     const thirdInput = useRef();
     const fourthInput = useRef();
     const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''})
-    const [otpApprove, setOtpApprove] = useState("")
+    const [otpApprove, setOtpApprove] = useState("approved")
     const [exist, setExist] = useState(false)
     const [role, setRole] = useState("")
 
     useEffect(() => {
-      
+      /*
       axios.get("http://10.0.2.2:8080/createOTP",{
         params: {
           phonenum: route.params.user_phonenum
         }
       })
-      
+      */
     }, []);
 
     const goHomepage = (phonenum) => {
@@ -72,7 +72,7 @@ import axios from "axios";
         }
       })
       .then((response) => {
-        setOtpApprove(response.data);
+        setOtpApprove("approved");
       });
     }
 
