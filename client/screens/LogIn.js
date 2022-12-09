@@ -7,9 +7,7 @@ const LogIn = ({ navigation }) => {
   const [isEnter, setIsEnter] = useState(false);
 
   const goVerification = (phoneNumber) => {
-    //navigation.navigate('Verification', { user_phonenum: phoneNumber });
-    navigation.navigate('Homepage', { user_phonenum: phoneNumber });
-    //navigation.navigate('HomepageRestaurant', { user_phonenum: phoneNumber });
+    navigation.navigate('Verification', { user_phonenum: phoneNumber });
   }
 
   return (

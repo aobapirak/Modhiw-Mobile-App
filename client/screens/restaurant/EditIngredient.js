@@ -1,68 +1,63 @@
-import * as React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import React, {useState, useEffect} from "react";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import axios from 'axios';
 
-const EditIngredient = () => {
+const EditIngredient = ({ navigation }) => {
+  const [ingredient, setIngredient] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getIngredient", {
+      params: {
+        restaurant_name: "ชิกกี้ชิก"
+      }
+    })
+    .then((response) => {
+      setIngredient(response.data);
+    });
+  }, []);
+
   return (
     <View style={styles.editIngredientView}>
-      <View style={styles.rectangleView} />
-      <Image
-        style={styles.barIcon}
-        resizeMode="cover"
-        source={require("../../assets/bar.png")}
-      />
+      <View style={styles.bgView} />
       <Text style={styles.editIngredientText}>Edit ingredient</Text>
       <Image
-        style={styles.image6Icon}
+        style={styles.icon}
         resizeMode="cover"
         source={require("../../assets/editingredienticon.png")}
       />
       <Text style={styles.ingredientHeadText}>Ingredient</Text>
       <Text style={styles.priceHeadText}>Price</Text>
-      <Text style={styles.ingredientsText}>
-        <Text style={styles.text}>ไก่</Text>
-        <Text style={styles.text1}>หมู</Text>
-        <Text style={styles.text2}>หมูตุ๋น</Text>
-        <Text style={styles.text3}>หมูกรอบ</Text>
-        <Text style={styles.text4}>เนื้อ</Text>
-        <Text style={styles.text5}>ปลาหมึก</Text>
-        <Text style={styles.text6}>กุ้ง</Text>
-        <Text style={styles.text7}>ทะเล</Text>
-        <Text style={styles.text8}>รวมมิตร</Text>
-      </Text>
-      <Text style={styles.priceText}>
-        <Text style={styles.text9}>10</Text>
-        <Text style={styles.text10}>10</Text>
-        <Text style={styles.text11}>10</Text>
-        <Text style={styles.text12}>15</Text>
-        <Text style={styles.text13}>15</Text>
-        <Text style={styles.text14}>10</Text>
-        <Text style={styles.text15}>10</Text>
-        <Text style={styles.text16}>10</Text>
-        <Text style={styles.text17}>20</Text>
-      </Text>
-      <View style={styles.editButtonView}>
-        <View style={styles.rectangleView1} />
-        <Text style={styles.eDITText}>EDIT</Text>
-      </View>
+      {ingredient.map((item) =>
+        <View style={styles.item}>
+          <Text style={styles.ingredientsText}>
+            <Text style={styles.ingredientName}>{item.ingredient}</Text>
+          </Text>
+          <Text style={styles.priceText}>
+            <Text style={styles.price}>{item.price}</Text>
+          </Text>
+          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditIngredientDetails", {name: item.ingredient, price: item.price_adjust})}}>
+            <View style={styles.editButtonView}>
+              <View style={styles.editButton} />
+              <Text style={styles.editButtonText}>EDIT</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  rectangleView: {
+  item: {
+    marginBottom: 32
+  },
+  bgView: {
     position: "absolute",
     top: -6,
     left: 0,
     backgroundColor: "#fff",
     width: 411,
     height: 823,
-  },
-  barIcon: {
-    position: "absolute",
-    top: 763,
-    left: 0,
-    width: 411,
-    height: 60,
   },
   editIngredientText: {
     position: "absolute",
@@ -74,7 +69,7 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "left",
   },
-  image6Icon: {
+  icon: {
     position: "absolute",
     top: 94,
     left: 49,
@@ -101,116 +96,57 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "left",
   },
-  text: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text1: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text2: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text3: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text4: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text5: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text6: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text7: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text8: {
-    margin: 0,
+  ingredientName: {
+    position: "absolute",
+    top: 237,
+    left: 49,
+    fontSize: 22,
+    fontFamily: "SF Pro Rounded",
+    color: "#000",
+    textAlign: "left",
   },
   ingredientsText: {
     position: "absolute",
     top: 237,
     left: 49,
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "left",
   },
-  text9: {
+  price: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
-  },
-  text10: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text11: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text12: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text13: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text14: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text15: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text16: {
-    marginBlockStart: 0,
-    marginBlockEnd: 0,
-  },
-  text17: {
-    margin: 0,
   },
   priceText: {
     position: "absolute",
     top: 237,
     left: 222,
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "center",
   },
-  rectangleView1: {
+  editButton: {
     position: "absolute",
     top: 0,
-    left: 0,
+    left: 5,
     borderRadius: 3,
     backgroundColor: "#eebe16",
-    width: 60,
-    height: 20,
+    width: 65,
+    height: 25,
   },
-  eDITText: {
+  editButtonText: {
     position: "absolute",
-    marginTop: -7,
-    marginLeft: -13,
+    marginTop: -6,
+    marginLeft: -6,
     top: "50%",
     left: "50%",
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "500",
     fontFamily: "SF Pro Rounded",
     color: "#fff",
-    textAlign: "left",
-    width: 25,
-    height: 13,
+    textAlign: "center",
   },
   editButtonView: {
     position: "absolute",

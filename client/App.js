@@ -35,6 +35,14 @@ import EditToping from "./screens/restaurant/EditToping";
 import EditTopingDetails from "./screens/restaurant/EditTopingDetails";
 */
 import OrderList from "./screens/restaurant/OrderList";
+import Edit from "./screens/restaurant/Edit";
+import EditIngredient from "./screens/restaurant/EditIngredient";
+import EditIngredientDetails from "./screens/restaurant/EditIngredientDetails";
+import EditMenu from "./screens/restaurant/EditMenu";
+import EditMenuDetails from "./screens/restaurant/EditMenuDetails";
+import EditRestaurant from "./screens/restaurant/EditRestaurant";
+import EditToping from "./screens/restaurant/EditToping";
+import EditTopingDetails from "./screens/restaurant/EditTopingDetails";
 
 
 const App = () => {
@@ -46,7 +54,7 @@ const App = () => {
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
+             <Stack.Screen
               name="LogIn"
               component={LogIn}
               options={{ headerShown: false }}
@@ -114,7 +122,7 @@ const App = () => {
               component={AddToping}
               options={{ headerShown: false }}
             /> 
-            {/*<Stack.Screen
+            <Stack.Screen
               name="Edit"
               component={Edit}
               options={{ headerShown: false }}
@@ -153,12 +161,12 @@ const App = () => {
               name="EditTopingDetails"
               component={EditTopingDetails}
               options={{ headerShown: false }}
-          />*/}
-            {/* <Stack.Screen
+            />
+             <Stack.Screen
               name="OrderList"
               component={OrderList}
               options={{ headerShown: false }}
-            /> */}
+            />
           </Stack.Navigator>
         ) : (
           <SplashScreen />

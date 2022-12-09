@@ -1,8 +1,67 @@
-import * as React from "react";
-import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import React, {useState} from "react";
+import { StyleSheet, View, Image, Text, TextInput, Button, TouchableOpacity, Platform  } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
 const AddMenu = ({ navigation, route}) => {
-  const restaurant_name = route.params.name;
+  // const restaurant_name = route.params.name;
+  const restaurant_name = "ชิกกี้ชิก";
+  const [menu_name, setMenuName] = useState("");
+  const [price, setPrice] = useState(null);
+  const [image, setImage] = useState("");
+
+  const openImageLibrary = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+    }
+    if (status === 'granted') {
+      const response = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+      });
+      if (!response.cancelled) {
+        setImage(response.uri);
+      }
+    }
+  };
+
+  const Add = async () => {
+    const formData = new FormData();
+    formData.append('image', {
+      name: new Date() + '_menuImage',
+      uri: image,
+      restaurantName: restaurant_name,
+      type: 'image/jpg',
+    });
+    try {
+      const res = await axios.post('http://10.0.2.2:8080/upload', formData, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      });
+      console.log(res.data);
+      try{
+        axios.post("http://10.0.2.2:8080/addMenu",{
+          restaurant_name: restaurant_name,
+          menu_name: menu_name,
+          price: price,
+          picture: res.data
+        }).then((response) => {
+          alert("Successfully added");
+        }).catch((err) => {
+          alert("Error to add menu because this menu already exists");
+        });
+        navigation.navigate("Add", {name: restaurant_name});
+      }
+      catch(err){
+          console.log("err:",err);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <View style={styles.addMenuView}>
@@ -18,31 +77,52 @@ const AddMenu = ({ navigation, route}) => {
         resizeMode="cover"
         source={require("../../assets/image-5.png")}
       />
-      <View style={styles.rectangleView1} />
-      <Text style={styles.dropYourImageHere}>Drop your image here</Text>
-      <Image
-        style={styles.vectorIcon}
-        resizeMode="cover"
-        source={require("../../assets/vector.png")}
-      />
+      
+
+      
+      {image == "" ? 
+      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
+        <View style={styles.rectangleView1} />
+        <Text style={styles.dropYourImageHere}>Drop your image here</Text>
+        <Image
+          style={styles.vectorIcon}
+            resizeMode="cover"
+            source={require("../../assets/vector.png")}
+        />
+      </TouchableOpacity>
+      :
+      <View style={styles.dropYourImageHere}>
+      <Image source={{uri:image}} style={{width:200,height:200,top:-45}}/>
+      </View>
+      }
+        
       <View style={styles.nameView}>
         <Text style={styles.nameText}>Name</Text>
         <View style={styles.rectangleView2} />
-        <TextInput style={styles.enterTheNameOfTheFood}>
-          Enter the name of the food
-        </TextInput>
+        <TextInput 
+        style={styles.enterTheNameOfTheFood} 
+        onChangeText={setMenuName}
+        value={menu_name}
+        placeholder="Enter the name of the food"
+        />
       </View>
       <View style={styles.priceView}>
         <Text style={styles.priceText}>Price</Text>
         <View style={styles.rectangleView3} />
-        <TextInput style={styles.enterThePriceOfTheFood}>
-          Enter the price of the food
-        </TextInput>
+        <TextInput 
+          style={styles.enterThePriceOfTheFood}
+          onChangeText={setPrice}
+          value={price}
+          placeholder="Enter the price of the food"
+          keyboardType="numeric"
+        />
       </View>
+      <TouchableOpacity activeOpacity = { .5 } onPress = {Add}>
       <View style={styles.addView}>
         <View style={styles.rectangleView4} />
         <Text style={styles.signIn2}>Add menu</Text>
       </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -108,14 +188,9 @@ const styles = StyleSheet.create({
   },
   vectorIcon: {
     position: "absolute",
-    height: "7.17%",
-    width: "14.36%",
-    top: "30.01%",
-    right: "43.07%",
-    bottom: "62.82%",
-    left: "42.58%",
+    top: 240,
+    left: 177,
     maxWidth: "100%",
-    overflow: "hidden",
     maxHeight: "100%",
   },
   nameText: {

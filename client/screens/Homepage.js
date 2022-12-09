@@ -88,7 +88,7 @@ const Homepage = ({ navigation, route }) => {
             style={styles.imageStyle}
             resizeMode="cover"
             source={{
-              uri: "http://10.0.2.2:8080" + `/image/${restaurant.picture}`,
+              uri: `${restaurant.picture}`,
             }}
           />
           <View style={styles.whitebox} />
