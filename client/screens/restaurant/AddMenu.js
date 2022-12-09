@@ -91,9 +91,12 @@ const AddMenu = ({ navigation, route}) => {
         />
       </TouchableOpacity>
       :
+      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
       <View style={styles.dropYourImageHere}>
-      <Image source={{uri:image}} style={{width:200,height:200,top:-45}}/>
+        <Image source={{uri:image}} style={{width:200,height:200,top:-45,opacity: 0.6,borderRadius:10}}/>
+        <Text style={{top: -150,color: "black"}}>Click here to change image</Text>
       </View>
+      </TouchableOpacity>
       }
         
       <View style={styles.nameView}>

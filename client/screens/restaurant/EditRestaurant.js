@@ -1,7 +1,81 @@
-import * as React from "react";
-import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import React, {useState, useEffect} from "react";
+import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
 
-const EditRestaurant = () => {
+const EditRestaurant = ({navigation, route}) => {
+  const restaurant_name = route.params.restaurant_name;
+  const [name,setName] = useState("");
+  const [area,setArea] = useState("");
+  const [restaurant,setRestaurant] = useState("");
+  const [image,setImage] = useState("");
+
+  useEffect(() => {
+    axios.get("http://10.0.2.2:8080/getRestaurant", {
+      params: {
+        restaurant_name: restaurant_name
+      }
+    })
+    .then((response) => {
+      setRestaurant(response.data[0]);
+      setName(response.data[0].restaurant_name);
+      setArea(response.data[0].area);
+      setImage(response.data[0].picture);
+    });
+  }, []);
+
+  const update = async () => {
+    const formData = new FormData();
+    formData.append('image', {
+      name: new Date() + '_menuImage',
+      uri: image,
+      restaurantName: restaurant_name,
+      type: 'image/jpg',
+    });
+    try {
+      const res = await axios.post('http://10.0.2.2:8080/upload', formData, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      });
+      console.log(res.data);
+      try{
+        axios.patch("http://10.0.2.2:8080/updateRestaurantInfo",{
+          restaurant_name: restaurant_name,
+          area: area,
+          picture: res.data
+        }).then((response) => {
+          alert("Successfully update");
+        }).catch((err) => {
+          alert("Error to edit data");
+        });
+        navigation.navigate("Edit", {name: restaurant_name});
+      }
+      catch(err){
+          console.log("err:",err);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const openImageLibrary = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+    }
+    if (status === 'granted') {
+      const response = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+      }); 
+      if (!response.cancelled) {
+        setImage(response.uri);
+      }
+    }
+  };
+
   return (
     <View style={styles.editRestaurantView}>
       <View style={styles.rectangleView} />
@@ -10,46 +84,48 @@ const EditRestaurant = () => {
         resizeMode="cover"
         source={require("../../assets/bar.png")}
       />
-      <Text style={styles.editRestaurantText}>Edit restaurant</Text>
+      <Text style={styles.editRestaurantText}>Edit {restaurant_name}</Text>
       <Image
         style={styles.editRestaurantIcon}
         resizeMode="cover"
         source={require("../../assets/editmenuicon.png")}
       />
-      <View style={styles.dropImageHereView}>
+
+      {image == "" ? 
+      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
         <View style={styles.rectangleView1} />
         <Text style={styles.dropYourImageHere}>Drop your image here</Text>
         <Image
           style={styles.vectorIcon}
-          resizeMode="cover"
-          source={require("../../assets/vector.png")}
+            resizeMode="cover"
+            source={require("../../assets/vector.png")}
         />
+      </TouchableOpacity>
+      :
+      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
+      <View style={styles.dropYourImageHere}>
+        <Image source={{uri:image}} style={{width:200,height:200,top:-45,opacity: 0.6,borderRadius:10}}/>
+        <Text style={{top: -150,color: "black"}}>Click here to change image</Text>
       </View>
-      <View style={styles.nameInputView}>
-        <Text style={styles.nameText}>Name</Text>
-        <View style={styles.rectangleView2} />
-        <TextInput style={styles.enterTheNewName}>
-          Enter the new name
-        </TextInput>
-      </View>
-      <View style={styles.categoryInputView}>
-        <Text style={styles.categoryText}>Category</Text>
-        <View style={styles.rectangleView3} />
-        <TextInput style={styles.enterTheNewCategory}>
-          Enter the new category
-        </TextInput>
-      </View>
+      </TouchableOpacity>
+      }
+
       <View style={styles.areaInputView}>
         <Text style={styles.areaText}>Area</Text>
         <View style={styles.rectangleView4} />
-        <TextInput style={styles.enterTheNewArea}>
-          Enter the new area
-        </TextInput>
+        <TextInput 
+          style={styles.enterTheNewArea}
+          onChangeText={setArea}
+          value={area}
+          placeholder="Enter the new area"
+        />
       </View>
+      <TouchableOpacity activeOpacity={.5} onPress= {() => {update()}}>
       <View style={styles.addButtonView}>
         <View style={styles.rectangleView5} />
         <Text style={styles.editButton}>Edit</Text>
       </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -89,8 +165,8 @@ const styles = StyleSheet.create({
   },
   rectangleView1: {
     position: "absolute",
-    top: 0,
-    left: 3,
+    top: 184,
+    left: 103,
     borderRadius: 25,
     backgroundColor: "#fff",
     borderStyle: "dashed",
@@ -101,9 +177,23 @@ const styles = StyleSheet.create({
   },
   dropYourImageHere: {
     position: "absolute",
-    top: 132,
-    left: 0,
-    fontSize: 16,
+    top: 316,
+    left: 100,
+    fontSize: 14,
+    fontFamily: "SF Pro Rounded",
+    color: "#000",
+    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 211,
+    height: 22,
+  },
+  changeYourImageHere: {
+    position: "absolute",
+    top: 316,
+    left: 100,
+    fontSize: 14,
     fontFamily: "SF Pro Rounded",
     color: "#000",
     textAlign: "center",
@@ -115,14 +205,9 @@ const styles = StyleSheet.create({
   },
   vectorIcon: {
     position: "absolute",
-    height: "29.8%",
-    width: "27.96%",
-    top: "31.82%",
-    right: "36.49%",
-    bottom: "38.38%",
-    left: "35.55%",
+    top: 240,
+    left: 177,
     maxWidth: "100%",
-    overflow: "hidden",
     maxHeight: "100%",
   },
   dropImageHereView: {
@@ -166,15 +251,6 @@ const styles = StyleSheet.create({
     width: 280,
     height: 55,
   },
-  categoryText: {
-    position: "absolute",
-    top: -5,
-    left: 0,
-    fontSize: 18,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
   rectangleView3: {
     position: "absolute",
     top: 25,
@@ -192,13 +268,6 @@ const styles = StyleSheet.create({
     fontFamily: "SF Pro Rounded",
     color: "#505050",
     textAlign: "left",
-  },
-  categoryInputView: {
-    position: "absolute",
-    top: 484,
-    left: 66,
-    width: 280,
-    height: 55,
   },
   areaText: {
     position: "absolute",
@@ -229,7 +298,7 @@ const styles = StyleSheet.create({
   },
   areaInputView: {
     position: "absolute",
-    top: 556,
+    top: 412,
     left: 66,
     width: 280,
     height: 55,
@@ -259,7 +328,7 @@ const styles = StyleSheet.create({
   },
   addButtonView: {
     position: "absolute",
-    top: 641,
+    top: 514,
     left: 66,
     width: 280,
     height: 30,

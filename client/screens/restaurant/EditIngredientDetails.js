@@ -5,11 +5,12 @@ import axios from 'axios';
 const EditIngredientDetails = ({ route, navigation }) => {
   const [switchOpen, setSwitchOpen] = useState(1);
   const [newPrice, setNewPrice] = useState(route.params.price);
+  const restaurant_name = route.params.restaurant_name;
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getIngredientStatus", {
       params: {
-        restaurant_name: "ชิกกี้ชิก",
+        restaurant_name: restaurant_name,
         ingredient: route.params.name
       }
     })
@@ -20,7 +21,7 @@ const EditIngredientDetails = ({ route, navigation }) => {
 
   const Edit = () => {
     axios.patch("http://10.0.2.2:8080/updateIngredient",{
-      restaurant_name: "ชิกกี้ชิก",
+      restaurant_name: restaurant_name,
       // newName: newName,
       newPrice: newPrice,
       oldName: route.params.name
@@ -29,7 +30,7 @@ const EditIngredientDetails = ({ route, navigation }) => {
     }).catch((err) => {
       alert("Error to edit " + newName);
     });
-    navigation.navigate("Edit");
+    navigation.navigate("Edit", {name: restaurant_name});
   }
 
   function toggleSwitch() {
@@ -41,7 +42,7 @@ const EditIngredientDetails = ({ route, navigation }) => {
       status = 0;
     }
     axios.patch("http://10.0.2.2:8080/updateIngredientStatus",{
-      restaurant_name: "ชิกกี้ชิก",
+      restaurant_name: restaurant_name,
       ingredient: route.params.name,
       status: status
     });
@@ -67,7 +68,8 @@ const EditIngredientDetails = ({ route, navigation }) => {
         <TextInput 
           style={styles.enterTheNewPrice}
           onChangeText={setNewPrice}
-          value={newPrice}
+          value={newPrice.toString(10)}
+          keyboardType="numeric"
         />
       </View>
       <TouchableOpacity activeOpacity = { .5 } onPress = { () => {Edit()}}>
