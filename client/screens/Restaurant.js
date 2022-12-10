@@ -16,8 +16,6 @@ const Restaurant = ({ navigation, route }) => {
     }).then((response) => {
       setMenu(response.data);
       setMenuToShow(response.data);
-      //console.log(response.data);
-
     })
   
     axios.get("http://10.0.2.2:8080/getCategory",{

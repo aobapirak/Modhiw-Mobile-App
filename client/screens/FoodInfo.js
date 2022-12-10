@@ -68,9 +68,9 @@ const FoodInfo = ({ navigation, route }) => {
     }
   }
 
-  //console.log(topingSelected)
-  //console.log(ingredientSelected)
-  //console.log(note)
+  //console.log("topingSelected:\t",topingSelected)
+  //console.log("ingredientSelected:\t", ingredientSelected)
+  //console.log("note:\t", note)
 
   const Item = (props) => {
     

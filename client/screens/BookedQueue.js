@@ -36,7 +36,7 @@ const Booked = ({ navigation, route }) => {
     setlistToping(buff);
   }, []);
 
-  //console.log(listToping);
+  console.log("listToping:\t", listToping);
 
   return (
     <View style={styles.bookedView}>

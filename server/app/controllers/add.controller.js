@@ -79,8 +79,32 @@ const addMenu = (req,res) => {
     });
 }
 
+const addToCategory = (req,res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const menu_name = req.body.menu_name;
+        const category = req.body.category;
+        db.query(`INSERT INTO category_t (menu_name, category) VALUES (?, ?)`,
+        [menu_name, category],
+        (err, result) => {
+            if (err) {
+                db.release();
+                return;
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
+
 module.exports = {
     addIngredient,
     addToping,
-    addMenu
+    addMenu,
+    addToCategory
 }

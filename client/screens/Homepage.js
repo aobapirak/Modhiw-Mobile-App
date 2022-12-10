@@ -41,8 +41,8 @@ const Homepage = ({ navigation, route }) => {
     setRestaurantToShow(restaurants.filter(restaurants => restaurants.restaurant_name.search(toSearch) != -1));
   }
 
-  //console.log(category);
-  //console.log(restaurantToShow);
+  //console.log("category:\t",category);
+  //console.log("restaurantToShow:\t"restaurantToShow);
 
   return (
     <View style={styles.homepageView}>

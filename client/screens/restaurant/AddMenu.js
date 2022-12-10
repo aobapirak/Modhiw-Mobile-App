@@ -4,11 +4,12 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 
 const AddMenu = ({ navigation, route}) => {
-  // const restaurant_name = route.params.name;
-  const restaurant_name = "ชิกกี้ชิก";
+  //const restaurant_name = "ชิกกี้ชิก";
+  const restaurant_name = route.params.name;
   const [menu_name, setMenuName] = useState("");
   const [price, setPrice] = useState(null);
   const [image, setImage] = useState("");
+  const [category, setCategory] = useState("");
 
   const openImageLibrary = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -50,16 +51,25 @@ const AddMenu = ({ navigation, route}) => {
           picture: res.data
         }).then((response) => {
           alert("Successfully added");
+          
+          axios.post("http://10.0.2.2:8080/addToCategory",{
+            menu_name: menu_name,
+            category: category
+          })
+          
         }).catch((err) => {
           alert("Error to add menu because this menu already exists");
         });
+
+        
         navigation.navigate("Add", {name: restaurant_name});
       }
       catch(err){
           console.log("err:",err);
       }
     } catch (error) {
-      console.log(error.message);
+      console.log("++++", error.message);
+      alert("Error to add menu because no picture uploaded");
     }
   };
 
@@ -118,6 +128,16 @@ const AddMenu = ({ navigation, route}) => {
           value={price}
           placeholder="Enter the price of the food"
           keyboardType="numeric"
+        />
+      </View>
+      <View style={styles.categoryView}>
+        <Text style={styles.categoryText}>Category</Text>
+        <View style={styles.rectangleView5} />
+        <TextInput 
+          style={styles.enterTheCategoryOfTheFood}
+          onChangeText={setCategory}
+          value={category}
+          placeholder="Enter the category of the food"
         />
       </View>
       <TouchableOpacity activeOpacity = { .5 } onPress = {Add}>
@@ -264,6 +284,40 @@ const styles = StyleSheet.create({
     width: 280,
     height: 55,
   },
+  categoryView: {
+    position: "absolute",
+    top: 556,
+    left: 66,
+    width: 280,
+    height: 55,
+  },
+  categoryText: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    fontSize: 14,
+    fontFamily: "SF Pro Rounded",
+    color: "#000",
+    textAlign: "left",
+  },
+  enterTheCategoryOfTheFood: {
+    position: "absolute",
+    top: 26,
+    left: 15,
+    fontSize: 12,
+    fontFamily: "SF Pro Rounded",
+    color: "#505050",
+    textAlign: "left",
+  },
+  rectangleView5: {
+    position: "absolute",
+    top: 25,
+    left: 0,
+    borderRadius: 5,
+    backgroundColor: "#d8d8d8",
+    width: 280,
+    height: 30,
+  },
   rectangleView4: {
     position: "absolute",
     top: 0,
@@ -290,7 +344,7 @@ const styles = StyleSheet.create({
   },
   addView: {
     position: "absolute",
-    top: 569,
+    top: 654,
     left: 66,
     width: 280,
     height: 30,

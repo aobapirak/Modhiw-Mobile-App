@@ -44,12 +44,12 @@ import axios from "axios";
       })
       .then((response) => {
         if (response.data[0]) {
-          console.log("exist");
+          console.log("isExist:\texist");
           setRole(response.data[0].role);
         } else {
-          console.log("not exist");
+          console.log("isExist:\tnot exist");
           createNewUser(route.params.user_phonenum);
-          setRole("Customer");
+          setRole("role:\tCustomer");
         }
       });
     }
@@ -78,7 +78,7 @@ import axios from "axios";
 
     if (otpApprove == "approved") {
       checkPhonenumExist(route.params.user_phonenum);
-      console.log("role ", role)
+      console.log("role:\t", role)
       if (role == "Restaurant") {
         goHomepageRestaurant(route.params.user_phonenum);
       } else if (role == "Customer") {
@@ -89,7 +89,7 @@ import axios from "axios";
       setOtpApprove("");
     }
 
-    console.log(otpApprove)
+    console.log("otpApprove:\t", otpApprove)
 
     return (
         <View style={styles.verificationView}>
