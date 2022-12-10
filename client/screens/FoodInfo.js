@@ -118,6 +118,7 @@ const FoodInfo = ({ navigation, route }) => {
       setTopingSelected(buff);
     }
   }
+  
   //console.log("topingSelected:\t",topingSelected)
   //console.log("ingredientSelected:\t", ingredientSelected)
   //console.log("note:\t", note)
@@ -151,7 +152,8 @@ const FoodInfo = ({ navigation, route }) => {
       menu: route.params.menu.menu_name, 
       ingredient: ingredient,
       booknote: booknote,
-      toping: toping
+      toping: toping,
+      lastQueue: lastQueue
     })
   }
 
