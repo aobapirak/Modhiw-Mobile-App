@@ -21,7 +21,7 @@ const TicketPage = ({ navigation, route }) => {
     })
     .then((response) => {
       settickets(response.data);
-      console.log(response.data);
+      console.log("tickets:\t", response.data);
     })
   }, []);
 

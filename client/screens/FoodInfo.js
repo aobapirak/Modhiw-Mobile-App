@@ -78,6 +78,10 @@ const FoodInfo = ({ navigation, route }) => {
     }
   }
 
+  //console.log("topingSelected:\t",topingSelected)
+  //console.log("ingredientSelected:\t", ingredientSelected)
+  //console.log("note:\t", note)
+
   const Item = (props) => {
     return (
       <View style={styles.item}>

@@ -41,6 +41,7 @@ const Booked = ({ navigation, route }) => {
     setlistToping(buff);
   }, []);
 
+  console.log("listToping:\t", listToping);
   if (!fontsLoaded) {
     return null;
   }
