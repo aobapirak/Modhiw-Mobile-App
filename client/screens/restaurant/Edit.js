@@ -1,20 +1,20 @@
 import * as React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 
 const Edit = ({ navigation, route }) => {
   const restaurant_name = route.params.restaurant_name;
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
     return null;
   }
-  
+
   return (
     <View style={styles.editView}>
       <View style={styles.rectangleView} />
@@ -24,7 +24,15 @@ const Edit = ({ navigation, route }) => {
         source={require("../../assets/bar.png")}
       />
       <Text style={styles.editText}>Edit</Text>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate('EditMenu', { user_phonenum: route.params.user_phonenum, restaurant_name: route.params.restaurant_name })}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("EditMenu", {
+            user_phonenum: route.params.user_phonenum,
+            restaurant_name: route.params.restaurant_name,
+          });
+        }}
+      >
         <View style={styles.editMenuView}>
           <View style={styles.rectangleView1} />
           <Text style={styles.menuText}>Menu</Text>
@@ -35,7 +43,15 @@ const Edit = ({ navigation, route }) => {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate('EditIngredient', { user_phonenum: route.params.user_phonenum, restaurant_name: route.params.restaurant_name })}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("EditIngredient", {
+            user_phonenum: route.params.user_phonenum,
+            restaurant_name: route.params.restaurant_name,
+          });
+        }}
+      >
         <View style={styles.editIngredientView}>
           <View style={styles.rectangleView2} />
           <Text style={styles.ingredientText}>Ingredient</Text>
@@ -46,7 +62,15 @@ const Edit = ({ navigation, route }) => {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate('EditToping', { user_phonenum: route.params.user_phonenum, restaurant_name: route.params.restaurant_name })}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("EditToping", {
+            user_phonenum: route.params.user_phonenum,
+            restaurant_name: route.params.restaurant_name,
+          });
+        }}
+      >
         <View style={styles.editTopingView}>
           <View style={styles.rectangleView3} />
           <Text style={styles.topingText}>Toping</Text>
@@ -57,7 +81,15 @@ const Edit = ({ navigation, route }) => {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate('EditRestaurant', { user_phonenum: route.params.user_phonenum, restaurant_name: route.params.restaurant_name })}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("EditRestaurant", {
+            user_phonenum: route.params.user_phonenum,
+            restaurant_name: route.params.restaurant_name,
+          });
+        }}
+      >
         <View style={styles.editRestaurantView}>
           <View style={styles.rectangleView4} />
           <Text style={styles.restaurantText}>Restaurant</Text>

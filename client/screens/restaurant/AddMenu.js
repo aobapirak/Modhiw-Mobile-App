@@ -1,11 +1,19 @@
-import React, {useState} from "react";
-import { StyleSheet, View, Image, Text, TextInput, Button, TouchableOpacity, Platform  } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
-import { useFonts } from 'expo-font';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import { useFonts } from "expo-font";
 
-const AddMenu = ({ navigation, route}) => {
-
+const AddMenu = ({ navigation, route }) => {
   const restaurant_name = route.params.name;
   const [menu_name, setMenuName] = useState("");
   const [price, setPrice] = useState(null);
@@ -13,23 +21,22 @@ const AddMenu = ({ navigation, route}) => {
   const [category, setCategory] = useState("");
 
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
     return null;
   }
 
-
   const openImageLibrary = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
     }
-    if (status === 'granted') {
+    if (status === "granted") {
       const response = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -42,43 +49,43 @@ const AddMenu = ({ navigation, route}) => {
 
   const Add = async () => {
     const formData = new FormData();
-    formData.append('image', {
-      name: new Date() + '_menuImage',
+    formData.append("image", {
+      name: new Date() + "_menuImage",
       uri: image,
       restaurantName: restaurant_name,
-      type: 'image/jpg',
+      type: "image/jpg",
     });
     try {
-      const res = await axios.post('http://10.0.2.2:8080/upload', formData, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
+      const res = await axios.post("http://10.0.2.2:8080/upload", formData, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
       });
       console.log(res.data);
-      try{
-        axios.post("http://10.0.2.2:8080/addMenu",{
-          restaurant_name: restaurant_name,
-          menu_name: menu_name,
-          price: price,
-          picture: res.data
-        }).then((response) => {
-          alert("Successfully added");
-          
-          axios.post("http://10.0.2.2:8080/addToCategory",{
+      try {
+        axios
+          .post("http://10.0.2.2:8080/addMenu", {
+            restaurant_name: restaurant_name,
             menu_name: menu_name,
-            category: category
+            price: price,
+            picture: res.data,
           })
-          
-        }).catch((err) => {
-          alert("Error to add menu because this menu already exists");
-        });
+          .then((response) => {
+            alert("Successfully added");
 
-        
-        navigation.navigate("Add", {name: restaurant_name});
-      }
-      catch(err){
-          console.log("err:",err);
+            axios.post("http://10.0.2.2:8080/addToCategory", {
+              menu_name: menu_name,
+              category: category,
+            });
+          })
+          .catch((err) => {
+            alert("Error to add menu because this menu already exists");
+          });
+
+        navigation.navigate("Add", { name: restaurant_name });
+      } catch (err) {
+        console.log("err:", err);
       }
     } catch (error) {
       console.log("++++", error.message);
@@ -100,33 +107,42 @@ const AddMenu = ({ navigation, route}) => {
         resizeMode="cover"
         source={require("../../assets/image-5.png")}
       />
-      
 
-      
-      {image == "" ? 
-      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
-        <View style={styles.rectangleView1} />
-        <Text style={styles.dropYourImageHere}>Drop your image here</Text>
-        <Image
-          style={styles.vectorIcon}
+      {image == "" ? (
+        <TouchableOpacity activeOpacity={0.5} onPress={openImageLibrary}>
+          <View style={styles.rectangleView1} />
+          <Text style={styles.dropYourImageHere}>Drop your image here</Text>
+          <Image
+            style={styles.vectorIcon}
             resizeMode="cover"
             source={require("../../assets/vector.png")}
-        />
-      </TouchableOpacity>
-      :
-      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
-      <View style={styles.dropYourImageHere}>
-        <Image source={{uri:image}} style={{width:200,height:200,top:-45,opacity: 0.6,borderRadius:10}}/>
-        <Text style={{top: -150,color: "black"}}>Click here to change image</Text>
-      </View>
-      </TouchableOpacity>
-      }
-        
+          />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity activeOpacity={0.5} onPress={openImageLibrary}>
+          <View style={styles.dropYourImageHere}>
+            <Image
+              source={{ uri: image }}
+              style={{
+                width: 200,
+                height: 200,
+                top: -45,
+                opacity: 0.6,
+                borderRadius: 10,
+              }}
+            />
+            <Text style={{ top: -150, color: "black" }}>
+              Click here to change image
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
+
       <View style={styles.nameView}>
         <Text style={styles.nameText}>Name</Text>
         <View style={styles.rectangleView2} />
-        <TextInput 
-          style={styles.enterTheNameOfTheFood} 
+        <TextInput
+          style={styles.enterTheNameOfTheFood}
           onChangeText={setMenuName}
           value={menu_name}
           placeholder="Enter the name of the food    "
@@ -135,7 +151,7 @@ const AddMenu = ({ navigation, route}) => {
       <View style={styles.priceView}>
         <Text style={styles.priceText}>Price</Text>
         <View style={styles.rectangleView3} />
-        <TextInput 
+        <TextInput
           style={styles.enterThePriceOfTheFood}
           onChangeText={setPrice}
           value={price}
@@ -146,18 +162,18 @@ const AddMenu = ({ navigation, route}) => {
       <View style={styles.categoryView}>
         <Text style={styles.categoryText}>Category</Text>
         <View style={styles.rectangleView5} />
-        <TextInput 
+        <TextInput
           style={styles.enterTheCategoryOfTheFood}
           onChangeText={setCategory}
           value={category}
           placeholder="Enter the category of the food"
         />
       </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = {Add}>
-      <View style={styles.addView}>
-        <View style={styles.rectangleView4} />
-        <Text style={styles.signIn2}>Add menu</Text>
-      </View>
+      <TouchableOpacity activeOpacity={0.5} onPress={Add}>
+        <View style={styles.addView}>
+          <View style={styles.rectangleView4} />
+          <Text style={styles.signIn2}>Add menu</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );

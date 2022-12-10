@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image, Switch, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Switch,
+  TouchableOpacity,
+} from "react-native";
 import axios from "axios";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 
 const HomepageRestaurant = ({ navigation, route }) => {
   const [switchOpen, setSwitchOpen] = useState(true);
   const [userRestaurant, setUserRestaurant] = useState(true);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
-  
+
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getUserRestaurant",{
-      params: {
-        phonenum: route.params.user_phonenum
-      }
-    })
-    .then((response) => {
-      setUserRestaurant(response.data[0]);
-    })
+    axios
+      .get("http://10.0.2.2:8080/getUserRestaurant", {
+        params: {
+          phonenum: route.params.user_phonenum,
+        },
+      })
+      .then((response) => {
+        setUserRestaurant(response.data[0]);
+      });
   }, []);
 
   if (!fontsLoaded) {
@@ -30,16 +38,16 @@ const HomepageRestaurant = ({ navigation, route }) => {
 
   function toggleSwitch() {
     let status = "";
-    setSwitchOpen(switchOpen => !switchOpen)
-    if(!switchOpen == true){
-      status = "Open now"
-    } else{
-      status = "Closed"
+    setSwitchOpen((switchOpen) => !switchOpen);
+    if (!switchOpen == true) {
+      status = "Open now";
+    } else {
+      status = "Closed";
     }
-    axios.patch("http://10.0.2.2:8080/updateRestaurantStatus",{
+    axios.patch("http://10.0.2.2:8080/updateRestaurantStatus", {
       restaurant_status: status,
-      restaurant_name: userRestaurant.restaurant_name
-    })
+      restaurant_name: userRestaurant.restaurant_name,
+    });
   }
 
   return (
@@ -50,41 +58,44 @@ const HomepageRestaurant = ({ navigation, route }) => {
           <Text style={styles.helloText}>{`Hello, `}</Text>
         </Text>
         <Text style={styles.restaurantView}>
-          <Text style={styles.restaurantName}>คุณ{userRestaurant.restaurant_name}</Text>
+          <Text style={styles.restaurantName}>
+            คุณ{userRestaurant.restaurant_name}
+          </Text>
         </Text>
       </Text>
       <View style={styles.openCloseView}>
         <View style={styles.openText}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[
-            styles.outterSwitch, 
-            switchOpen
-            ? {justifyContent:'flex-end', backgroundColor: '#00790c'}
-            : {justifyContent: 'flex-start', backgroundColor: '#B40707'}
-            ]} 
-            activeOpacity={1} 
-            onPress={(toggleSwitch)}
-            >
-            <View
-              style={[styles.innerSwitch]}
-            />
+              styles.outterSwitch,
+              switchOpen
+                ? { justifyContent: "flex-end", backgroundColor: "#00790c" }
+                : { justifyContent: "flex-start", backgroundColor: "#B40707" },
+            ]}
+            activeOpacity={1}
+            onPress={toggleSwitch}
+          >
+            <View style={[styles.innerSwitch]} />
           </TouchableOpacity>
-          {
-            switchOpen
-            ? <Text style={styles.openNowText}>  Open now</Text>
-            : <Text style={styles.closeText}>  Closed</Text>
-          }
+          {switchOpen ? (
+            <Text style={styles.openNowText}> Open now</Text>
+          ) : (
+            <Text style={styles.closeText}> Closed</Text>
+          )}
         </View>
       </View>
-      <TouchableOpacity 
-        activeOpacity = { .5 }
-        onPress = { () => {navigation.navigate("Add", { user_phonenum: route.params.user_phonenum, restaurant_name: userRestaurant.restaurant_name})}}
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("Add", {
+            user_phonenum: route.params.user_phonenum,
+            restaurant_name: userRestaurant.restaurant_name,
+          });
+        }}
       >
         <View style={styles.addView}>
           <View style={styles.rectangleView1} />
-          <Text style={styles.addText}>
-            Add menu, ingredients, toping
-          </Text>
+          <Text style={styles.addText}>Add menu, ingredients, toping</Text>
           <Image
             style={styles.add1Icon}
             resizeMode="cover"
@@ -92,9 +103,14 @@ const HomepageRestaurant = ({ navigation, route }) => {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity 
-        activeOpacity = { .5 }
-        onPress = { () => {navigation.navigate("Edit", { user_phonenum: route.params.user_phonenum, restaurant_name: userRestaurant.restaurant_name})}}
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("Edit", {
+            user_phonenum: route.params.user_phonenum,
+            restaurant_name: userRestaurant.restaurant_name,
+          });
+        }}
       >
         <View style={styles.editView}>
           <View style={styles.rectangleView2} />
@@ -119,14 +135,27 @@ const HomepageRestaurant = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../../assets/homeIconYellow.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("OrderList", { user_phonenum: route.params.user_phonenum, restaurant_name: userRestaurant.restaurant_name})}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("OrderList", {
+              user_phonenum: route.params.user_phonenum,
+              restaurant_name: userRestaurant.restaurant_name,
+            });
+          }}
+        >
           <Image
             style={styles.billIcon}
             resizeMode="cover"
             source={require("../../assets/orderIcon.png")}
           />
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("LogIn");
+          }}
+        >
           <Image
             style={styles.signoutIcon}
             resizeMode="cover"
@@ -315,8 +344,8 @@ const styles = StyleSheet.create({
   },
   openText: {
     position: "absolute",
-    flexDirection:'row', 
-    flexWrap:'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     top: 0,
     left: 38,
     fontSize: 12,
@@ -340,20 +369,20 @@ const styles = StyleSheet.create({
   innerSwitch: {
     width: 17,
     height: 17,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     elevation: 8,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.15,
     shadowRadius: 2,
   },
   outterSwitch: {
     width: 40,
     height: 20,
-    backgroundColor: 'gray',
+    backgroundColor: "gray",
     borderRadius: 10,
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     paddingHorizontal: 2,
   },
 });

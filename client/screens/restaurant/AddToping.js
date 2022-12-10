@@ -1,17 +1,24 @@
-import React, {useState} from "react";
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
-import axios from 'axios';
-import { useFonts } from 'expo-font';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import axios from "axios";
+import { useFonts } from "expo-font";
 
-const AddToping = ({ navigation, route}) => {
+const AddToping = ({ navigation, route }) => {
   const restaurant_name = route.params.name;
   const [name, setName] = useState("");
   const [price, setPrice] = useState(null);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -19,17 +26,20 @@ const AddToping = ({ navigation, route}) => {
   }
 
   const Add = () => {
-    axios.post("http://10.0.2.2:8080/addToping",{
-      restaurant_name: restaurant_name,
-      name: name,
-      price: price
-    }).then((response) => {
-      alert("Successfully added");
-    }).catch((err) => {
-      alert("Error to add topping because this topping already exists");
-    });
-    navigation.navigate("Add", {name: restaurant_name});
-  }
+    axios
+      .post("http://10.0.2.2:8080/addToping", {
+        restaurant_name: restaurant_name,
+        name: name,
+        price: price,
+      })
+      .then((response) => {
+        alert("Successfully added");
+      })
+      .catch((err) => {
+        alert("Error to add topping because this topping already exists");
+      });
+    navigation.navigate("Add", { name: restaurant_name });
+  };
 
   return (
     <View style={styles.addTopingView}>
@@ -48,29 +58,34 @@ const AddToping = ({ navigation, route}) => {
       <View style={styles.nameView}>
         <Text style={styles.nameText}>Name</Text>
         <View style={styles.rectangleView1} />
-        <TextInput 
-        style={styles.enterTheNameOfTheToping} 
-        onChangeText={setName}
-        value={name}
-        placeholder="Enter the name of the toping    "
+        <TextInput
+          style={styles.enterTheNameOfTheToping}
+          onChangeText={setName}
+          value={name}
+          placeholder="Enter the name of the toping    "
         />
       </View>
       <View style={styles.priceView}>
         <Text style={styles.priceText}>Price</Text>
         <View style={styles.rectangleView2} />
-        <TextInput 
-        style={styles.enterThePriceOfTheToping}
-        onChangeText={setPrice}
-        value={price}
-        placeholder="Enter the price of the toping    "
-        keyboardType="numeric"
+        <TextInput
+          style={styles.enterThePriceOfTheToping}
+          onChangeText={setPrice}
+          value={price}
+          placeholder="Enter the price of the toping    "
+          keyboardType="numeric"
         />
       </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {Add()}}>
-      <View style={styles.addView}>
-        <View style={styles.rectangleView3} />
-        <Text style={styles.signIn2}>Add toping</Text>
-      </View>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          Add();
+        }}
+      >
+        <View style={styles.addView}>
+          <View style={styles.rectangleView3} />
+          <Text style={styles.signIn2}>Add toping</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );

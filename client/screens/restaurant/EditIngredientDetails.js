@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
-import axios from 'axios';
-import { useFonts } from 'expo-font';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import axios from "axios";
+import { useFonts } from "expo-font";
 
 const EditIngredientDetails = ({ route, navigation }) => {
   const [switchOpen, setSwitchOpen] = useState(1);
   const [newPrice, setNewPrice] = useState(route.params.price);
   const restaurant_name = route.params.restaurant_name;
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getIngredientStatus", {
-      params: {
-        restaurant_name: restaurant_name,
-        ingredient: route.params.name
-      }
-    })
-    .then((response) => { 
-      setSwitchOpen(response.data[0].ingredient_status);
-    })
+    axios
+      .get("http://10.0.2.2:8080/getIngredientStatus", {
+        params: {
+          restaurant_name: restaurant_name,
+          ingredient: route.params.name,
+        },
+      })
+      .then((response) => {
+        setSwitchOpen(response.data[0].ingredient_status);
+      });
   }, []);
 
   if (!fontsLoaded) {
@@ -31,31 +39,34 @@ const EditIngredientDetails = ({ route, navigation }) => {
   }
 
   const Edit = () => {
-    axios.patch("http://10.0.2.2:8080/updateIngredient",{
-      restaurant_name: restaurant_name,
-      // newName: newName,
-      newPrice: newPrice,
-      oldName: route.params.name
-    }).then((response) => {
-      alert("Successfully edited");
-    }).catch((err) => {
-      alert("Error to edit " + newName);
-    });
-    navigation.navigate("Edit", {name: restaurant_name});
-  }
+    axios
+      .patch("http://10.0.2.2:8080/updateIngredient", {
+        restaurant_name: restaurant_name,
+        // newName: newName,
+        newPrice: newPrice,
+        oldName: route.params.name,
+      })
+      .then((response) => {
+        alert("Successfully edited");
+      })
+      .catch((err) => {
+        alert("Error to edit " + newName);
+      });
+    navigation.navigate("Edit", { name: restaurant_name });
+  };
 
   function toggleSwitch() {
     let status = 0;
-    setSwitchOpen(switchOpen => !switchOpen)
-    if(!switchOpen == 1){
+    setSwitchOpen((switchOpen) => !switchOpen);
+    if (!switchOpen == 1) {
       status = 1;
     } else {
       status = 0;
     }
-    axios.patch("http://10.0.2.2:8080/updateIngredientStatus",{
+    axios.patch("http://10.0.2.2:8080/updateIngredientStatus", {
       restaurant_name: restaurant_name,
       ingredient: route.params.name,
-      status: status
+      status: status,
     });
   }
 
@@ -76,39 +87,42 @@ const EditIngredientDetails = ({ route, navigation }) => {
       <View style={styles.priceInputView}>
         <Text style={styles.priceText}>Price</Text>
         <View style={styles.rectangleView2} />
-        <TextInput 
+        <TextInput
           style={styles.enterTheNewPrice}
           onChangeText={setNewPrice}
           value={newPrice.toString(10)}
           keyboardType="numeric"
         />
       </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {Edit()}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          Edit();
+        }}
+      >
         <View style={styles.editButtonView}>
           <View style={styles.rectangleView3} />
           <Text style={styles.editButton}>Edit</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.availableView}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
-          styles.outterSwitch, 
-          switchOpen
-          ? {justifyContent:'flex-end', backgroundColor: '#00790c'}
-          : {justifyContent: 'flex-start', backgroundColor: '#B40707'}
-          ]} 
-          activeOpacity={1} 
-          onPress={(toggleSwitch)}
-          >
-          <View
-            style={[styles.innerSwitch]}
-          />
+            styles.outterSwitch,
+            switchOpen
+              ? { justifyContent: "flex-end", backgroundColor: "#00790c" }
+              : { justifyContent: "flex-start", backgroundColor: "#B40707" },
+          ]}
+          activeOpacity={1}
+          onPress={toggleSwitch}
+        >
+          <View style={[styles.innerSwitch]} />
         </TouchableOpacity>
-        {
-          switchOpen
-          ? <Text style={styles.availableText}>Available</Text>
-          : <Text style={styles.notAvailableText}>Not available</Text>
-        }
+        {switchOpen ? (
+          <Text style={styles.availableText}>Available</Text>
+        ) : (
+          <Text style={styles.notAvailableText}>Not available</Text>
+        )}
       </View>
     </View>
   );
@@ -297,7 +311,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     fontFamily: "NotoSansThai-Regular",
-    color: '#B40707',
+    color: "#B40707",
     textAlign: "left",
   },
   availableView: {
@@ -316,8 +330,8 @@ const styles = StyleSheet.create({
   },
   openText: {
     position: "absolute",
-    flexDirection:'row', 
-    flexWrap:'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     top: 0,
     // left: 38,
     fontSize: 12,
@@ -328,20 +342,20 @@ const styles = StyleSheet.create({
   innerSwitch: {
     width: 17,
     height: 17,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     elevation: 8,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.15,
     shadowRadius: 2,
   },
   outterSwitch: {
     width: 40,
     height: 20,
-    backgroundColor: 'gray',
+    backgroundColor: "gray",
     borderRadius: 10,
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     paddingHorizontal: 2,
   },
 });

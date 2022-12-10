@@ -1,6 +1,6 @@
 const Stack = createNativeStackNavigator();
 
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -8,7 +8,7 @@ import { View, Text, Pressable, TouchableOpacity } from "react-native";
 
 // Login Side
 import LogIn from "./screens/LogIn";
-import Verification from './screens/Verification';
+import Verification from "./screens/Verification";
 
 // Normal Side
 import Homepage from "./screens/Homepage";
@@ -33,22 +33,21 @@ import EditRestaurant from "./screens/restaurant/EditRestaurant";
 import EditToping from "./screens/restaurant/EditToping";
 import EditTopingDetails from "./screens/restaurant/EditTopingDetails";
 
-
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
   const SplashScreen = () => <View />;
-  
+
   return (
     <>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-             <Stack.Screen
+            <Stack.Screen
               name="LogIn"
               component={LogIn}
               options={{ headerShown: false }}
             />
-             <Stack.Screen
+            <Stack.Screen
               name="Verification"
               component={Verification}
               options={{ headerShown: false }}
@@ -78,14 +77,14 @@ const App = () => {
               component={Ticket}
               options={{ headerShown: false }}
             />
-            
+
             {/* Restaurant Page */}
             <Stack.Screen
               name="HomepageRestaurant"
               component={HomepageRestaurant}
               options={{ headerShown: false }}
             />
-            
+
             <Stack.Screen
               name="Add"
               component={Add}
@@ -105,7 +104,7 @@ const App = () => {
               name="AddToping"
               component={AddToping}
               options={{ headerShown: false }}
-            /> 
+            />
             <Stack.Screen
               name="Edit"
               component={Edit}
@@ -146,7 +145,7 @@ const App = () => {
               component={EditTopingDetails}
               options={{ headerShown: false }}
             />
-             <Stack.Screen
+            <Stack.Screen
               name="OrderList"
               component={OrderList}
               options={{ headerShown: false }}

@@ -1,15 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const multer = require('multer');
-const path = require('path');
-const cloudinary = require('cloudinary').v2;
+const multer = require("multer");
+const path = require("path");
+const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
-  cloud_name: 'dvd8h29zr',
-  api_key: '495187684313245',
-  api_secret: 'AgjexikYnxCUG6pqBk2XXT6AYgc',
-  secure: true
+  cloud_name: "dvd8h29zr",
+  api_key: "495187684313245",
+  api_secret: "AgjexikYnxCUG6pqBk2XXT6AYgc",
+  secure: true,
 });
 
 // cloudinary.config({
@@ -20,11 +20,11 @@ cloudinary.config({
 // });
 
 const app = express();
-cors
+cors;
 var corsOptions = {
   origin: "*",
   credentials: false,
-  Headers: "x-access-token"
+  Headers: "x-access-token",
 };
 
 app.use(express.json());
@@ -36,34 +36,33 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 const storage = multer.diskStorage({});
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image')) {
+  if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    cb('invalid image file!', false);
+    cb("invalid image file!", false);
   }
 };
 
 const uploads = multer({ storage, fileFilter });
 
-app.post('/upload', uploads.single('image'),async (req, res) => {
+app.post("/upload", uploads.single("image"), async (req, res) => {
   const { user } = req;
 
   try {
     const result = await cloudinary.uploader.upload(req.file.path, {
-      public_id: new Date() + '_image',
+      public_id: new Date() + "_image",
       width: 500,
       height: 500,
-      crop: 'fill',
+      crop: "fill",
     });
     res.send(result.url);
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: 'server error, try after some time' });
-    console.log('Error while uploading profile image', error.message);
+      .json({ success: false, message: "server error, try after some time" });
+    console.log("Error while uploading profile image", error.message);
   }
 });
-
 
 //login
 require("./app/routes/verification.routes")(app);

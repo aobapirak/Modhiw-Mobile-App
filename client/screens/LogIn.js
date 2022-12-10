@@ -1,15 +1,22 @@
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity} from "react-native";
-import { useFonts } from 'expo-font';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { useFonts } from "expo-font";
 
 const LogIn = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isEnter, setIsEnter] = useState(false);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -17,8 +24,8 @@ const LogIn = ({ navigation }) => {
   }
 
   const goVerification = (phoneNumber) => {
-    navigation.navigate('Verification', { user_phonenum: phoneNumber });
-  }
+    navigation.navigate("Verification", { user_phonenum: phoneNumber });
+  };
 
   return (
     <View style={styles.logInView}>
@@ -27,12 +34,14 @@ const LogIn = ({ navigation }) => {
       <Text style={styles.pleaseEnterYourPhoneNumber}>
         Please enter your phone number
       </Text>
-      {isEnter?
+      {isEnter ? (
         <View style={styles.phoneNumView2}>
           <View style={styles.rectangleView2} />
-          <TouchableOpacity 
-            activeOpacity = { .5 } 
-            onPress = { () => { goVerification(phoneNumber) }}
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              goVerification(phoneNumber);
+            }}
           >
             <View style={styles.rectangleView3} />
             <Image
@@ -47,19 +56,20 @@ const LogIn = ({ navigation }) => {
             source={require("../assets/phonecall-1-1.png")}
           />
           <Text style={styles.phoneNumberText}>Phone number</Text>
-          <TextInput 
-            style={styles.text} 
-            keyboardType={'phone-pad'}
+          <TextInput
+            style={styles.text}
+            keyboardType={"phone-pad"}
             onChangeText={(number) => setPhoneNumber(number)}
           />
         </View>
-        :
+      ) : (
         <View style={styles.phoneNumView}>
           <View style={styles.rectangleView2} />
-          <TouchableOpacity 
-            activeOpacity = { .5 } 
-            onPress = { () => {
-              navigation.navigate( goVerification(phoneNumber) )}}
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              navigation.navigate(goVerification(phoneNumber));
+            }}
           >
             <View style={styles.rectangleView3} />
             <Image
@@ -74,15 +84,14 @@ const LogIn = ({ navigation }) => {
             source={require("../assets/phonecall-1-1.png")}
           />
           <Text style={styles.phoneNumberText}>Phone number</Text>
-            <TextInput 
-              style={styles.text}
-              keyboardType={'phone-pad'}
-              onChangeText={(number) => setPhoneNumber(number)}
-              onFocus={() => setIsEnter(true)}
-            >
-            </TextInput>
+          <TextInput
+            style={styles.text}
+            keyboardType={"phone-pad"}
+            onChangeText={(number) => setPhoneNumber(number)}
+            onFocus={() => setIsEnter(true)}
+          ></TextInput>
         </View>
-      }
+      )}
       <Text style={styles.welcome}>
         <Text style={styles.welcomeText}>Welcome, </Text>
         <Text style={styles.logInTo}>Log in to {"\n"}</Text>

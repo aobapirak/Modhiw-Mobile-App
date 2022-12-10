@@ -1,34 +1,42 @@
-import React, {useState, useEffect} from "react";
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
-import axios from 'axios';
-import * as ImagePicker from 'expo-image-picker';
-import { useFonts } from 'expo-font';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
+import { useFonts } from "expo-font";
 
-const EditRestaurant = ({navigation, route}) => {
+const EditRestaurant = ({ navigation, route }) => {
   const restaurant_name = route.params.restaurant_name;
-  const [name,setName] = useState("");
-  const [area,setArea] = useState("");
-  const [restaurant,setRestaurant] = useState("");
-  const [image,setImage] = useState("");
+  const [name, setName] = useState("");
+  const [area, setArea] = useState("");
+  const [restaurant, setRestaurant] = useState("");
+  const [image, setImage] = useState("");
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getRestaurant", {
-      params: {
-        restaurant_name: restaurant_name
-      }
-    })
-    .then((response) => {
-      setRestaurant(response.data[0]);
-      setName(response.data[0].restaurant_name);
-      setArea(response.data[0].area);
-      setImage(response.data[0].picture);
-    });
+    axios
+      .get("http://10.0.2.2:8080/getRestaurant", {
+        params: {
+          restaurant_name: restaurant_name,
+        },
+      })
+      .then((response) => {
+        setRestaurant(response.data[0]);
+        setName(response.data[0].restaurant_name);
+        setArea(response.data[0].area);
+        setImage(response.data[0].picture);
+      });
   }, []);
 
   if (!fontsLoaded) {
@@ -37,34 +45,36 @@ const EditRestaurant = ({navigation, route}) => {
 
   const update = async () => {
     const formData = new FormData();
-    formData.append('image', {
-      name: new Date() + '_menuImage',
+    formData.append("image", {
+      name: new Date() + "_menuImage",
       uri: image,
       restaurantName: restaurant_name,
-      type: 'image/jpg',
+      type: "image/jpg",
     });
     try {
-      const res = await axios.post('http://10.0.2.2:8080/upload', formData, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
+      const res = await axios.post("http://10.0.2.2:8080/upload", formData, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
       });
       console.log(res.data);
-      try{
-        axios.patch("http://10.0.2.2:8080/updateRestaurantInfo",{
-          restaurant_name: restaurant_name,
-          area: area,
-          picture: res.data
-        }).then((response) => {
-          alert("Successfully update");
-        }).catch((err) => {
-          alert("Error to edit data");
-        });
-        navigation.navigate("Edit", {name: restaurant_name});
-      }
-      catch(err){
-          console.log("err:",err);
+      try {
+        axios
+          .patch("http://10.0.2.2:8080/updateRestaurantInfo", {
+            restaurant_name: restaurant_name,
+            area: area,
+            picture: res.data,
+          })
+          .then((response) => {
+            alert("Successfully update");
+          })
+          .catch((err) => {
+            alert("Error to edit data");
+          });
+        navigation.navigate("Edit", { name: restaurant_name });
+      } catch (err) {
+        console.log("err:", err);
       }
     } catch (error) {
       console.log(error.message);
@@ -73,14 +83,14 @@ const EditRestaurant = ({navigation, route}) => {
 
   const openImageLibrary = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
     }
-    if (status === 'granted') {
+    if (status === "granted") {
       const response = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-      }); 
+      });
       if (!response.cancelled) {
         setImage(response.uri);
       }
@@ -102,40 +112,56 @@ const EditRestaurant = ({navigation, route}) => {
         source={require("../../assets/editmenuicon.png")}
       />
 
-      {image == "" ? 
-      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
-        <View style={styles.rectangleView1} />
-        <Text style={styles.dropYourImageHere}>Drop your image here</Text>
-        <Image
-          style={styles.vectorIcon}
+      {image == "" ? (
+        <TouchableOpacity activeOpacity={0.5} onPress={openImageLibrary}>
+          <View style={styles.rectangleView1} />
+          <Text style={styles.dropYourImageHere}>Drop your image here</Text>
+          <Image
+            style={styles.vectorIcon}
             resizeMode="cover"
             source={require("../../assets/vector.png")}
-        />
-      </TouchableOpacity>
-      :
-      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
-      <View style={styles.dropYourImageHere}>
-        <Image source={{uri:image}} style={{width:200,height:200,top:-45,opacity: 0.6,borderRadius:10}}/>
-        <Text style={{top: -150,color: "black"}}>Click here to change image</Text>
-      </View>
-      </TouchableOpacity>
-      }
+          />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity activeOpacity={0.5} onPress={openImageLibrary}>
+          <View style={styles.dropYourImageHere}>
+            <Image
+              source={{ uri: image }}
+              style={{
+                width: 200,
+                height: 200,
+                top: -45,
+                opacity: 0.6,
+                borderRadius: 10,
+              }}
+            />
+            <Text style={{ top: -150, color: "black" }}>
+              Click here to change image
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
 
       <View style={styles.areaInputView}>
         <Text style={styles.areaText}>Area</Text>
         <View style={styles.rectangleView4} />
-        <TextInput 
+        <TextInput
           style={styles.enterTheNewArea}
           onChangeText={setArea}
           value={area}
           placeholder="Enter the new area"
         />
       </View>
-      <TouchableOpacity activeOpacity={.5} onPress= {() => {update()}}>
-      <View style={styles.addButtonView}>
-        <View style={styles.rectangleView5} />
-        <Text style={styles.editButton}>Edit</Text>
-      </View>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          update();
+        }}
+      >
+        <View style={styles.addButtonView}>
+          <View style={styles.rectangleView5} />
+          <Text style={styles.editButton}>Edit</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
