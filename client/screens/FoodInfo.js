@@ -39,6 +39,7 @@ const FoodInfo = ({ navigation, route }) => {
   const [ingredientSelected, setIngredientSelected] = useState([]);
   const [topingSelected, setTopingSelected] = useState([]);
   const [note, setNote] = useState("");
+  const [lastQueue, setLastQueue] = useState([]);
   const [fontsLoaded] = useFonts({
     'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
     'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
@@ -69,6 +70,12 @@ const FoodInfo = ({ navigation, route }) => {
     .then((response) => {
       setToping(response.data);
     });
+
+    axios.get("http://10.0.2.2:8080/getLastQueue")
+    .then((response) => {
+      setLastQueue(response.data);
+      console.log(response.data);
+    })
   }, []);
 
   if (!fontsLoaded) {
@@ -137,7 +144,6 @@ const FoodInfo = ({ navigation, route }) => {
     navigation.navigate('ConfirmBook', {restaurant: route.params.restaurant, menu: route.params.menu, ingredient: ingredient, toping: "toping :D", booknote: "booknote :)"});
   }
 */
-
 
   const pressHandle = (ingredient,booknote,toping) => {
     setModalVisible(true)

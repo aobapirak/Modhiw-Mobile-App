@@ -8,7 +8,7 @@ const getIngredient = (req, res) => {
             return;
         }
         const restaurantName = req.query.restaurant_name;
-        db.query("SELECT ingredient, price_adjust, restaurant_name FROM ingredient_t WHERE restaurant_name = ?", [restaurantName],
+        db.query("SELECT ingredient, price_adjust, restaurant_name FROM ingredient_t WHERE restaurant_name = ? AND ingredient_status = 1", [restaurantName],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -28,7 +28,7 @@ const getToping = (req, res) => {
             return;
         }
         const restaurantName = req.query.restaurant_name;
-        db.query("SELECT toping, price_adjust, restaurant_name FROM toping_t WHERE restaurant_name = ?", [restaurantName],
+        db.query("SELECT toping, price_adjust, restaurant_name FROM toping_t WHERE restaurant_name = ? AND toping_status = 1", [restaurantName],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -40,9 +40,9 @@ const getToping = (req, res) => {
     });
 }
 
-
 const getStatusCheck = (req, res) => {
-    pool.getConnection((err, db) => {
+
+ pool.getConnection((err, db) => {
         if (err) {
             console.log(err);
             res.status(500).json({'error':err});
@@ -63,8 +63,30 @@ const getStatusCheck = (req, res) => {
     });
 }
 
+
+const getLastQueue  = (req,res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        db.query(`select queue_id from queue_log ORDER BY queue_id DESC LIMIT 1;`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+                console.log(result);
+            }
+            db.release();
+        });
+    });
+}
+
 module.exports = {
     getIngredient,
     getToping,
-    getStatusCheck
+    getStatusCheck,
+    getLastQueue
 }

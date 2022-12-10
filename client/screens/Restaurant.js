@@ -135,11 +135,13 @@ const Restaurant = ({ navigation, route }) => {
           source={require("../assets/ticketIcon.png")}
         />
       </TouchableOpacity>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
       <Image
         style={styles.image3Icon}
         resizeMode="cover"
         source={require("../assets/logoutIcon.png")}
       />
+      </TouchableOpacity>
       <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
         <Image
           style={styles.image4Icon}

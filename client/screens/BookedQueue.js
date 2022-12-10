@@ -6,7 +6,6 @@ import { useFonts } from 'expo-font';
 
 const Booked = ({ navigation, route }) => {
   const [listToping, setlistToping] = useState([]);
-  const [lastQueue, setLastQueue] = useState([]);
   const [fontsLoaded] = useFonts({
     'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
     'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
@@ -16,11 +15,11 @@ const Booked = ({ navigation, route }) => {
 
   useEffect(() => {
 
+
     axios.get("http://10.0.2.2:8080/getLastQueue")
     .then((response) => {
       setLastQueue(response.data);
     })
-
     let buff = "";
     for (let i = 0; i < route.params.toping.length; i++) {
       if (i > 0) {
@@ -34,8 +33,9 @@ const Booked = ({ navigation, route }) => {
       restaurant_name: route.params.restaurant.restaurant_name,
       phone_number: route.params.user_phonenum,
       menu_name: route.params.menu.menu_name,
-      ingredient: route.params.ingredient,
-      note: buff
+      ingredient: route.params.ingredient.ingredient,
+      note: buff,
+      lastQueue: route.params.lastQueue[0].queue_id
     })
     
     setlistToping(buff);
@@ -82,10 +82,10 @@ const Booked = ({ navigation, route }) => {
             source={require("../assets/image-6.png")}
           />
         </View>
-        {lastQueue[0] == undefined?
+        {route.params.lastQueue[0] == undefined?
         <Text style={styles.queue}>E</Text>
         :
-        <Text style={styles.queue}>E{lastQueue[0].queue_id + 1}</Text>
+        <Text style={styles.queue}>E{route.params.lastQueue[0].queue_id + 1}</Text>
         }
         
         <Text style={styles.word}>
