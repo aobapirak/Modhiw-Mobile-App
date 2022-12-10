@@ -1,31 +1,42 @@
-import React, {useState,useEffect} from "react";
-import { Image, StyleSheet, View, Text, TouchableOpacity, ScrollView, Modal, Pressable } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Modal,
+  Pressable,
+} from "react-native";
 import axios from "axios";
 import CallModal from "./CallModal";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 
 const OrderList = ({ navigation, route }) => {
-  const [tickets,setTickets] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [data,setData] = useState([]);
-  const [status,setStatus] = useState(0);
+  const [data, setData] = useState([]);
+  const [status, setStatus] = useState(0);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
-  
+
   const restaurant_name = route.params.restaurant_name;
-  
+
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getOrderList",{
-      params: {
-        restaurantName: restaurant_name
-      }
-    }).then((response) => {
-      setTickets(response.data);
-    })
+    axios
+      .get("http://10.0.2.2:8080/getOrderList", {
+        params: {
+          restaurantName: restaurant_name,
+        },
+      })
+      .then((response) => {
+        setTickets(response.data);
+      });
   }, []);
 
   if (!fontsLoaded) {
@@ -33,89 +44,106 @@ const OrderList = ({ navigation, route }) => {
   }
 
   const getDatabase = () => {
-    axios.get("http://10.0.2.2:8080/getOrderList",{
-      params: {
-        restaurantName: restaurant_name
-      }
-    }).then((response) => {
-      setTickets(response.data);
-    })
-  }
+    axios
+      .get("http://10.0.2.2:8080/getOrderList", {
+        params: {
+          restaurantName: restaurant_name,
+        },
+      })
+      .then((response) => {
+        setTickets(response.data);
+      });
+  };
 
-  const updateStatus = (id,status_id) => {
-    axios.patch("http://10.0.2.2:8080/updateStatus",{
-      queue_id: id,
-      status: status_id
-    }).then(() => {
-      getDatabase();
-    })
-  }
+  const updateStatus = (id, status_id) => {
+    axios
+      .patch("http://10.0.2.2:8080/updateStatus", {
+        queue_id: id,
+        status: status_id,
+      })
+      .then(() => {
+        getDatabase();
+      });
+  };
 
-  const pressHandle = (ticket,status_id) => {
+  const pressHandle = (ticket, status_id) => {
     setModalVisible(true);
     setData(ticket);
     setStatus(status_id);
-  }
+  };
 
   return (
     <View style={styles.orderListView}>
-      <CallModal 
-        modalVisible={modalVisible} 
-        setModalVisible={()=> setModalVisible(!modalVisible)} 
+      <CallModal
+        modalVisible={modalVisible}
+        setModalVisible={() => setModalVisible(!modalVisible)}
         data={data}
         status={status}
         updateStatus={() => updateStatus(data.queue_id, status)}
       />
-      <View style={styles.barAndContent}> 
-      <ScrollView>
-      {tickets.map( (ticket) =>
-      
-      <View style={styles.ticketView}>
-        <Image
-          style={styles.subtractIcon}
-          resizeMode="cover"
-          source={require("../../assets/subtract.png")}
-        />
-        {ticket.order_status != 0?
-        
-        <View style={styles.bookView}>
-          <TouchableOpacity onPress={ () => {pressHandle(ticket,2)}}>
-          <View style={styles.approveButton} />
-          <Text style={styles.approveText}>Approve</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={ () => {pressHandle(ticket,3)}}>
-          <View style={styles.rejectButton} />
-          <Text style={styles.rejectText}>Reject</Text>
-          </TouchableOpacity>
-        </View>
-        :
-        <View style={styles.bookView}>
-          <TouchableOpacity onPress={ () => {updateStatus(ticket.queue_id,1)}}>
-            <View style={styles.doneButton} />
-            <Text style={styles.doneText}>Done</Text>
-          </TouchableOpacity>
-        </View>
-        }
-        <View style={styles.lineView} />
-        <View style={styles.menuView}>
-          <Text style={styles.food}>
-            {ticket.menu_name} ({ticket.ingredient}) {'\n'}
-            <Text style={styles.note}>Note: {ticket.note}</Text>
-          </Text>
-          <Image
-            style={styles.image5Icon}
-            resizeMode="cover"
-            source={require("../../assets/image-53.png")}
-          />
-        </View>
-        <Text style={styles.ticketId}>E{ticket.queue_id}</Text>
-        <Text style={styles.phoneNumberView}>
-          <Text>Phone number: {ticket.phone_number}</Text>
-          <Text>{"\n"}Time : {ticket.order_time.substring(0,10)} {ticket.order_time.substring(11,16)}</Text>
-        </Text>
-      </View>
-      )}
-      </ScrollView>
+      <View style={styles.barAndContent}>
+        <ScrollView>
+          {tickets.map((ticket) => (
+            <View style={styles.ticketView}>
+              <Image
+                style={styles.subtractIcon}
+                resizeMode="cover"
+                source={require("../../assets/subtract.png")}
+              />
+              {ticket.order_status != 0 ? (
+                <View style={styles.bookView}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      pressHandle(ticket, 2);
+                    }}
+                  >
+                    <View style={styles.approveButton} />
+                    <Text style={styles.approveText}>Approve</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      pressHandle(ticket, 3);
+                    }}
+                  >
+                    <View style={styles.rejectButton} />
+                    <Text style={styles.rejectText}>Reject</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={styles.bookView}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      updateStatus(ticket.queue_id, 1);
+                    }}
+                  >
+                    <View style={styles.doneButton} />
+                    <Text style={styles.doneText}>Done</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              <View style={styles.lineView} />
+              <View style={styles.menuView}>
+                <Text style={styles.food}>
+                  {ticket.menu_name} ({ticket.ingredient}) {"\n"}
+                  <Text style={styles.note}>Note: {ticket.note}</Text>
+                </Text>
+                <Image
+                  style={styles.image5Icon}
+                  resizeMode="cover"
+                  source={require("../../assets/image-53.png")}
+                />
+              </View>
+              <Text style={styles.ticketId}>E{ticket.queue_id}</Text>
+              <Text style={styles.phoneNumberView}>
+                <Text>Phone number: {ticket.phone_number}</Text>
+                <Text>
+                  {"\n"}Time : {ticket.order_time.substring(0, 10)}{" "}
+                  {ticket.order_time.substring(11, 16)}
+                </Text>
+              </Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
       <View style={styles.barView}>
         <Image
@@ -123,7 +151,14 @@ const OrderList = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../../assets/rectangle-11.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = {() => navigation.navigate("HomepageRestaurant", { user_phonenum: route.params.user_phonenum})}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() =>
+            navigation.navigate("HomepageRestaurant", {
+              user_phonenum: route.params.user_phonenum,
+            })
+          }
+        >
           <Image
             style={styles.homeIcon}
             resizeMode="cover"
@@ -135,7 +170,12 @@ const OrderList = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../../assets/orderIconYellow.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("LogIn");
+          }}
+        >
           <Image
             style={styles.signoutIcon}
             resizeMode="cover"
@@ -281,8 +321,8 @@ const styles = StyleSheet.create({
     left: 21,
     width: 370,
     height: 570,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   barBox: {
     position: "absolute",
@@ -326,8 +366,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   barAndContent: {
-    marginBottom: 59
-  }
+    marginBottom: 59,
+  },
 });
 
 export default OrderList;

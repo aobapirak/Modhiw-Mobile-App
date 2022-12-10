@@ -1,45 +1,57 @@
-import React, {useState,useEffect} from "react";
-import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity, ScrollView } from "react-native";
-import CardSilder from 'react-native-cards-slider';
-import axios from 'axios';
-import { useFonts } from 'expo-font';
+import React, { useState, useEffect } from "react";
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import CardSilder from "react-native-cards-slider";
+import axios from "axios";
+import { useFonts } from "expo-font";
 
 const Restaurant = ({ navigation, route }) => {
   const [menu, setMenu] = useState([]);
   const [menuToShow, setMenuToShow] = useState([]);
   const [category, setCategory] = useState([]);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
-  
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getMenu",{
-      params: {
-        restaurantName: route.params.restaurant.restaurant_name
-      }
-    }).then((response) => {
-      setMenu(response.data);
-      setMenuToShow(response.data);
-    })
-  
-    axios.get("http://10.0.2.2:8080/getCategory",{
-      params: {
-        restaurantName: route.params.restaurant.restaurant_name
-      }
-    }).then((response) => {
-      let buff = "";
-      for (let i = 0; i < response.data.length; i++) {
-        if(i != 0){
-          buff += ", "
+    axios
+      .get("http://10.0.2.2:8080/getMenu", {
+        params: {
+          restaurantName: route.params.restaurant.restaurant_name,
+        },
+      })
+      .then((response) => {
+        setMenu(response.data);
+        setMenuToShow(response.data);
+      });
+
+    axios
+      .get("http://10.0.2.2:8080/getCategory", {
+        params: {
+          restaurantName: route.params.restaurant.restaurant_name,
+        },
+      })
+      .then((response) => {
+        let buff = "";
+        for (let i = 0; i < response.data.length; i++) {
+          if (i != 0) {
+            buff += ", ";
+          }
+          buff += response.data[i].category;
         }
-        buff += response.data[i].category;
-      }
-      setCategory(buff);
-    });
+        setCategory(buff);
+      });
   }, []);
 
   if (!fontsLoaded) {
@@ -47,110 +59,147 @@ const Restaurant = ({ navigation, route }) => {
   }
 
   const search = (toSearch) => {
-    setMenuToShow(menu.filter(menu => menu.menu_name.search(toSearch) != -1));
-  }
+    setMenuToShow(menu.filter((menu) => menu.menu_name.search(toSearch) != -1));
+  };
 
   const goFoodInfo = (menu) => {
-    navigation.navigate('FoodInfo', { user_phonenum: route.params.user_phonenum, restaurant: route.params.restaurant, menu: menu});
-  }
-  
+    navigation.navigate("FoodInfo", {
+      user_phonenum: route.params.user_phonenum,
+      restaurant: route.params.restaurant,
+      menu: menu,
+    });
+  };
+
   return (
     <ImageBackground
       style={styles.restaurantInfoIcon}
       resizeMode="cover"
       source={require("../assets/restaurantinfo.png")}
     >
-    <Image
-      style={styles.rectangleIcon}
-      resizeMode="cover"
-      source={{
-            uri: `${route.params.restaurant.picture}`,
+      <Image
+        style={styles.rectangleIcon}
+        resizeMode="cover"
+        source={{
+          uri: `${route.params.restaurant.picture}`,
         }}
-    />
+      />
 
-    <View style={styles.rectangleView} />
-    <View style={styles.searchView}>
-      <View style={styles.rectangleView1} />
-      <Image
-        style={styles.searchIcon}
-        resizeMode="cover"
-        source={require("../assets/search.png")}
-      />
-      <TextInput 
-        style={styles.searchByMenu}
-        placeholder="Search by menu  "
-        onChangeText={(text) => search(text)}
-      />
-    </View>
-    <Text style={styles.restaurantName}>{route.params.restaurant.restaurant_name}</Text>
-    <Text style={styles.noodlesALarCarte}>{category}</Text>
-    {route.params.restaurant.restaurant_status == "Open now" ?
-      <Text style={styles.openNowText}>
-        {route.params.restaurant.restaurant_status}
-      </Text>
-      :
-      <Text style={styles.closeText}>
-        {route.params.restaurant.restaurant_status}
-      </Text>
-    }
-    
-    <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
-      <Image
-        style={styles.x1Icon}
-        resizeMode="cover"
-        source={require("../assets/x-1.png")}
-      />
-    </TouchableOpacity>
-
-    <CardSilder style={{marginTop: 500}}>
-      {menuToShow.map((allmenu) => 
-        <View>
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goFoodInfo(allmenu)}} >
-            <View style={styles.menu1View}>
-              <Image
-                style={styles.rectangleIcon2}
-                resizeMode="cover"
-                source={{
-                  uri: `${allmenu.picture}`,
-                }}
-              />
-              <Text style={styles.menuName}>{allmenu.menu_name}</Text>
-              <Text style={styles.menuPrice}>~ {allmenu.price} Baht</Text>
-            </View>
-          </TouchableOpacity>        
-        </View>)
-      }
-    </CardSilder>
-    
-    <View style={styles.barView}>
-      <Image
-        style={styles.rectangleIcon1}
-        resizeMode="cover"
-        source={require("../assets/rectangle-11.png")}
-      />
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
+      <View style={styles.rectangleView} />
+      <View style={styles.searchView}>
+        <View style={styles.rectangleView1} />
         <Image
-          style={styles.image2Icon}
+          style={styles.searchIcon}
           resizeMode="cover"
-          source={require("../assets/ticketIcon.png")}
+          source={require("../assets/search.png")}
+        />
+        <TextInput
+          style={styles.searchByMenu}
+          placeholder="Search by menu  "
+          onChangeText={(text) => search(text)}
+        />
+      </View>
+      <Text style={styles.restaurantName}>
+        {route.params.restaurant.restaurant_name}
+      </Text>
+      <Text style={styles.noodlesALarCarte}>{category}</Text>
+      {route.params.restaurant.restaurant_status == "Open now" ? (
+        <Text style={styles.openNowText}>
+          {route.params.restaurant.restaurant_status}
+        </Text>
+      ) : (
+        <Text style={styles.closeText}>
+          {route.params.restaurant.restaurant_status}
+        </Text>
+      )}
+
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("Homepage", {
+            user_phonenum: route.params.user_phonenum,
+          });
+        }}
+      >
+        <Image
+          style={styles.x1Icon}
+          resizeMode="cover"
+          source={require("../assets/x-1.png")}
         />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
-      <Image
-        style={styles.image3Icon}
-        resizeMode="cover"
-        source={require("../assets/logoutIcon.png")}
-      />
-      </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
+
+      <CardSilder style={{ marginTop: 500 }}>
+        {menuToShow.map((allmenu) => (
+          <View>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => {
+                goFoodInfo(allmenu);
+              }}
+            >
+              <View style={styles.menu1View}>
+                <Image
+                  style={styles.rectangleIcon2}
+                  resizeMode="cover"
+                  source={{
+                    uri: `${allmenu.picture}`,
+                  }}
+                />
+                <Text style={styles.menuName}>{allmenu.menu_name}</Text>
+                <Text style={styles.menuPrice}>~ {allmenu.price} Baht</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </CardSilder>
+
+      <View style={styles.barView}>
         <Image
-          style={styles.image4Icon}
+          style={styles.rectangleIcon1}
           resizeMode="cover"
-          source={require("../assets/homeIcon.png")}
+          source={require("../assets/rectangle-11.png")}
         />
-      </TouchableOpacity>
-    </View>
-   </ImageBackground>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("Ticket", {
+              user_phonenum: route.params.user_phonenum,
+            });
+          }}
+        >
+          <Image
+            style={styles.image2Icon}
+            resizeMode="cover"
+            source={require("../assets/ticketIcon.png")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("LogIn");
+          }}
+        >
+          <Image
+            style={styles.image3Icon}
+            resizeMode="cover"
+            source={require("../assets/logoutIcon.png")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("Homepage", {
+              user_phonenum: route.params.user_phonenum,
+            });
+          }}
+        >
+          <Image
+            style={styles.image4Icon}
+            resizeMode="cover"
+            source={require("../assets/homeIcon.png")}
+          />
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 

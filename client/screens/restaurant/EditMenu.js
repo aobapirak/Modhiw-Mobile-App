@@ -1,66 +1,82 @@
-import React, {useEffect,useState} from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity, FlatList, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  TextInput,
+} from "react-native";
 import axios from "axios";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 
-const Item = ({ name, price, picture, restaurant_name, navigation}) => (
-    <View style={styles.item}>
-    <TouchableOpacity activeOpacity = { .5 } 
-    onPress = { () => {
-      navigation.navigate("EditMenuDetails", { menu_name: name,price: price,picture: picture,restaurant_name: restaurant_name })
-    }}>
-          <View style={styles.menuView}>
-            <Image
-              style={styles.imageStyle}
-              resizeMode="cover"
-              source={{uri:picture}}
-            />
-            <Text style={styles.menuName}>{name}</Text>
-            <Text style={styles.menuPrice}>{price}฿</Text>
-          </View>
-      </TouchableOpacity>
-
-    </View>
-  );
+const Item = ({ name, price, picture, restaurant_name, navigation }) => (
+  <View style={styles.item}>
+    <TouchableOpacity
+      activeOpacity={0.5}
+      onPress={() => {
+        navigation.navigate("EditMenuDetails", {
+          menu_name: name,
+          price: price,
+          picture: picture,
+          restaurant_name: restaurant_name,
+        });
+      }}
+    >
+      <View style={styles.menuView}>
+        <Image
+          style={styles.imageStyle}
+          resizeMode="cover"
+          source={{ uri: picture }}
+        />
+        <Text style={styles.menuName}>{name}</Text>
+        <Text style={styles.menuPrice}>{price}฿</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+);
 
 const EditMenu = ({ navigation, route }) => {
   const restaurant_name = route.params.restaurant_name;
-  const [menu,setMenu] = useState([]);
-  const [menuToShow,setMenuToShow] = useState([]);
+  const [menu, setMenu] = useState([]);
+  const [menuToShow, setMenuToShow] = useState([]);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getMenu",{
-      params: {
-        restaurantName: restaurant_name
-      }
-    }).then((response) => {
-      setMenu(response.data);
-      setMenuToShow(response.data);
-      console.log(response.data);
-    })
+    axios
+      .get("http://10.0.2.2:8080/getMenu", {
+        params: {
+          restaurantName: restaurant_name,
+        },
+      })
+      .then((response) => {
+        setMenu(response.data);
+        setMenuToShow(response.data);
+        console.log(response.data);
+      });
   }, []);
-  
+
   if (!fontsLoaded) {
     return null;
   }
 
   const search = (toSearch) => {
-    setMenuToShow(menu.filter(menu => menu.menu_name.search(toSearch) != -1));
-  }
+    setMenuToShow(menu.filter((menu) => menu.menu_name.search(toSearch) != -1));
+  };
 
   const renderItem = ({ item }) => (
-    <Item 
-    name={item.menu_name} 
-    price={item.price} 
-    picture={item.picture} 
-    restaurant_name={restaurant_name}
-    navigation= {navigation}
+    <Item
+      name={item.menu_name}
+      price={item.price}
+      picture={item.picture}
+      restaurant_name={restaurant_name}
+      navigation={navigation}
     />
   );
 
@@ -80,25 +96,25 @@ const EditMenu = ({ navigation, route }) => {
       />
 
       <View style={styles.searchView}>
-      <View style={styles.rectangleView1} />
-      <Image
-        style={styles.searchIcon}
-        resizeMode="cover"
-        source={require("../../assets/search.png")}
-      />
-      <TextInput 
-        style={styles.searchByMenu}
-        placeholder="Search by menu     "
-        onChangeText={(text) => search(text)}
-      />
+        <View style={styles.rectangleView1} />
+        <Image
+          style={styles.searchIcon}
+          resizeMode="cover"
+          source={require("../../assets/search.png")}
+        />
+        <TextInput
+          style={styles.searchByMenu}
+          placeholder="Search by menu     "
+          onChangeText={(text) => search(text)}
+        />
       </View>
 
       <View style={styles.allMenuView}>
-      <FlatList
-        data={menuToShow}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+        <FlatList
+          data={menuToShow}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </View>
   );
@@ -116,11 +132,11 @@ const styles = StyleSheet.create({
   allMenuView: {
     top: 250,
     width: "100%",
-    marginBottom: 250
+    marginBottom: 250,
   },
   item: {
     marginBottom: 300,
-    marginTop: 0
+    marginTop: 0,
   },
   title: {
     fontSize: 32,
@@ -220,7 +236,7 @@ const styles = StyleSheet.create({
     left: 12,
     width: 15,
     height: 15,
-  }
+  },
 });
 
 export default EditMenu;

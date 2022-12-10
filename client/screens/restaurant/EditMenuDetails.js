@@ -1,44 +1,52 @@
-import React, { useState , useEffect} from "react";
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 
-const EditMenuDetails = ({navigation, route}) => {
+const EditMenuDetails = ({ navigation, route }) => {
   const [switchOpen, setSwitchOpen] = useState(1);
   const menu_name = route.params.menu_name;
   const restaurant_name = route.params.restaurant_name;
-  const [price,setPrice] = useState(route.params.price);
-  const [image,setImage] = useState(route.params.picture);
+  const [price, setPrice] = useState(route.params.price);
+  const [image, setImage] = useState(route.params.picture);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getMenuStatus", {
-      params: {
-        restaurant_name: restaurant_name,
-        menu_name: menu_name
-      }
-    })
-    .then((response) => {
-      setSwitchOpen(response.data[0].menu_status);
-    })
+    axios
+      .get("http://10.0.2.2:8080/getMenuStatus", {
+        params: {
+          restaurant_name: restaurant_name,
+          menu_name: menu_name,
+        },
+      })
+      .then((response) => {
+        setSwitchOpen(response.data[0].menu_status);
+      });
   }, []);
 
   if (!fontsLoaded) {
     return null;
   }
-  
+
   const openImageLibrary = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
     }
-    if (status === 'granted') {
+    if (status === "granted") {
       const response = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -51,55 +59,56 @@ const EditMenuDetails = ({navigation, route}) => {
 
   const update = async () => {
     const formData = new FormData();
-    formData.append('image', {
-      name: new Date() + '_menuImage',
+    formData.append("image", {
+      name: new Date() + "_menuImage",
       uri: image,
       restaurantName: restaurant_name,
-      type: 'image/jpg',
+      type: "image/jpg",
     });
     try {
-      const res = await axios.post('http://10.0.2.2:8080/upload', formData, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
+      const res = await axios.post("http://10.0.2.2:8080/upload", formData, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
       });
       console.log(res.data);
-      try{
-        axios.patch("http://10.0.2.2:8080/updateMenu",{
-          restaurant_name: restaurant_name,
-          menu_name: menu_name,
-          price: price,
-          picture: res.data
-        }).then((response) => {
-          alert("Successfully update");
-        }).catch((err) => {
-          alert("Error to edit data");
-        });
-        navigation.navigate("Edit", {name: restaurant_name});
-      }
-      catch(err){
-          console.log("err:",err);
+      try {
+        axios
+          .patch("http://10.0.2.2:8080/updateMenu", {
+            restaurant_name: restaurant_name,
+            menu_name: menu_name,
+            price: price,
+            picture: res.data,
+          })
+          .then((response) => {
+            alert("Successfully update");
+          })
+          .catch((err) => {
+            alert("Error to edit data");
+          });
+        navigation.navigate("Edit", { name: restaurant_name });
+      } catch (err) {
+        console.log("err:", err);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
-  
 
   function toggleSwitch() {
     let status = 0;
-    setSwitchOpen(switchOpen => !switchOpen)
-    if(!switchOpen == 1){
+    setSwitchOpen((switchOpen) => !switchOpen);
+    if (!switchOpen == 1) {
       status = 1;
-    } else{
+    } else {
       status = 0;
     }
-    axios.patch("http://10.0.2.2:8080/updateMenuStatus",{
+    axios.patch("http://10.0.2.2:8080/updateMenuStatus", {
       restaurant_name: restaurant_name,
       menu_name: menu_name,
-      status: status
-    })
+      status: status,
+    });
   }
 
   return (
@@ -117,30 +126,40 @@ const EditMenuDetails = ({navigation, route}) => {
         source={require("../../assets/editmenuicon.png")}
       />
 
-
-      {image == "" ? 
-      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
-        <View style={styles.rectangleView1} />
-        <Text style={styles.dropYourImageHere}>Drop your image here</Text>
-        <Image
-          style={styles.vectorIcon}
+      {image == "" ? (
+        <TouchableOpacity activeOpacity={0.5} onPress={openImageLibrary}>
+          <View style={styles.rectangleView1} />
+          <Text style={styles.dropYourImageHere}>Drop your image here</Text>
+          <Image
+            style={styles.vectorIcon}
             resizeMode="cover"
             source={require("../../assets/vector.png")}
-        />
-      </TouchableOpacity>
-      :
-      <TouchableOpacity activeOpacity = { .5 } onPress = {openImageLibrary}>
-      <View style={styles.dropYourImageHere}>
-        <Image source={{uri:image}} style={{width:200,height:200,top:-45,opacity: 0.6,borderRadius:10}}/>
-        <Text style={{top: -150,color: "black"}}>Click here to change image</Text>
-      </View>
-      </TouchableOpacity>
-      }
+          />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity activeOpacity={0.5} onPress={openImageLibrary}>
+          <View style={styles.dropYourImageHere}>
+            <Image
+              source={{ uri: image }}
+              style={{
+                width: 200,
+                height: 200,
+                top: -45,
+                opacity: 0.6,
+                borderRadius: 10,
+              }}
+            />
+            <Text style={{ top: -150, color: "black" }}>
+              Click here to change image
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
 
       <View style={styles.priceInputView}>
         <Text style={styles.priceText}>Price</Text>
         <View style={styles.rectangleView3} />
-        <TextInput 
+        <TextInput
           style={styles.enterTheNewPrice}
           onChangeText={setPrice}
           value={price}
@@ -149,34 +168,36 @@ const EditMenuDetails = ({navigation, route}) => {
         />
       </View>
 
-      <TouchableOpacity activeOpacity={.5} onPress= {() => {update()}}>
-      <View style={styles.editButtonView}>
-        <View style={styles.rectangleView4} />
-        <Text style={styles.editButton}>Edit</Text>
-      </View>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          update();
+        }}
+      >
+        <View style={styles.editButtonView}>
+          <View style={styles.rectangleView4} />
+          <Text style={styles.editButton}>Edit</Text>
+        </View>
       </TouchableOpacity>
 
-
       <View style={styles.availableView}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
-          styles.outterSwitch, 
-          switchOpen
-          ? {justifyContent:'flex-end', backgroundColor: '#00790c'}
-          : {justifyContent: 'flex-start', backgroundColor: '#B40707'}
-          ]} 
-          activeOpacity={1} 
-          onPress={(toggleSwitch)}
-          >
-          <View
-            style={[styles.innerSwitch]}
-          />
+            styles.outterSwitch,
+            switchOpen
+              ? { justifyContent: "flex-end", backgroundColor: "#00790c" }
+              : { justifyContent: "flex-start", backgroundColor: "#B40707" },
+          ]}
+          activeOpacity={1}
+          onPress={toggleSwitch}
+        >
+          <View style={[styles.innerSwitch]} />
         </TouchableOpacity>
-        {
-          switchOpen
-          ? <Text style={styles.availableText}>Available</Text>
-          : <Text style={styles.notAvailableText}>Not available</Text>
-        }
+        {switchOpen ? (
+          <Text style={styles.availableText}>Available</Text>
+        ) : (
+          <Text style={styles.notAvailableText}>Not available</Text>
+        )}
       </View>
     </View>
   );
@@ -405,7 +426,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     fontFamily: "NotoSansThai-Regular",
-    color: '#B40707',
+    color: "#B40707",
     textAlign: "left",
   },
   availableView: {
@@ -424,8 +445,8 @@ const styles = StyleSheet.create({
   },
   openText: {
     position: "absolute",
-    flexDirection:'row', 
-    flexWrap:'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     top: 0,
     fontSize: 12,
     fontWeight: "500",
@@ -435,20 +456,20 @@ const styles = StyleSheet.create({
   innerSwitch: {
     width: 17,
     height: 17,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     elevation: 8,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.15,
     shadowRadius: 2,
   },
   outterSwitch: {
     width: 40,
     height: 20,
-    backgroundColor: 'gray',
+    backgroundColor: "gray",
     borderRadius: 10,
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     paddingHorizontal: 2,
   },
 });

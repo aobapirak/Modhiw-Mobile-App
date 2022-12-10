@@ -1,14 +1,14 @@
 import React from "react";
-import { useFonts } from 'expo-font'
+import { useFonts } from "expo-font";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
 const Add = ({ navigation, route }) => {
   const restaurant_name = route.params.name;
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -24,7 +24,15 @@ const Add = ({ navigation, route }) => {
         source={require("../../assets/bar.png")}
       />
       <Text style={styles.addText}>Add</Text>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddMenu", { user_phonenum: route.params.user_phonenum, name: route.params.name })}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("AddMenu", {
+            user_phonenum: route.params.user_phonenum,
+            name: route.params.name,
+          });
+        }}
+      >
         <View style={styles.view}>
           <View style={styles.rectangleView1} />
           <Text style={styles.menuText}>Menu</Text>
@@ -35,7 +43,15 @@ const Add = ({ navigation, route }) => {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddIngredients", { user_phonenum: route.params.user_phonenum, name: route.params.name })}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("AddIngredients", {
+            user_phonenum: route.params.user_phonenum,
+            name: route.params.name,
+          });
+        }}
+      >
         <View style={styles.view1}>
           <View style={styles.rectangleView2} />
           <Text style={styles.ingredientText}>Ingredient</Text>
@@ -46,7 +62,15 @@ const Add = ({ navigation, route }) => {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddToping", { user_phonenum: route.params.user_phonenum, name: route.params.name })}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("AddToping", {
+            user_phonenum: route.params.user_phonenum,
+            name: route.params.name,
+          });
+        }}
+      >
         <View style={styles.view2}>
           <View style={styles.rectangleView3} />
           <Text style={styles.topingText}>Toping</Text>

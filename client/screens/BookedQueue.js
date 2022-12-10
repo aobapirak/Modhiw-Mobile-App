@@ -1,20 +1,26 @@
-import React, {useState,useEffect} from "react";
-import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 import { booking } from "../dummydata";
-import axios from 'axios';
-import { useFonts } from 'expo-font';
+import axios from "axios";
+import { useFonts } from "expo-font";
 
 const Booked = ({ navigation, route }) => {
   const [listToping, setlistToping] = useState([]);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
-    
     let buff = "";
     for (let i = 0; i < route.params.toping.length; i++) {
       if (i > 0) {
@@ -23,15 +29,15 @@ const Booked = ({ navigation, route }) => {
       buff += route.params.toping[i];
     }
 
-    axios.post("http://10.0.2.2:8080/BookQueue",{
+    axios.post("http://10.0.2.2:8080/BookQueue", {
       restaurant_name: route.params.restaurant.restaurant_name,
       phone_number: route.params.user_phonenum,
       menu_name: route.params.menu.menu_name,
       ingredient: route.params.ingredient,
       note: buff,
-      lastQueue: route.params.lastQueue[0].queue_id
-    })
-    
+      lastQueue: route.params.lastQueue[0].queue_id,
+    });
+
     setlistToping(buff);
   }, []);
 
@@ -49,7 +55,14 @@ const Booked = ({ navigation, route }) => {
           source={require("../assets/subtract.png")}
         />
 
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("Homepage", {
+              user_phonenum: route.params.user_phonenum,
+            });
+          }}
+        >
           <View style={styles.bookView}>
             <View style={styles.rectangleView} />
             <Text style={styles.doneText}>Done</Text>
@@ -59,8 +72,12 @@ const Booked = ({ navigation, route }) => {
         <View style={styles.lineView} />
         <View style={styles.menuView}>
           <Text style={styles.menuName}>{route.params.menu.menu_name}</Text>
-          <Text style={styles.ingredient}>Ingredient: {route.params.ingredient} </Text>
-          <Text style={styles.note}>Note: {listToping} {route.params.booknote}</Text>
+          <Text style={styles.ingredient}>
+            Ingredient: {route.params.ingredient}{" "}
+          </Text>
+          <Text style={styles.note}>
+            Note: {listToping} {route.params.booknote}
+          </Text>
           <Image
             style={styles.foodIcon}
             resizeMode="cover"
@@ -68,30 +85,40 @@ const Booked = ({ navigation, route }) => {
           />
         </View>
         <View style={styles.restaurantView}>
-          <Text style={styles.restaurantName}>{route.params.restaurant.restaurant_name}</Text>
-          <Text style={styles.restaurantArea}>{route.params.restaurant.area}</Text>
+          <Text style={styles.restaurantName}>
+            {route.params.restaurant.restaurant_name}
+          </Text>
+          <Text style={styles.restaurantArea}>
+            {route.params.restaurant.area}
+          </Text>
           <Image
             style={styles.locationIcon}
             resizeMode="cover"
             source={require("../assets/image-6.png")}
           />
         </View>
-        {route.params.lastQueue == undefined?
-        <Text style={styles.queue}>E</Text>
-        :
-        <Text style={styles.queue}>E{route.params.lastQueue[0].queue_id + 1}</Text>
-        }
-        
+        {route.params.lastQueue == undefined ? (
+          <Text style={styles.queue}>E</Text>
+        ) : (
+          <Text style={styles.queue}>
+            E{route.params.lastQueue[0].queue_id + 1}
+          </Text>
+        )}
+
         <Text style={styles.word}>
           <Text style={styles.received}>
             The restaurant has received your queue!
           </Text>
-          <Text style={styles.pleaseWait}>
-            {"\n"}Please wait :D
-          </Text>
+          <Text style={styles.pleaseWait}>{"\n"}Please wait :D</Text>
         </Text>
         <View style={styles.bookView}>
-          <TouchableOpacity onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Ticket", {
+                user_phonenum: route.params.user_phonenum,
+              });
+            }}
+          >
             <View style={styles.doneButton} />
             <Text style={styles.doneText}>Done</Text>
           </TouchableOpacity>
@@ -256,8 +283,8 @@ const styles = StyleSheet.create({
     left: 21,
     width: 370,
     height: 570,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   bookedView: {
     position: "relative",

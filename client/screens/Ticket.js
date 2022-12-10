@@ -1,28 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import axios from "axios";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 
 const TicketPage = ({ navigation, route }) => {
   const phoneNumber = route.params.user_phonenum;
   const [tickets, settickets] = useState([]);
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getQueue",{
-      params: {
-        phoneNumber: phoneNumber
-      }
-    })
-    .then((response) => {
-      settickets(response.data);
-      console.log("tickets:\t", response.data);
-    })
+    axios
+      .get("http://10.0.2.2:8080/getQueue", {
+        params: {
+          phoneNumber: phoneNumber,
+        },
+      })
+      .then((response) => {
+        settickets(response.data);
+        console.log("tickets:\t", response.data);
+      });
   }, []);
 
   if (!fontsLoaded) {
@@ -31,53 +39,59 @@ const TicketPage = ({ navigation, route }) => {
 
   return (
     <View style={styles.ticketPageView}>
-    <View style={styles.barAndContent}>
-      <ScrollView>
-      {tickets.map( (ticket) =>
-        <View style={styles.ticketView}>
-          <Image
-            style={styles.subtractIcon}
-            resizeMode="cover"
-            source={require("../assets/subtract.png")}
-          />
-            <Text style={styles.queueNumber}>E{ticket.queue_id}</Text>
-            <Text style={styles.positionView}>
-              Here is your position{"\n"} in the queue:
-            </Text>
-            {ticket.order_status == 0 ?
-              <Text style={styles.positionInQueue}>
-                <Text style={styles.text3}>{ticket.queue_wait} position</Text>
-                <Text style={styles.inQueue}> in queue</Text>
+      <View style={styles.barAndContent}>
+        <ScrollView>
+          {tickets.map((ticket) => (
+            <View style={styles.ticketView}>
+              <Image
+                style={styles.subtractIcon}
+                resizeMode="cover"
+                source={require("../assets/subtract.png")}
+              />
+              <Text style={styles.queueNumber}>E{ticket.queue_id}</Text>
+              <Text style={styles.positionView}>
+                Here is your position{"\n"} in the queue:
               </Text>
-            :
-              <Text style={styles.positionTakeOrder}>
-                <Text style={{color: '#00790c', fontSize: 14}}>It's your turn now{"\n"}</Text>
-                <Text style={{color: '#ce0808', fontSize: 14}}>Please take your order within 15 mins</Text>
-              </Text>
-            }
-            
-          <View style={styles.lineView} />
-          <View style={styles.restaurantView}>
-            <Text style={styles.text1}>{ticket.restaurant_name}</Text>
-            <Text style={styles.text2}>{ticket.area}</Text>
-            <Image
-              style={styles.locationIcon}
-              resizeMode="cover"
-              source={require("../assets/image-6.png")}
-            />
-          </View>
-          <View style={styles.menuView}>
-            <Text style={styles.menuName}>{ticket.menu_name} ({ticket.ingredient}) {"\n"}
-            <Text style={styles.note}>Note: {ticket.note}</Text></Text>
-            <Image
-              style={styles.foodIcon}
-              resizeMode="cover"
-              source={require("../assets/image-5.png")}
-            />
-          </View>
-        </View>
-      )}
-      </ScrollView>
+              {ticket.order_status == 0 ? (
+                <Text style={styles.positionInQueue}>
+                  <Text style={styles.text3}>{ticket.queue_wait} position</Text>
+                  <Text style={styles.inQueue}> in queue</Text>
+                </Text>
+              ) : (
+                <Text style={styles.positionTakeOrder}>
+                  <Text style={{ color: "#00790c", fontSize: 14 }}>
+                    It's your turn now{"\n"}
+                  </Text>
+                  <Text style={{ color: "#ce0808", fontSize: 14 }}>
+                    Please take your order within 15 mins
+                  </Text>
+                </Text>
+              )}
+
+              <View style={styles.lineView} />
+              <View style={styles.restaurantView}>
+                <Text style={styles.text1}>{ticket.restaurant_name}</Text>
+                <Text style={styles.text2}>{ticket.area}</Text>
+                <Image
+                  style={styles.locationIcon}
+                  resizeMode="cover"
+                  source={require("../assets/image-6.png")}
+                />
+              </View>
+              <View style={styles.menuView}>
+                <Text style={styles.menuName}>
+                  {ticket.menu_name} ({ticket.ingredient}) {"\n"}
+                  <Text style={styles.note}>Note: {ticket.note}</Text>
+                </Text>
+                <Image
+                  style={styles.foodIcon}
+                  resizeMode="cover"
+                  source={require("../assets/image-5.png")}
+                />
+              </View>
+            </View>
+          ))}
+        </ScrollView>
       </View>
       <View style={styles.barView}>
         <Image
@@ -85,21 +99,40 @@ const TicketPage = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../assets/rectangle-11.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("Ticket", {
+              user_phonenum: route.params.user_phonenum,
+            });
+          }}
+        >
           <Image
             style={styles.image2Icon}
             resizeMode="cover"
             source={require("../assets/ticketIconYellow.png")}
           />
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
-        <Image
-          style={styles.image3Icon}
-          resizeMode="cover"
-          source={require("../assets/logoutIcon.png")}
-        />
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("LogIn");
+          }}
+        >
+          <Image
+            style={styles.image3Icon}
+            resizeMode="cover"
+            source={require("../assets/logoutIcon.png")}
+          />
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("Homepage", {
+              user_phonenum: route.params.user_phonenum,
+            });
+          }}
+        >
           <Image
             style={styles.image4Icon}
             resizeMode="cover"
@@ -223,8 +256,8 @@ const styles = StyleSheet.create({
     fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "center",
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   text3: {
     color: "#e59e00",
@@ -234,9 +267,9 @@ const styles = StyleSheet.create({
   },
   centerText: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   positionInQueue: {
     position: "absolute",
@@ -261,8 +294,8 @@ const styles = StyleSheet.create({
     left: 22,
     width: 370,
     height: 570,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   rectangleIcon: {
     position: "absolute",
@@ -315,8 +348,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   barAndContent: {
-    marginBottom: 59
-  }
+    marginBottom: 59,
+  },
 });
 
 export default TicketPage;

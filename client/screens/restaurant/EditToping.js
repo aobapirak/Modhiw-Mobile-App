@@ -1,27 +1,28 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import axios from 'axios';
-import { useFonts } from 'expo-font';
+import axios from "axios";
+import { useFonts } from "expo-font";
 
 const EditToping = ({ navigation, route }) => {
   const [toping, setToping] = useState([]);
   const restaurant_name = route.params.restaurant_name;
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getToping", {
-      params: {
-        restaurant_name: restaurant_name
-      }
-    })
-    .then((response) => {
-      setToping(response.data);
-    });
+    axios
+      .get("http://10.0.2.2:8080/getToping", {
+        params: {
+          restaurant_name: restaurant_name,
+        },
+      })
+      .then((response) => {
+        setToping(response.data);
+      });
   }, []);
 
   if (!fontsLoaded) {
@@ -39,7 +40,7 @@ const EditToping = ({ navigation, route }) => {
       />
       <Text style={styles.topingHeadText}>Toping</Text>
       <Text style={styles.priceHeadText}>Price</Text>
-      {toping.map((item) =>
+      {toping.map((item) => (
         <View style={styles.item}>
           <Text style={styles.topingText}>
             <Text style={styles.ingredientName}>{item.toping}</Text>
@@ -47,21 +48,30 @@ const EditToping = ({ navigation, route }) => {
           <Text style={styles.priceText}>
             <Text style={styles.price}>฿{item.price_adjust}</Text>
           </Text>
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditTopingDetails", {name: item.toping, price: item.price_adjust,restaurant_name: restaurant_name})}}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              navigation.navigate("EditTopingDetails", {
+                name: item.toping,
+                price: item.price_adjust,
+                restaurant_name: restaurant_name,
+              });
+            }}
+          >
             <View style={styles.editButtonView}>
               <View style={styles.editButton} />
               <Text style={styles.editButtonText}>EDIT</Text>
             </View>
           </TouchableOpacity>
         </View>
-      )}
+      ))}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   item: {
-    marginBottom: 32
+    marginBottom: 32,
   },
   bgView: {
     position: "absolute",

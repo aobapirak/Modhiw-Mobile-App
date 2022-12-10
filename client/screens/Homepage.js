@@ -1,31 +1,37 @@
-import React, {useState,useEffect} from "react";
-import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
-import axios from 'axios';
-import { useFonts } from 'expo-font';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import axios from "axios";
+import { useFonts } from "expo-font";
 
 const Homepage = ({ navigation, route }) => {
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantToShow, setRestaurantToShow] = useState([]);
   const [restaurantCategory, setRestaurantCategory] = useState([]);
-  const [typeClick,setTypeClick] = useState("All");
+  const [typeClick, setTypeClick] = useState("All");
   const [fontsLoaded] = useFonts({
-    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
-    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
-    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
-    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+    "NotoSansThai-Regular": require("../assets/fonts/NotoSansThai-Regular.ttf"),
+    "NotoSansThai-Medium": require("../assets/fonts/NotoSansThai-Medium.ttf"),
+    "NotoSansThai-SemiBold": require("../assets/fonts/NotoSansThai-SemiBold.ttf"),
+    "NotoSansThai-Bold": require("../assets/fonts/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
-    axios.get("http://10.0.2.2:8080/getRestaurantList")
-    .then((response) => {
+    axios.get("http://10.0.2.2:8080/getRestaurantList").then((response) => {
       setRestaurants(response.data);
       setRestaurantToShow(response.data);
-    })
-    
-    axios.get("http://10.0.2.2:8080/getRestaurantCategory")
-    .then((response) => {
+    });
+
+    axios.get("http://10.0.2.2:8080/getRestaurantCategory").then((response) => {
       setRestaurantCategory(response.data);
-    })
+    });
   }, []);
 
   if (!fontsLoaded) {
@@ -33,25 +39,40 @@ const Homepage = ({ navigation, route }) => {
   }
 
   const categorizeRestaurant = (categorySelected) => {
-    if (categorySelected == "All"){
+    if (categorySelected == "All") {
       setRestaurantToShow(restaurants);
     } else {
       let buff = [];
-      let filteredRestaurant = restaurantCategory.filter(restaurantCategory => restaurantCategory.category == categorySelected);
-      for (let i = 0; i < filteredRestaurant.length; i++){
+      let filteredRestaurant = restaurantCategory.filter(
+        (restaurantCategory) => restaurantCategory.category == categorySelected
+      );
+      for (let i = 0; i < filteredRestaurant.length; i++) {
         buff[i] = filteredRestaurant[i].restaurant_name;
       }
-      setRestaurantToShow(restaurants.filter(restaurants => (buff.some(rnToShow => rnToShow == restaurants.restaurant_name)) == true));
+      setRestaurantToShow(
+        restaurants.filter(
+          (restaurants) =>
+            buff.some((rnToShow) => rnToShow == restaurants.restaurant_name) ==
+            true
+        )
+      );
     }
-  }
+  };
 
   const goRestaurant = (restaurant) => {
-    navigation.navigate('Restaurant', { user_phonenum: route.params.user_phonenum, restaurant: restaurant});
-  }
+    navigation.navigate("Restaurant", {
+      user_phonenum: route.params.user_phonenum,
+      restaurant: restaurant,
+    });
+  };
 
   const search = (toSearch) => {
-    setRestaurantToShow(restaurants.filter(restaurants => restaurants.restaurant_name.search(toSearch) != -1));
-  }
+    setRestaurantToShow(
+      restaurants.filter(
+        (restaurants) => restaurants.restaurant_name.search(toSearch) != -1
+      )
+    );
+  };
 
   //console.log("category:\t",category);
   //console.log("restaurantToShow:\t"restaurantToShow);
@@ -59,76 +80,124 @@ const Homepage = ({ navigation, route }) => {
   return (
     <View style={styles.homepageView}>
       <ScrollView>
-      <View style={styles.rectangleView} />
-      <Text style={styles.helloAreYouHungryYet}>
-        <Text style={styles.helloText}>Hello,</Text>
-        <Text style={styles.areYouHungry}> Are you hungry yet?</Text>
-      </Text>
-      <View style={styles.searchView}>
-        <View style={styles.searchBox} />
-        <Image
-          style={styles.searchIcon}
-          resizeMode="cover"
-          source={require("../assets/search.png")}
-        />
-        <TextInput 
-          style={styles.searchByRestaurant}
-          placeholder="Search by restaurant  "
-          onChangeText={(text) => search(text)}
-        />
-      </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { 
-        categorizeRestaurant("All") 
-        setTypeClick("All") }}>
-        <View style={styles.allBox}>
-          {typeClick == "All" ? <View style={[styles.allType, {backgroundColor: "#f0a500"}]} /> : <View style={styles.allType} />}
-          <Text style={styles.allText}>All</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { 
-        categorizeRestaurant("À la carte") 
-        setTypeClick("À la carte")}}>
-        <View style={styles.aLaCarteBox}>
-          {typeClick == "À la carte" ? <View style={[styles.aLaCarteType, {backgroundColor: "#f0a500"}]} /> : <View style={styles.aLaCarteType} />}
-          <Text style={styles.aLaCarte}>À la carte</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { 
-        categorizeRestaurant("Noodle") 
-        setTypeClick("Noodle")}}>
-        <View style={styles.noodlesBox}>
-          {typeClick == "Noodle" ? <View style={[styles.noodleType, {backgroundColor: "#f0a500"}]} /> : <View style={styles.noodleType} />}
-          <Text style={styles.noodlesText}>Noodle</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { 
-        categorizeRestaurant("Fast Food") 
-        setTypeClick("Fast Food")}}>
-        <View style={styles.fastFoodBox}>
-          {typeClick == "Fast Food" ? <View style={[styles.fastFoodType, {backgroundColor: "#f0a500"}]} /> : <View style={styles.fastFoodType} />}
-          <Text style={styles.fastFoodText}>Fast Food</Text>
-        </View>
-      </TouchableOpacity>
-
-      <View style={styles.restaurantChoice}>
-      {restaurantToShow.map((restaurant) => 
-      <View>
-          <View style={styles.restaurantView}> 
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goRestaurant(restaurant)}}>
+        <View style={styles.rectangleView} />
+        <Text style={styles.helloAreYouHungryYet}>
+          <Text style={styles.helloText}>Hello,</Text>
+          <Text style={styles.areYouHungry}> Are you hungry yet?</Text>
+        </Text>
+        <View style={styles.searchView}>
+          <View style={styles.searchBox} />
           <Image
-            style={styles.imageStyle}
+            style={styles.searchIcon}
             resizeMode="cover"
-            source={{
-              uri: `${restaurant.picture}`,
-            }}
+            source={require("../assets/search.png")}
           />
-          <View style={styles.whitebox} />
-          <Text style={styles.restaurantName}>{restaurant.restaurant_name}</Text>
-          <Text style={styles.restaurantType}>{restaurant.restaurant_status}</Text>
-          </TouchableOpacity>
+          <TextInput
+            style={styles.searchByRestaurant}
+            placeholder="Search by restaurant  "
+            onChangeText={(text) => search(text)}
+          />
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            categorizeRestaurant("All");
+            setTypeClick("All");
+          }}
+        >
+          <View style={styles.allBox}>
+            {typeClick == "All" ? (
+              <View style={[styles.allType, { backgroundColor: "#f0a500" }]} />
+            ) : (
+              <View style={styles.allType} />
+            )}
+            <Text style={styles.allText}>All</Text>
           </View>
-      </View>)}
-      </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            categorizeRestaurant("À la carte");
+            setTypeClick("À la carte");
+          }}
+        >
+          <View style={styles.aLaCarteBox}>
+            {typeClick == "À la carte" ? (
+              <View
+                style={[styles.aLaCarteType, { backgroundColor: "#f0a500" }]}
+              />
+            ) : (
+              <View style={styles.aLaCarteType} />
+            )}
+            <Text style={styles.aLaCarte}>À la carte</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            categorizeRestaurant("Noodle");
+            setTypeClick("Noodle");
+          }}
+        >
+          <View style={styles.noodlesBox}>
+            {typeClick == "Noodle" ? (
+              <View
+                style={[styles.noodleType, { backgroundColor: "#f0a500" }]}
+              />
+            ) : (
+              <View style={styles.noodleType} />
+            )}
+            <Text style={styles.noodlesText}>Noodle</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            categorizeRestaurant("Fast Food");
+            setTypeClick("Fast Food");
+          }}
+        >
+          <View style={styles.fastFoodBox}>
+            {typeClick == "Fast Food" ? (
+              <View
+                style={[styles.fastFoodType, { backgroundColor: "#f0a500" }]}
+              />
+            ) : (
+              <View style={styles.fastFoodType} />
+            )}
+            <Text style={styles.fastFoodText}>Fast Food</Text>
+          </View>
+        </TouchableOpacity>
+
+        <View style={styles.restaurantChoice}>
+          {restaurantToShow.map((restaurant) => (
+            <View>
+              <View style={styles.restaurantView}>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => {
+                    goRestaurant(restaurant);
+                  }}
+                >
+                  <Image
+                    style={styles.imageStyle}
+                    resizeMode="cover"
+                    source={{
+                      uri: `${restaurant.picture}`,
+                    }}
+                  />
+                  <View style={styles.whitebox} />
+                  <Text style={styles.restaurantName}>
+                    {restaurant.restaurant_name}
+                  </Text>
+                  <Text style={styles.restaurantType}>
+                    {restaurant.restaurant_status}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))}
+        </View>
       </ScrollView>
 
       <View style={styles.barView}>
@@ -142,14 +211,26 @@ const Homepage = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../assets/homeIconYellow.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Ticket", { user_phonenum: route.params.user_phonenum })}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("Ticket", {
+              user_phonenum: route.params.user_phonenum,
+            });
+          }}
+        >
           <Image
             style={styles.billIcon}
             resizeMode="cover"
             source={require("../assets/ticketIcon.png")}
           />
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("LogIn");
+          }}
+        >
           <Image
             style={styles.signoutIcon}
             resizeMode="cover"
@@ -302,7 +383,7 @@ const styles = StyleSheet.create({
     left: 167,
     width: 67,
     height: 22,
-    marginLeft: 5
+    marginLeft: 5,
   },
   fastFoodType: {
     position: "absolute",
@@ -331,7 +412,7 @@ const styles = StyleSheet.create({
     left: 244,
     width: 71,
     height: 22,
-    marginLeft: 5
+    marginLeft: 5,
   },
   imageStyle: {
     top: 0,
@@ -366,14 +447,14 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontFamily: "NotoSansThai-Regular",
     color: "#777",
-    textAlign: "left"
+    textAlign: "left",
   },
   restaurantView: {
     top: 269,
     left: 47,
     width: 285,
     height: 170,
-    marginBottom: 20
+    marginBottom: 20,
   },
   barBox: {
     position: "absolute",
@@ -415,7 +496,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff9ee",
   },
   restaurantChoice: {
-    marginBottom: 330
+    marginBottom: 330,
   },
 });
 
