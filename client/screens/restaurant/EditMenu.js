@@ -1,5 +1,5 @@
 import React, {useEffect,useState} from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity, FlatList } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity, FlatList, TextInput } from "react-native";
 import axios from "axios";
 
 
@@ -26,6 +26,7 @@ const Item = ({ name, price, picture, restaurant_name, navigation}) => (
 const EditMenu = ({ navigation, route }) => {
   const restaurant_name = route.params.restaurant_name;
   const [menu,setMenu] = useState([]);
+  const [menuToShow,setMenuToShow] = useState([]);
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getMenu",{
@@ -34,9 +35,14 @@ const EditMenu = ({ navigation, route }) => {
       }
     }).then((response) => {
       setMenu(response.data);
+      setMenuToShow(response.data);
       console.log(response.data);
     })
   }, []);
+
+  const search = (toSearch) => {
+    setMenuToShow(menu.filter(menu => menu.menu_name.search(toSearch) != -1));
+  }
 
   const renderItem = ({ item }) => (
     <Item 
@@ -63,16 +69,27 @@ const EditMenu = ({ navigation, route }) => {
         source={require("../../assets/image-5.png")}
       />
 
+      <View style={styles.searchView}>
+      <View style={styles.rectangleView1} />
+      <Image
+        style={styles.searchIcon}
+        resizeMode="cover"
+        source={require("../../assets/search.png")}
+      />
+      <TextInput 
+        style={styles.searchByMenu}
+        placeholder="Search by menu"
+        onChangeText={(text) => search(text)}
+      />
+      </View>
+
       <View style={styles.allMenuView}>
       <FlatList
-        data={menu}
+        data={menuToShow}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
       </View>
-
-     
-
     </View>
   );
 };
@@ -87,9 +104,9 @@ const styles = StyleSheet.create({
     height: 823,
   },
   allMenuView: {
-    top: 180,
+    top: 250,
     width: "100%",
-    marginBottom: 150
+    marginBottom: 250
   },
   item: {
     marginBottom: 300,
@@ -162,6 +179,38 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 109,
   },
+  searchByMenu: {
+    position: "absolute",
+    top: -18,
+    left: 50,
+    fontSize: 16,
+    fontFamily: "SF Pro Rounded",
+    color: "#505050",
+    textAlign: "left",
+  },
+  searchView: {
+    position: "absolute",
+    top: 200,
+    left: 30,
+    width: 335,
+    height: 33,
+  },
+  rectangleView1: {
+    position: "absolute",
+    top: -20,
+    left: 0,
+    borderRadius: 5,
+    backgroundColor: "#efefef",
+    width: 335,
+    height: 33,
+  },
+  searchIcon: {
+    position: "absolute",
+    top: -11,
+    left: 12,
+    width: 15,
+    height: 15,
+  }
 });
 
 export default EditMenu;
