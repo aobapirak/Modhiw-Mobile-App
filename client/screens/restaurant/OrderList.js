@@ -135,7 +135,7 @@ const OrderList = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../../assets/orderIconYellow.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 }>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
           <Image
             style={styles.signoutIcon}
             resizeMode="cover"

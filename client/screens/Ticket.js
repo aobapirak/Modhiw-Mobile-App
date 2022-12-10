@@ -92,11 +92,13 @@ const TicketPage = ({ navigation, route }) => {
             source={require("../assets/ticketIconYellow.png")}
           />
         </TouchableOpacity>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
         <Image
           style={styles.image3Icon}
           resizeMode="cover"
           source={require("../assets/logoutIcon.png")}
         />
+        </TouchableOpacity>
         <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
           <Image
             style={styles.image4Icon}

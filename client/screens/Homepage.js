@@ -149,7 +149,7 @@ const Homepage = ({ navigation, route }) => {
             source={require("../assets/ticketIcon.png")}
           />
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity = { .5 }>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("LogIn")}}>
           <Image
             style={styles.signoutIcon}
             resizeMode="cover"
