@@ -7,6 +7,7 @@ const Homepage = ({ navigation, route }) => {
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantToShow, setRestaurantToShow] = useState([]);
   const [restaurantCategory, setRestaurantCategory] = useState([]);
+  const [typeClick,setTypeClick] = useState("All");
   const [fontsLoaded] = useFonts({
     'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
     'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
@@ -76,27 +77,35 @@ const Homepage = ({ navigation, route }) => {
           onChangeText={(text) => search(text)}
         />
       </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("All") }}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { 
+        categorizeRestaurant("All") 
+        setTypeClick("All") }}>
         <View style={styles.allBox}>
-          <View style={styles.allType} />
+          {typeClick == "All" ? <View style={[styles.allType, {backgroundColor: "#f0a500"}]} /> : <View style={styles.allType} />}
           <Text style={styles.allText}>All</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("À la carte") }}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { 
+        categorizeRestaurant("À la carte") 
+        setTypeClick("À la carte")}}>
         <View style={styles.aLaCarteBox}>
-          <View style={styles.aLaCarteType} />
+          {typeClick == "À la carte" ? <View style={[styles.aLaCarteType, {backgroundColor: "#f0a500"}]} /> : <View style={styles.aLaCarteType} />}
           <Text style={styles.aLaCarte}>À la carte</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("Noodle") }}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { 
+        categorizeRestaurant("Noodle") 
+        setTypeClick("Noodle")}}>
         <View style={styles.noodlesBox}>
-          <View style={styles.noodleType} />
+          {typeClick == "Noodle" ? <View style={[styles.noodleType, {backgroundColor: "#f0a500"}]} /> : <View style={styles.noodleType} />}
           <Text style={styles.noodlesText}>Noodle</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { categorizeRestaurant("Fast Food") }}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => { 
+        categorizeRestaurant("Fast Food") 
+        setTypeClick("Fast Food")}}>
         <View style={styles.fastFoodBox}>
-          <View style={styles.fastFoodType} />
+          {typeClick == "Fast Food" ? <View style={[styles.fastFoodType, {backgroundColor: "#f0a500"}]} /> : <View style={styles.fastFoodType} />}
           <Text style={styles.fastFoodText}>Fast Food</Text>
         </View>
       </TouchableOpacity>
@@ -214,7 +223,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     borderRadius: 5,
-    backgroundColor: "#f0a500",
+    // backgroundColor: "#f0a500",
+    backgroundColor: "#d8d8d8",
     width: 35,
     height: 22,
   },
