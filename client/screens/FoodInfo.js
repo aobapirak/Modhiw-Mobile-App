@@ -1,8 +1,8 @@
 import React, {useState,useEffect} from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity, TextInput} from "react-native";
-import { ingredientInfo, toppingInfo } from "../dummydata";
 import {Checkbox} from 'react-native-paper';
 import axios from 'axios';
+import { useFonts } from 'expo-font';
 
 const FoodInfo = ({ navigation, route }) => {
 
@@ -11,6 +11,12 @@ const FoodInfo = ({ navigation, route }) => {
   const [ingredientSelected, setIngredientSelected] = useState([]);
   const [topingSelected, setTopingSelected] = useState([]);
   const [note, setNote] = useState("");
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getIngredient", {
@@ -31,6 +37,10 @@ const FoodInfo = ({ navigation, route }) => {
       setToping(response.data);
     });
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const selectIngredient = (newIngredient) => {
     setIngredientSelected(newIngredient);
@@ -68,12 +78,7 @@ const FoodInfo = ({ navigation, route }) => {
     }
   }
 
-  //console.log(topingSelected)
-  //console.log(ingredientSelected)
-  //console.log(note)
-
   const Item = (props) => {
-    
     return (
       <View style={styles.item}>
         <View style={styles.itemLeft}>
@@ -127,8 +132,8 @@ const FoodInfo = ({ navigation, route }) => {
       />
       <View style={styles.rectangleView} />
       <View style={styles.infoView}>
-        <Text style={styles.text}>{route.params.menu.menu_name}</Text>
-        <Text style={styles.text1}>{route.params.restaurant.restaurant_name}</Text>
+        <Text style={styles.menuName}>{route.params.menu.menu_name}</Text>
+        <Text style={styles.restaurantName}>{route.params.restaurant.restaurant_name}</Text>
         <Image
           style={styles.mapIcon}
           resizeMode="cover"
@@ -152,7 +157,7 @@ const FoodInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           )}
         </View>
-        <Text style={styles.text25}>{Item}</Text>
+        <Text style={styles.item}>{Item}</Text>
       </View>
       <View style={styles.view1}>
         <View style={styles.items}>
@@ -208,22 +213,22 @@ const styles = StyleSheet.create({
     width: 411,
     height: 621,
   },
-  text: {
+  menuName: {
     position: "absolute",
     top: 16,
     left: 0,
     fontSize: 24,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
-  text1: {
+  restaurantName: {
     position: "absolute",
     top: 50,
     left: 26,
     fontSize: 16,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#505050",
     textAlign: "left",
   },
@@ -248,13 +253,13 @@ const styles = StyleSheet.create({
     width: 360,
     height: 69,
   },
-  text25: {
+  item: {
     position: "absolute",
     top: 0,
     left: 0,
     fontSize: 14,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "left",
   },
@@ -271,7 +276,7 @@ const styles = StyleSheet.create({
     left: 0,
     fontSize: 14,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "left",
   },
@@ -297,16 +302,16 @@ const styles = StyleSheet.create({
     left: 0,
     fontSize: 14,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
   etcText: {
     position: "absolute",
-    top: 37,
+    top: 5,
     left: 17,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#777",
     textAlign: "left",
   },
@@ -329,10 +334,10 @@ const styles = StyleSheet.create({
   bookQueueText: {
     position: "absolute",
     top: 11,
-    left: 56,
+    left: 52,
     fontSize: 16,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#fff",
     textAlign: "left",
   },

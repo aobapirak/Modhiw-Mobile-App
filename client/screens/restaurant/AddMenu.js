@@ -2,13 +2,23 @@ import React, {useState} from "react";
 import { StyleSheet, View, Image, Text, TextInput, Button, TouchableOpacity, Platform  } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import { useFonts } from 'expo-font';
 
 const AddMenu = ({ navigation, route}) => {
-  // const restaurant_name = route.params.name;
-  const restaurant_name = "ชิกกี้ชิก";
+  const restaurant_name = route.params.name;
   const [menu_name, setMenuName] = useState("");
   const [price, setPrice] = useState(null);
   const [image, setImage] = useState("");
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const openImageLibrary = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -103,10 +113,10 @@ const AddMenu = ({ navigation, route}) => {
         <Text style={styles.nameText}>Name</Text>
         <View style={styles.rectangleView2} />
         <TextInput 
-        style={styles.enterTheNameOfTheFood} 
-        onChangeText={setMenuName}
-        value={menu_name}
-        placeholder="Enter the name of the food"
+          style={styles.enterTheNameOfTheFood} 
+          onChangeText={setMenuName}
+          value={menu_name}
+          placeholder="Enter the name of the food    "
         />
       </View>
       <View style={styles.priceView}>
@@ -116,7 +126,7 @@ const AddMenu = ({ navigation, route}) => {
           style={styles.enterThePriceOfTheFood}
           onChangeText={setPrice}
           value={price}
-          placeholder="Enter the price of the food"
+          placeholder="Enter the price of the food    "
           keyboardType="numeric"
         />
       </View>
@@ -152,7 +162,7 @@ const styles = StyleSheet.create({
     left: 126,
     fontSize: 32,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -180,7 +190,7 @@ const styles = StyleSheet.create({
     top: 316,
     left: 100,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "center",
     display: "flex",
@@ -201,7 +211,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -216,10 +226,10 @@ const styles = StyleSheet.create({
   },
   enterTheNameOfTheFood: {
     position: "absolute",
-    top: 26,
+    top: 27,
     left: 15,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -235,7 +245,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -250,10 +260,10 @@ const styles = StyleSheet.create({
   },
   enterThePriceOfTheFood: {
     position: "absolute",
-    top: 26,
+    top: 27,
     left: 15,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -279,7 +289,7 @@ const styles = StyleSheet.create({
     left: 62,
     fontSize: 14,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "center",
     display: "flex",

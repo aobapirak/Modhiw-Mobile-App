@@ -1,11 +1,22 @@
 import React, {useState} from "react";
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity} from "react-native";
 import axios from 'axios';
+import { useFonts } from 'expo-font';
 
 const AddIngredients = ({ navigation, route}) => {
   const restaurant_name = route.params.name;
   const [name, setName] = useState("");
   const [price, setPrice] = useState(null);
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const Add = () => {
     axios.post("http://10.0.2.2:8080/addIngredient",{
@@ -41,7 +52,7 @@ const AddIngredients = ({ navigation, route}) => {
         style={styles.enterTheNameOfTheIngredie} 
         onChangeText={setName}
         value={name}
-        placeholder="Enter the price of the ingredients"
+        placeholder="Enter the name of the ingredients     "
         />
       </View>
       <View style={styles.priceView}>
@@ -51,7 +62,7 @@ const AddIngredients = ({ navigation, route}) => {
         style={styles.enterThePriceOfTheIngredi}
         onChangeText={setPrice}
         value={price}
-        placeholder="Enter the price of the ingredients"
+        placeholder="Enter the price of the ingredients     "
         keyboardType="numeric"
         />
       </View>
@@ -87,7 +98,7 @@ const styles = StyleSheet.create({
     left: 126,
     fontSize: 32,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -103,7 +114,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -118,10 +129,10 @@ const styles = StyleSheet.create({
   },
   enterTheNameOfTheIngredie: {
     position: "absolute",
-    top: 26,
+    top: 27,
     left: 15,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -137,7 +148,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -152,10 +163,10 @@ const styles = StyleSheet.create({
   },
   enterThePriceOfTheIngredi: {
     position: "absolute",
-    top: 26,
+    top: 27,
     left: 15,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -178,10 +189,10 @@ const styles = StyleSheet.create({
   signIn2: {
     position: "absolute",
     top: 6,
-    left: 62,
+    left: 60,
     fontSize: 14,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "center",
     display: "flex",

@@ -1,7 +1,19 @@
 import React from 'react';
 import { Image, StyleSheet, View, Text, Modal, Pressable } from "react-native";
+import { useFonts } from 'expo-font';
 
-const CallModal = ({ modalVisible,setModalVisible,data,status,updateStatus}) => {
+const CallModal = ({ modalVisible, setModalVisible, data, status, updateStatus}) => {
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+  
     return (
         <Modal
           animationType="slide"
@@ -16,12 +28,7 @@ const CallModal = ({ modalVisible,setModalVisible,data,status,updateStatus}) => 
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Order approval</Text>
               <View style={styles.menuViewModal}>
-              {data == undefined ?
-              <View>
-                <Text style={styles.foodModal}>ข้าวกะเพรา (หมูกรอบ)</Text>
-                <Text style={styles.noteModal}>Note: พิเศษ</Text>
-              </View>
-              :
+              {
               <View>
                 <Text style={styles.foodModal}>{data.menu_name} ({data.ingredient})</Text>
                 <Text style={styles.noteModal}>Note: {data.note}</Text>
@@ -123,8 +130,7 @@ const styles = StyleSheet.create({
         top: -6,
         left: 36,
         fontSize: 18,
-        fontFamily: "SF Pro Rounded",
-        fontWeight: "900",
+        fontFamily: "NotoSansThai-Medium",
         color: "#000",
         textAlign: "left",
       },
@@ -133,7 +139,7 @@ const styles = StyleSheet.create({
         top: 16,
         left: 36,
         fontSize: 14,
-        fontFamily: "SF Pro Rounded",
+        fontFamily: "NotoSansThai-Regular",
         color: "#505050",
         textAlign: "left",
       },

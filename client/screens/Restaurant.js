@@ -2,11 +2,19 @@ import React, {useState,useEffect} from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import CardSilder from 'react-native-cards-slider';
 import axios from 'axios';
+import { useFonts } from 'expo-font';
 
 const Restaurant = ({ navigation, route }) => {
   const [menu, setMenu] = useState([]);
   const [menuToShow, setMenuToShow] = useState([]);
   const [category, setCategory] = useState([]);
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
+
   
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getMenu",{
@@ -16,8 +24,6 @@ const Restaurant = ({ navigation, route }) => {
     }).then((response) => {
       setMenu(response.data);
       setMenuToShow(response.data);
-      //console.log(response.data);
-
     })
   
     axios.get("http://10.0.2.2:8080/getCategory",{
@@ -35,6 +41,10 @@ const Restaurant = ({ navigation, route }) => {
       setCategory(buff);
     });
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const search = (toSearch) => {
     setMenuToShow(menu.filter(menu => menu.menu_name.search(toSearch) != -1));
@@ -68,13 +78,21 @@ const Restaurant = ({ navigation, route }) => {
       />
       <TextInput 
         style={styles.searchByMenu}
-        placeholder="Search by menu"
+        placeholder="Search by menu  "
         onChangeText={(text) => search(text)}
       />
     </View>
-    <Text style={styles.text}>{route.params.restaurant.restaurant_name}</Text>
+    <Text style={styles.restaurantName}>{route.params.restaurant.restaurant_name}</Text>
     <Text style={styles.noodlesALarCarte}>{category}</Text>
-    <Text style={styles.openNowText}>{route.params.restaurant.restaurant_status}</Text>
+    {route.params.restaurant.restaurant_status == "Open now" ?
+      <Text style={styles.openNowText}>
+        {route.params.restaurant.restaurant_status}
+      </Text>
+      :
+      <Text style={styles.closeText}>
+        {route.params.restaurant.restaurant_status}
+      </Text>
+    }
     
     <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
       <Image
@@ -170,10 +188,10 @@ const styles = StyleSheet.create({
   },
   searchByMenu: {
     position: "absolute",
-    top: 3,
+    top: 4,
     left: 40,
-    fontSize: 16,
-    fontFamily: "SF Pro Rounded",
+    fontSize: 14,
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -190,7 +208,7 @@ const styles = StyleSheet.create({
     left: 30,
     fontSize: 24,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -200,17 +218,17 @@ const styles = StyleSheet.create({
     left: 30,
     fontSize: 24,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
   noodlesALarCarte: {
     position: "absolute",
-    top: 373,
+    top: 377,
     left: 30,
     fontSize: 14,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#777",
     textAlign: "left",
   },
@@ -220,8 +238,18 @@ const styles = StyleSheet.create({
     left: 30,
     fontSize: 16,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#00790c",
+    textAlign: "left",
+  },
+  closeText: {
+    position: "absolute",
+    top: 398,
+    left: 30,
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "NotoSansThai-SemiBold",
+    color: "#B40707",
     textAlign: "left",
   },
   rectangleIcon1: {
@@ -305,7 +333,7 @@ const styles = StyleSheet.create({
     top: 160,
     left: 18,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -314,7 +342,7 @@ const styles = StyleSheet.create({
     top: 180,
     left: 18,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#00790c",
     textAlign: "left",
   },

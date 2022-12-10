@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 import axios from 'axios';
+import { useFonts } from 'expo-font';
 
 const EditIngredientDetails = ({ route, navigation }) => {
   const [switchOpen, setSwitchOpen] = useState(1);
   const [newPrice, setNewPrice] = useState(route.params.price);
   const restaurant_name = route.params.restaurant_name;
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getIngredientStatus", {
@@ -18,6 +25,10 @@ const EditIngredientDetails = ({ route, navigation }) => {
       setSwitchOpen(response.data[0].ingredient_status);
     })
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const Edit = () => {
     axios.patch("http://10.0.2.2:8080/updateIngredient",{
@@ -125,7 +136,7 @@ const styles = StyleSheet.create({
     left: 126,
     fontSize: 32,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -141,7 +152,7 @@ const styles = StyleSheet.create({
     top: -5,
     left: 0,
     fontSize: 16,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -159,7 +170,7 @@ const styles = StyleSheet.create({
     top: 26,
     left: 15,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -175,7 +186,7 @@ const styles = StyleSheet.create({
     top: -5,
     left: 0,
     fontSize: 16,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "left",
   },
@@ -193,7 +204,7 @@ const styles = StyleSheet.create({
     top: 26,
     left: 15,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -215,11 +226,11 @@ const styles = StyleSheet.create({
   },
   editButton: {
     position: "absolute",
-    top: 4,
+    top: 5,
     left: 62,
     fontSize: 16,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "center",
     display: "flex",
@@ -249,7 +260,7 @@ const styles = StyleSheet.create({
     left: 62,
     fontSize: 16,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#fff",
     textAlign: "center",
     display: "flex",
@@ -276,7 +287,7 @@ const styles = StyleSheet.create({
     left: 55,
     fontSize: 16,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#00790c",
     textAlign: "left",
   },
@@ -285,7 +296,7 @@ const styles = StyleSheet.create({
     left: 55,
     fontSize: 16,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: '#B40707',
     textAlign: "left",
   },
@@ -311,7 +322,7 @@ const styles = StyleSheet.create({
     // left: 38,
     fontSize: 12,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     textAlign: "left",
   },
   innerSwitch: {

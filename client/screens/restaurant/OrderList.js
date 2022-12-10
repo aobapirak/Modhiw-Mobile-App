@@ -2,15 +2,21 @@ import React, {useState,useEffect} from "react";
 import { Image, StyleSheet, View, Text, TouchableOpacity, ScrollView, Modal, Pressable } from "react-native";
 import axios from "axios";
 import CallModal from "./CallModal";
+import { useFonts } from 'expo-font';
 
-const OrderList = ({navigation}) => {
-  const [tickets,settickets] = useState([]);
+const OrderList = ({ navigation, route }) => {
+  const [tickets,setTickets] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [data,setData] = useState();
+  const [data,setData] = useState([]);
   const [status,setStatus] = useState(0);
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
   
-  //จริงๆต้องรับจากหน้า HomepageRestaurant
-  const restaurant_name = "ชิกกี้ชิก";
+  const restaurant_name = route.params.restaurant_name;
   
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getOrderList",{
@@ -18,9 +24,13 @@ const OrderList = ({navigation}) => {
         restaurantName: restaurant_name
       }
     }).then((response) => {
-      settickets(response.data);
+      setTickets(response.data);
     })
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const getDatabase = () => {
     axios.get("http://10.0.2.2:8080/getOrderList",{
@@ -28,12 +38,11 @@ const OrderList = ({navigation}) => {
         restaurantName: restaurant_name
       }
     }).then((response) => {
-      settickets(response.data);
+      setTickets(response.data);
     })
   }
 
   const updateStatus = (id,status_id) => {
-    console.log(id);
     axios.patch("http://10.0.2.2:8080/updateStatus",{
       queue_id: id,
       status: status_id
@@ -90,10 +99,9 @@ const OrderList = ({navigation}) => {
         <View style={styles.lineView} />
         <View style={styles.menuView}>
           <Text style={styles.food}>
-          {ticket.menu_name} ({ticket.ingredient}) {'\n'}
-          <Text style={styles.note}>Note: {ticket.note}</Text>
+            {ticket.menu_name} ({ticket.ingredient}) {'\n'}
+            <Text style={styles.note}>Note: {ticket.note}</Text>
           </Text>
-
           <Image
             style={styles.image5Icon}
             resizeMode="cover"
@@ -115,7 +123,7 @@ const OrderList = ({navigation}) => {
           resizeMode="cover"
           source={require("../../assets/rectangle-11.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = {() => navigation.navigate("HomepageRestaurant")}>
+        <TouchableOpacity activeOpacity = { .5 } onPress = {() => navigation.navigate("HomepageRestaurant", { user_phonenum: route.params.user_phonenum})}>
           <Image
             style={styles.homeIcon}
             resizeMode="cover"
@@ -172,31 +180,31 @@ const styles = StyleSheet.create({
   },
   doneText: {
     position: "absolute",
-    top: 6,
+    top: 7,
     left: 80,
     fontSize: 16,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "left",
   },
   approveText: {
     position: "absolute",
-    top: 6,
-    left: 5,
-    fontSize: 16,
+    top: 8,
+    left: 7,
+    fontSize: 14,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "left",
   },
   rejectText: {
     position: "absolute",
-    top: 6,
-    left: 160,
-    fontSize: 16,
+    top: 8,
+    left: 161,
+    fontSize: 14,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "left",
   },
@@ -222,7 +230,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 46,
     fontSize: 24,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -231,7 +239,7 @@ const styles = StyleSheet.create({
     top: 38,
     left: 46,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -245,10 +253,10 @@ const styles = StyleSheet.create({
   ticketId: {
     position: "absolute",
     top: 75,
-    left: 50,
+    left: 43,
     fontSize: 80,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -262,7 +270,7 @@ const styles = StyleSheet.create({
     left: 50,
     fontSize: 18,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },

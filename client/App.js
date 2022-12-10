@@ -14,7 +14,6 @@ import Verification from './screens/Verification';
 import Homepage from "./screens/Homepage";
 import Restaurant from "./screens/Restaurant";
 import FoodInfo from "./screens/FoodInfo";
-import ConfirmBook from "./screens/ConfirmBookIcon";
 import BookedQueue from "./screens/BookedQueue";
 import Ticket from "./screens/Ticket";
 
@@ -24,16 +23,6 @@ import Add from "./screens/restaurant/Add";
 import AddMenu from "./screens/restaurant/AddMenu";
 import AddIngredients from "./screens/restaurant/AddIngredients";
 import AddToping from "./screens/restaurant/AddToping";
-/*
-import Edit from "./screens/restaurant/Edit";
-import EditIngredient from "./screens/restaurant/EditIngredient";
-import EditIngredientDetails from "./screens/restaurant/EditIngredientDetails";
-import EditMenu from "./screens/restaurant/EditMenu";
-import EditMenuDetails from "./screens/restaurant/EditMenuDetails";
-import EditRestaurant from "./screens/restaurant/EditRestaurant";
-import EditToping from "./screens/restaurant/EditToping";
-import EditTopingDetails from "./screens/restaurant/EditTopingDetails";
-*/
 import OrderList from "./screens/restaurant/OrderList";
 import Edit from "./screens/restaurant/Edit";
 import EditIngredient from "./screens/restaurant/EditIngredient";
@@ -79,11 +68,6 @@ const App = () => {
               component={FoodInfo}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="ConfirmBook"
-              component={ConfirmBook}
-              options={{ headerShown: false }}
-            /> 
             <Stack.Screen
               name="BookedQueue"
               component={BookedQueue}

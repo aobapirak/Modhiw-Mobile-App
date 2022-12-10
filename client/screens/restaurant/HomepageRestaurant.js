@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image, Switch, TouchableOpacity } from "react-native";
 import axios from "axios";
+import { useFonts } from 'expo-font';
 
 const HomepageRestaurant = ({ navigation, route }) => {
   const [switchOpen, setSwitchOpen] = useState(true);
   const [userRestaurant, setUserRestaurant] = useState(true);
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
   
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getUserRestaurant",{
@@ -16,6 +23,10 @@ const HomepageRestaurant = ({ navigation, route }) => {
       setUserRestaurant(response.data[0]);
     })
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   function toggleSwitch() {
     let status = "";
@@ -39,7 +50,7 @@ const HomepageRestaurant = ({ navigation, route }) => {
           <Text style={styles.helloText}>{`Hello, `}</Text>
         </Text>
         <Text style={styles.restaurantView}>
-          <Text style={styles.restaurantName}>{userRestaurant.restaurant_name}</Text>
+          <Text style={styles.restaurantName}>คุณ{userRestaurant.restaurant_name}</Text>
         </Text>
       </Text>
       <View style={styles.openCloseView}>
@@ -60,14 +71,14 @@ const HomepageRestaurant = ({ navigation, route }) => {
           </TouchableOpacity>
           {
             switchOpen
-            ? <Text style={{color: '#00790c'}}>  Open now</Text>
-            : <Text style={{color: '#B40707'}}>  Closed</Text>
+            ? <Text style={styles.openNowText}>  Open now</Text>
+            : <Text style={styles.closeText}>  Closed</Text>
           }
         </View>
       </View>
       <TouchableOpacity 
         activeOpacity = { .5 }
-        onPress = { () => {navigation.navigate("Add", { user_phonenum: route.params.user_phonenum, name: userRestaurant.restaurant_name})}}
+        onPress = { () => {navigation.navigate("Add", { user_phonenum: route.params.user_phonenum, restaurant_name: userRestaurant.restaurant_name})}}
       >
         <View style={styles.addView}>
           <View style={styles.rectangleView1} />
@@ -83,7 +94,7 @@ const HomepageRestaurant = ({ navigation, route }) => {
       </TouchableOpacity>
       <TouchableOpacity 
         activeOpacity = { .5 }
-        onPress = { () => {navigation.navigate("Edit", { user_phonenum: route.params.user_phonenum, name: userRestaurant.restaurant_name})}}
+        onPress = { () => {navigation.navigate("Edit", { user_phonenum: route.params.user_phonenum, restaurant_name: userRestaurant.restaurant_name})}}
       >
         <View style={styles.editView}>
           <View style={styles.rectangleView2} />
@@ -108,7 +119,7 @@ const HomepageRestaurant = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../../assets/homeIconYellow.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("OrderList", { user_phonenum: route.params.user_phonenum})}}>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("OrderList", { user_phonenum: route.params.user_phonenum, restaurant_name: userRestaurant.restaurant_name})}}>
           <Image
             style={styles.billIcon}
             resizeMode="cover"
@@ -128,6 +139,24 @@ const HomepageRestaurant = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  openNowText: {
+    position: "absolute",
+    left: 40,
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "NotoSansThai-Medium",
+    color: "#00790c",
+    textAlign: "left",
+  },
+  closeText: {
+    position: "absolute",
+    left: 40,
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "NotoSansThai-Medium",
+    color: "#B40707",
+    textAlign: "left",
+  },
   rectangleView: {
     position: "absolute",
     top: 0,
@@ -154,7 +183,7 @@ const styles = StyleSheet.create({
     top: 110,
     left: 38,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#1b1a17",
     textAlign: "left",
     width: 354,
@@ -206,9 +235,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 116,
     left: 20,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "left",
   },
@@ -239,9 +268,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 116,
     left: 20,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "left",
   },
@@ -277,24 +306,6 @@ const styles = StyleSheet.create({
     width: 285,
     height: 54,
   },
-  text2: {
-    position: "absolute",
-    top: 127,
-    left: 23,
-    fontSize: 15,
-    fontFamily: "SF Pro Rounded",
-    color: "#000",
-    textAlign: "left",
-  },
-  noodlesALarCarte: {
-    position: "absolute",
-    top: 145,
-    left: 23,
-    fontSize: 12,
-    fontFamily: "SF Pro Rounded",
-    color: "#777",
-    textAlign: "left",
-  },
   switchIcon: {
     position: "absolute",
     top: 0,
@@ -310,7 +321,7 @@ const styles = StyleSheet.create({
     left: 38,
     fontSize: 12,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     textAlign: "left",
   },
   openCloseView: {

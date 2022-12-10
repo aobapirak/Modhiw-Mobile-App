@@ -1,11 +1,17 @@
 import React, {useState, useEffect} from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import axios from 'axios';
+import { useFonts } from 'expo-font';
 
 const EditIngredient = ({ navigation, route }) => {
   const [ingredient, setIngredient] = useState([]);
-
-  const restaurant_name = route.params.restaurant_name
+  const restaurant_name = route.params.restaurant_name;
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getIngredient", {
@@ -18,6 +24,10 @@ const EditIngredient = ({ navigation, route }) => {
       console.log(response.data);
     });
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.editIngredientView}>
@@ -36,7 +46,7 @@ const EditIngredient = ({ navigation, route }) => {
             <Text style={styles.ingredientName}>{item.ingredient}</Text>
           </Text>
           <Text style={styles.priceText}>
-            <Text style={styles.price}>{item.price_adjust}</Text>
+            <Text style={styles.price}>฿{item.price_adjust}</Text>
           </Text>
           <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("EditIngredientDetails", {name: item.ingredient, price: item.price_adjust,restaurant_name: restaurant_name})}}>
             <View style={styles.editButtonView}>
@@ -68,7 +78,7 @@ const styles = StyleSheet.create({
     left: 126,
     fontSize: 32,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -85,7 +95,7 @@ const styles = StyleSheet.create({
     left: 49,
     fontSize: 24,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -95,7 +105,7 @@ const styles = StyleSheet.create({
     left: 219,
     fontSize: 24,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
     top: 237,
     left: 49,
     fontSize: 22,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "left",
   },
@@ -113,20 +123,21 @@ const styles = StyleSheet.create({
     top: 237,
     left: 49,
     fontSize: 22,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "left",
   },
   price: {
     marginBlockStart: 0,
     marginBlockEnd: 0,
+    color: "#00790C",
   },
   priceText: {
     position: "absolute",
     top: 237,
     left: 222,
     fontSize: 22,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "center",
   },
@@ -144,10 +155,9 @@ const styles = StyleSheet.create({
     marginTop: -6,
     marginLeft: -6,
     top: "50%",
-    left: "50%",
+    left: 28,
     fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#fff",
     textAlign: "center",
   },

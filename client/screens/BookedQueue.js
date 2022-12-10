@@ -2,11 +2,17 @@ import React, {useState,useEffect} from "react";
 import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import { booking } from "../dummydata";
 import axios from 'axios';
+import { useFonts } from 'expo-font';
 
 const Booked = ({ navigation, route }) => {
-
   const [listToping, setlistToping] = useState([]);
   const [lastQueue, setLastQueue] = useState([]);
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
 
   useEffect(() => {
 
@@ -23,7 +29,6 @@ const Booked = ({ navigation, route }) => {
       }
       buff += route.params.toping[i].toping;
     }
-    buff += route.params.booknote;
 
     axios.post("http://10.0.2.2:8080/BookQueue",{
       restaurant_name: route.params.restaurant.restaurant_name,
@@ -36,7 +41,9 @@ const Booked = ({ navigation, route }) => {
     setlistToping(buff);
   }, []);
 
-  //console.log(listToping);
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.bookedView}>
@@ -56,10 +63,9 @@ const Booked = ({ navigation, route }) => {
 
         <View style={styles.lineView} />
         <View style={styles.menuView}>
-          <Text style={styles.text}>{route.params.menu.menu_name}</Text>
-          <Text style={styles.note}>{route.params.ingredient.ingredient}</Text>
-          <Text style={styles.note}>{listToping}</Text>
-          <Text style={styles.note}>{route.params.booknote}</Text>
+          <Text style={styles.menuName}>{route.params.menu.menu_name}</Text>
+          <Text style={styles.ingredient}>Ingredient: {route.params.ingredient.ingredient} {listToping}</Text>
+          <Text style={styles.note}>Note: {route.params.booknote}</Text>
           <Image
             style={styles.foodIcon}
             resizeMode="cover"
@@ -67,8 +73,8 @@ const Booked = ({ navigation, route }) => {
           />
         </View>
         <View style={styles.restaurantView}>
-          <Text style={styles.text1}>{route.params.restaurant.restaurant_name}</Text>
-          <Text style={styles.text2}>{route.params.restaurant.area}</Text>
+          <Text style={styles.restaurantName}>{route.params.restaurant.restaurant_name}</Text>
+          <Text style={styles.restaurantArea}>{route.params.restaurant.area}</Text>
           <Image
             style={styles.locationIcon}
             resizeMode="cover"
@@ -124,11 +130,11 @@ const styles = StyleSheet.create({
   },
   doneText: {
     position: "absolute",
-    top: 6,
-    left: 80,
+    top: 7,
+    left: 78,
     fontSize: 16,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#fff",
     textAlign: "left",
   },
@@ -150,21 +156,30 @@ const styles = StyleSheet.create({
     width: 328,
     height: 1,
   },
-  text: {
+  menuName: {
     position: "absolute",
     top: 0,
     left: 45,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
-  note: {
+  ingredient: {
     position: "absolute",
     top: 24,
     left: 45,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
+    color: "#505050",
+    textAlign: "left",
+  },
+  note: {
+    position: "absolute",
+    top: 40,
+    left: 45,
+    fontSize: 14,
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -182,21 +197,21 @@ const styles = StyleSheet.create({
     width: 217,
     height: 41,
   },
-  text1: {
+  restaurantName: {
     position: "absolute",
     top: 0,
     left: 45,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
-  text2: {
+  restaurantArea: {
     position: "absolute",
     top: 24,
     left: 45,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -217,10 +232,10 @@ const styles = StyleSheet.create({
   queue: {
     position: "absolute",
     top: 84,
-    left: 120,
+    left: 115,
     fontSize: 80,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -234,9 +249,9 @@ const styles = StyleSheet.create({
   word: {
     position: "absolute",
     top: 204,
-    left: 68,
+    left: 50,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "center",
   },

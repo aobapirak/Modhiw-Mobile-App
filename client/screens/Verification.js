@@ -1,17 +1,24 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React, { useRef, useState, useEffect } from 'react'
 import axios from "axios";
+import { useFonts } from 'expo-font';
 
   const Verification = ({ navigation, route }) => {
     const firstInput = useRef();
     const secondInput = useRef();
     const thirdInput = useRef();
     const fourthInput = useRef();
-    const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''})
-    const [otpApprove, setOtpApprove] = useState("approved")
-    const [exist, setExist] = useState(false)
-    const [role, setRole] = useState("")
-
+    const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
+    const [otpApprove, setOtpApprove] = useState("approved");
+    const [exist, setExist] = useState(false);
+    const [role, setRole] = useState("");
+    const [fontsLoaded] = useFonts({
+      'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
+      'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
+      'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
+      'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+    });
+    
     useEffect(() => {
       /*
       axios.get("http://10.0.2.2:8080/createOTP",{
@@ -21,6 +28,10 @@ import axios from "axios";
       })
       */
     }, []);
+
+    if (!fontsLoaded) {
+      return null;
+    }
 
     const goHomepage = (phonenum) => {
       navigation.navigate('Homepage', {user_phonenum: phonenum});
@@ -174,7 +185,7 @@ const styles = StyleSheet.create({
       left: 138,
       fontSize: 24,
       fontWeight: "600",
-      fontFamily: "SF Pro Rounded",
+      fontFamily: "NotoSansThai-Medium",
       color: "#000",
       textAlign: "left",
     },
@@ -184,7 +195,7 @@ const styles = StyleSheet.create({
       left: 82,
       fontSize: 20,
       fontWeight: "500",
-      fontFamily: "SF Pro Rounded",
+      fontFamily: "NotoSansThai-Regular",
       color: "#777",
       textAlign: "left",
     },
@@ -201,7 +212,7 @@ const styles = StyleSheet.create({
       left: 82,
       fontSize: 16,
       fontWeight: "500",
-      fontFamily: "SF Pro Rounded",
+      fontFamily: "NotoSansThai-Regular",
       textAlign: "left",
     },
     otpText: {
@@ -265,10 +276,10 @@ const styles = StyleSheet.create({
     continueText: {
       position: "absolute",
       top: 11,
-      left: 68,
+      left: 65,
       fontSize: 16,
       fontWeight: "600",
-      fontFamily: "SF Pro Rounded",
+      fontFamily: "NotoSansThai-Medium",
       color: "#fff",
       textAlign: "left",
     },
