@@ -40,7 +40,28 @@ const getToping = (req, res) => {
     });
 }
 
+const getLastQueue  = (req,res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        db.query(`select queue_id from queue_log ORDER BY queue_id DESC LIMIT 1;`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+                console.log(result);
+            }
+            db.release();
+        });
+    });
+}
+
 module.exports = {
     getIngredient,
-    getToping
+    getToping,
+    getLastQueue
 }
