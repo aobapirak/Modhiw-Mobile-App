@@ -15,13 +15,19 @@ const Booked = ({ navigation, route }) => {
 
   useEffect(() => {
 
+
+    axios.get("http://10.0.2.2:8080/getLastQueue")
+    .then((response) => {
+      setLastQueue(response.data);
+    })
     let buff = "";
     for (let i = 0; i < route.params.toping.length; i++) {
       if (i > 0) {
         buff += ", ";
       }
-      buff += route.params.toping[i].toping;
+      buff += route.params.toping[i];
     }
+
 
     axios.post("http://10.0.2.2:8080/BookQueue",{
       restaurant_name: route.params.restaurant.restaurant_name,
@@ -59,8 +65,8 @@ const Booked = ({ navigation, route }) => {
         <View style={styles.lineView} />
         <View style={styles.menuView}>
           <Text style={styles.menuName}>{route.params.menu.menu_name}</Text>
-          <Text style={styles.ingredient}>Ingredient: {route.params.ingredient.ingredient} {listToping}</Text>
-          <Text style={styles.note}>Note: {route.params.booknote}</Text>
+          <Text style={styles.ingredient}>Ingredient: {route.params.ingredient} </Text>
+          <Text style={styles.note}>Note: {listToping} {route.params.booknote}</Text>
           <Image
             style={styles.foodIcon}
             resizeMode="cover"
@@ -187,7 +193,7 @@ const styles = StyleSheet.create({
   },
   menuView: {
     position: "absolute",
-    top: 427,
+    top: 407,
     left: 45,
     width: 217,
     height: 41,
@@ -219,7 +225,7 @@ const styles = StyleSheet.create({
   },
   restaurantView: {
     position: "absolute",
-    top: 361,
+    top: 341,
     left: 45,
     width: 218,
     height: 41,
