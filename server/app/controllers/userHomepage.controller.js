@@ -9,7 +9,8 @@ const getRestaurantList = (req, res) => {
         }
         db.query(`SELECT r.* 
         FROM restaurant r JOIN menu_t m ON r.restaurant_name = m.restaurant_name
-        GROUP BY r.restaurant_name`,
+        GROUP BY r.restaurant_name
+        ORDER BY r.restaurant_status DESC`,
         (err, result) => {
             if (err) {
                 console.log(err);
