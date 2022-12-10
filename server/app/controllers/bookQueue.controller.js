@@ -14,8 +14,10 @@ const BookQueue = (req,res) => {
         const ingredient = req.body.ingredient;
         const note = req.body.note;
         const order_status = 0;
-        db.query(`INSERT INTO queue_log (restaurant_name, phone_number, menu_name, ingredient, note, order_status) VALUES (?, ?, ?, ?, ?, ?)`,
-        [restaurant_name, phone_number, menu_name, ingredient, note, order_status],
+        const queueID = req.body.lastQueue+1;
+        db.query(`INSERT INTO queue_log (restaurant_name, phone_number, menu_name, ingredient, note, order_status, queue_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [restaurant_name, phone_number, menu_name, ingredient, note, order_status, queueID],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -51,29 +53,7 @@ const getQueue = (req,res) => {
     });
 }
 
-const getLastQueue  = (req,res) => {
-    pool.getConnection((err, db) => {
-        if (err) {
-            console.log(err);
-            res.status(500).json({'error':err});
-            return;
-        }
-        db.query(`select queue_id from queue_log ORDER BY queue_id DESC LIMIT 1;`,
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(result);
-                console.log(result);
-            }
-            db.release();
-        });
-    });
-}
-
-
 module.exports = {
     BookQueue,
-    getQueue,
-    getLastQueue
+    getQueue
 }
