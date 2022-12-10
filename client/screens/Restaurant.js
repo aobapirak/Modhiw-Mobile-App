@@ -67,10 +67,10 @@ const Restaurant = ({ navigation, route }) => {
         source={require("../assets/search.png")}
       />
       <TextInput 
-          style={styles.searchByMenu}
-          placeholder="Search by menu"
-          onChangeText={(text) => search(text)}
-        />
+        style={styles.searchByMenu}
+        placeholder="Search by menu"
+        onChangeText={(text) => search(text)}
+      />
     </View>
     <Text style={styles.text}>{route.params.restaurant.restaurant_name}</Text>
     <Text style={styles.noodlesALarCarte}>{category}</Text>
