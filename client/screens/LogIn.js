@@ -1,10 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity} from "react-native";
-import PhoneInput from 'react-native-phone-number-input';
+import { useFonts } from 'expo-font';
 
 const LogIn = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isEnter, setIsEnter] = useState(false);
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const goVerification = (phoneNumber) => {
     navigation.navigate('Verification', { user_phonenum: phoneNumber });
@@ -141,7 +151,7 @@ const styles = StyleSheet.create({
     top: 13,
     left: 60,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#777",
     textAlign: "left",
   },
@@ -150,8 +160,7 @@ const styles = StyleSheet.create({
     top: 30,
     left: 60,
     fontSize: 18,
-    fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "left",
   },
@@ -186,7 +195,7 @@ const styles = StyleSheet.create({
     left: 33,
     fontSize: 36,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Bold",
     color: "#fff",
     textAlign: "left",
   },
@@ -203,7 +212,7 @@ const styles = StyleSheet.create({
     left: 33,
     fontSize: 16,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#fff",
     textAlign: "left",
   },

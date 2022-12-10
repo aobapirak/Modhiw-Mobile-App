@@ -1,9 +1,19 @@
 import React from "react";
+import { useFonts } from 'expo-font'
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
-const Add = ({ navigation, route}) => {
+const Add = ({ navigation, route }) => {
   const restaurant_name = route.params.name;
-  // const restaurant_name = "ชิกกี้ชิก";
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.addView}>
@@ -14,7 +24,7 @@ const Add = ({ navigation, route}) => {
         source={require("../../assets/bar.png")}
       />
       <Text style={styles.addText}>Add</Text>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddMenu", {name: restaurant_name})}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddMenu", { user_phonenum: route.params.user_phonenum, name: route.params.name })}}>
         <View style={styles.view}>
           <View style={styles.rectangleView1} />
           <Text style={styles.menuText}>Menu</Text>
@@ -25,7 +35,7 @@ const Add = ({ navigation, route}) => {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddIngredients", {name: restaurant_name})}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddIngredients", { user_phonenum: route.params.user_phonenum, name: route.params.name })}}>
         <View style={styles.view1}>
           <View style={styles.rectangleView2} />
           <Text style={styles.ingredientText}>Ingredient</Text>
@@ -36,7 +46,7 @@ const Add = ({ navigation, route}) => {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddToping", {name: restaurant_name})}}>
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("AddToping", { user_phonenum: route.params.user_phonenum, name: route.params.name })}}>
         <View style={styles.view2}>
           <View style={styles.rectangleView3} />
           <Text style={styles.topingText}>Toping</Text>
@@ -73,7 +83,7 @@ const styles = StyleSheet.create({
     left: 50,
     fontSize: 32,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -89,10 +99,10 @@ const styles = StyleSheet.create({
   menuText: {
     position: "absolute",
     top: 103,
-    left: 40,
+    left: 38,
     fontSize: 20,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#1b1a17",
     textAlign: "left",
   },
@@ -122,10 +132,10 @@ const styles = StyleSheet.create({
   ingredientText: {
     position: "absolute",
     top: 103,
-    left: 21,
+    left: 16,
     fontSize: 20,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#1b1a17",
     textAlign: "left",
   },
@@ -155,10 +165,10 @@ const styles = StyleSheet.create({
   topingText: {
     position: "absolute",
     top: 101,
-    left: 30,
-    fontSize: 24,
+    left: 33,
+    fontSize: 20,
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#1b1a17",
     textAlign: "left",
   },

@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
 import axios from "axios";
+import { useFonts } from 'expo-font';
 
 const TicketPage = ({ navigation, route }) => {
   const phoneNumber = route.params.user_phonenum;
   const [tickets, settickets] = useState([]);
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getQueue",{
@@ -17,6 +24,10 @@ const TicketPage = ({ navigation, route }) => {
       console.log("tickets:\t", response.data);
     })
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.ticketPageView}>
@@ -56,7 +67,8 @@ const TicketPage = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.menuView}>
-            <Text style={styles.text}>{ticket.menu_name} ({ticket.ingredient}) {"\n"}<Text style={styles.note}>Note: {ticket.note}</Text></Text>
+            <Text style={styles.menuName}>{ticket.menu_name} ({ticket.ingredient}) {"\n"}
+            <Text style={styles.note}>Note: {ticket.note}</Text></Text>
             <Image
               style={styles.foodIcon}
               resizeMode="cover"
@@ -114,21 +126,30 @@ const styles = StyleSheet.create({
     width: 320,
     height: 1,
   },
-  text: {
+  menuName: {
     position: "absolute",
     top: 0,
     left: 45,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
-  note: {
+  ingredient: {
     position: "absolute",
     top: 24,
     left: 45,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
+    color: "#505050",
+    textAlign: "left",
+  },
+  note: {
+    position: "absolute",
+    top: 40,
+    left: 45,
+    fontSize: 14,
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -151,7 +172,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 45,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -160,7 +181,7 @@ const styles = StyleSheet.create({
     top: 24,
     left: 45,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
@@ -184,7 +205,7 @@ const styles = StyleSheet.create({
     left: 121,
     fontSize: 80,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -195,9 +216,9 @@ const styles = StyleSheet.create({
   positionView: {
     position: "absolute",
     top: 183,
-    // left: 95,
+    left: 115,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#000",
     textAlign: "center",
     justifyContent: 'center',
@@ -218,9 +239,9 @@ const styles = StyleSheet.create({
   positionInQueue: {
     position: "absolute",
     top: 232,
-    left: 121,
+    left: 112,
     fontSize: 16,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     textAlign: "center",
   },
   positionTakeOrder: {
@@ -228,7 +249,7 @@ const styles = StyleSheet.create({
     top: 230,
     left: 65,
     fontSize: 16,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     textAlign: "center",
   },
   ticketView: {

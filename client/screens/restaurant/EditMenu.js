@@ -1,32 +1,38 @@
 import React, {useEffect,useState} from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity, FlatList, TextInput } from "react-native";
 import axios from "axios";
-
+import { useFonts } from 'expo-font';
 
 const Item = ({ name, price, picture, restaurant_name, navigation}) => (
-  <View style={styles.item}>
-  <TouchableOpacity activeOpacity = { .5 } 
-  onPress = { () => {
-    navigation.navigate("EditMenuDetails", { menu_name: name,price: price,picture: picture,restaurant_name: restaurant_name })
-  }}>
-        <View style={styles.menuView}>
-          <Image
-            style={styles.imageStyle}
-            resizeMode="cover"
-            source={{uri:picture}}
-          />
-          <Text style={styles.menuName}>{name}</Text>
-          <Text style={styles.menuPrice}>{price}฿</Text>
-        </View>
-    </TouchableOpacity>
+    <View style={styles.item}>
+    <TouchableOpacity activeOpacity = { .5 } 
+    onPress = { () => {
+      navigation.navigate("EditMenuDetails", { menu_name: name,price: price,picture: picture,restaurant_name: restaurant_name })
+    }}>
+          <View style={styles.menuView}>
+            <Image
+              style={styles.imageStyle}
+              resizeMode="cover"
+              source={{uri:picture}}
+            />
+            <Text style={styles.menuName}>{name}</Text>
+            <Text style={styles.menuPrice}>{price}฿</Text>
+          </View>
+      </TouchableOpacity>
 
-  </View>
-);
+    </View>
+  );
 
 const EditMenu = ({ navigation, route }) => {
   const restaurant_name = route.params.restaurant_name;
   const [menu,setMenu] = useState([]);
   const [menuToShow,setMenuToShow] = useState([]);
+  const [fontsLoaded] = useFonts({
+    'NotoSansThai-Regular': require('../../assets/fonts/NotoSansThai-Regular.ttf'),
+    'NotoSansThai-Medium': require('../../assets/fonts/NotoSansThai-Medium.ttf'),
+    'NotoSansThai-SemiBold': require('../../assets/fonts/NotoSansThai-SemiBold.ttf'),
+    'NotoSansThai-Bold': require('../../assets/fonts/NotoSansThai-Bold.ttf'),
+  });
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getMenu",{
@@ -39,6 +45,10 @@ const EditMenu = ({ navigation, route }) => {
       console.log(response.data);
     })
   }, []);
+  
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const search = (toSearch) => {
     setMenuToShow(menu.filter(menu => menu.menu_name.search(toSearch) != -1));
@@ -78,7 +88,7 @@ const EditMenu = ({ navigation, route }) => {
       />
       <TextInput 
         style={styles.searchByMenu}
-        placeholder="Search by menu"
+        placeholder="Search by menu     "
         onChangeText={(text) => search(text)}
       />
       </View>
@@ -128,7 +138,7 @@ const styles = StyleSheet.create({
     left: 126,
     fontSize: 32,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -162,7 +172,7 @@ const styles = StyleSheet.create({
     top: 200,
     left: 19,
     fontSize: 18,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#000",
     textAlign: "left",
   },
@@ -171,7 +181,7 @@ const styles = StyleSheet.create({
     top: 225,
     left: 19,
     fontSize: 16,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Medium",
     color: "#00790c",
     textAlign: "left",
   },
@@ -181,10 +191,10 @@ const styles = StyleSheet.create({
   },
   searchByMenu: {
     position: "absolute",
-    top: -18,
-    left: 50,
+    top: -16,
+    left: 40,
     fontSize: 16,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-Regular",
     color: "#505050",
     textAlign: "left",
   },
