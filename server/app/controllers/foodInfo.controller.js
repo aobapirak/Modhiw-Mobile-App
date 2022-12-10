@@ -40,7 +40,31 @@ const getToping = (req, res) => {
     });
 }
 
+
+const getStatusCheck = (req, res) => {
+    pool.getConnection((err, db) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({'error':err});
+            return;
+        }
+        const restaurantName = req.query.restaurantName;
+        const ingredient = req.query.ingredient;
+        db.query(`SELECT r.restaurant_name, r.restaurant_status, i.ingredient_status FROM restaurant r 
+        JOIN ingredient_t i on r.restaurant_name = i.restaurant_name WHERE r.restaurant_name = ? AND i.ingredient = ?`, [restaurantName,ingredient],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+            db.release();
+        });
+    });
+}
+
 module.exports = {
     getIngredient,
-    getToping
+    getToping,
+    getStatusCheck
 }

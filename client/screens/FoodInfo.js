@@ -1,8 +1,36 @@
 import React, {useState,useEffect} from "react";
-import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity, TextInput} from "react-native";
-import {Checkbox} from 'react-native-paper';
+import { Image, StyleSheet, View, Text, ImageBackground, TouchableOpacity, TextInput, FlatList, Modal, Pressable } from "react-native";
 import axios from 'axios';
 import { useFonts } from 'expo-font';
+import CallModal from "./ModalBook";
+
+
+const Ingredient = ({ name, price, selectIngredient, nowSelect }) => (
+  <TouchableOpacity activeOpacity = { .5 } onPress = { () => {selectIngredient(name)}} >
+  <View style={styles.item}>
+      <View style={styles.itemLeft}>
+        {name == nowSelect? <View style={[styles.bullet, {backgroundColor:"#f0a500", opacity: 1}]}/>
+        :
+        <View style={styles.bullet}/>
+        }
+        <Text style={styles.itemText}>{name}</Text>
+      </View>
+      <Text style={styles.price}>{price}฿</Text>
+  </View>
+  </TouchableOpacity>
+);
+
+const Toping = ({ name, price , selectToping}) => (
+  <TouchableOpacity activeOpacity = { .5 } onPress = { () => {selectToping(name)}} >
+  <View style={styles.item}>
+      <View style={styles.itemLeft}>
+        <Text style={styles.itemText}>{name}</Text>
+      </View>
+      <Text style={styles.price}>{price}฿</Text>
+  </View>
+  </TouchableOpacity>
+);
+
 
 const FoodInfo = ({ navigation, route }) => {
 
@@ -17,6 +45,11 @@ const FoodInfo = ({ navigation, route }) => {
     'NotoSansThai-SemiBold': require('../assets/fonts/NotoSansThai-SemiBold.ttf'),
     'NotoSansThai-Bold': require('../assets/fonts/NotoSansThai-Bold.ttf'),
   });
+  const [modalVisible, setModalVisible] = useState(false);
+  const [data,setData] = useState([]);
+  const user_phonenum = route.params.user_phonenum;
+  const restaurant = route.params.restaurant;
+  const menu = route.params.menu;
 
   useEffect(() => {
     axios.get("http://10.0.2.2:8080/getIngredient", {
@@ -63,6 +96,7 @@ const FoodInfo = ({ navigation, route }) => {
   const selectToping = (newToping) => {
     var buff = topingSelected;
     var selected = 0
+    console.log("new", newToping);
 
     for (let i = 0; i < topingSelected.length; i++) {
       if (buff[i] == newToping) {
@@ -77,48 +111,42 @@ const FoodInfo = ({ navigation, route }) => {
       setTopingSelected(buff);
     }
   }
-
   //console.log("topingSelected:\t",topingSelected)
   //console.log("ingredientSelected:\t", ingredientSelected)
   //console.log("note:\t", note)
 
-  const Item = (props) => {
-    return (
-      <View style={styles.item}>
-        <View style={styles.itemLeft}>
-          <View style={styles.bullet}></View>
-          <Text style={styles.itemText}>{props.text}</Text>
-        </View>
-        <Text style={styles.price}>{props.price}</Text>
-      </View>
-    )
-  }
+  const renderItem = ({ item }) => (
+    <Ingredient 
+    name={item.ingredient} 
+    price={item.price_adjust} 
+    selectIngredient={selectIngredient}
+    nowSelect={ingredientSelected}
+    />
+  );
 
-  const Topping = (props) => {
-    
-    return (
-      <View style={styles.item}>
-        <View style={styles.itemLeft}>
-          <Text style={styles.itemText}>{props.text}</Text>
-        </View>
-        <Text style={styles.price}>{props.price}</Text>
-      </View>
-    )
-  }
+  const renderExtra = ({ item }) => (
+    <Toping 
+    name={item.toping} 
+    price={item.price_adjust} 
+    selectToping = {selectToping}
+    />
+  );
+
 /*
   const goConfirmBook = (ingredient) => {
     navigation.navigate('ConfirmBook', {restaurant: route.params.restaurant, menu: route.params.menu, ingredient: ingredient, toping: "toping :D", booknote: "booknote :)"});
   }
 */
-  const goBookedQueue = (ingredient, toping, note) => {
-    navigation.navigate('BookedQueue', { 
-      user_phonenum: route.params.user_phonenum,
-      restaurant: route.params.restaurant, 
-      menu: route.params.menu, 
-      ingredient: ingredient, 
-      toping: toping, 
-      booknote: note
-    });
+
+
+  const pressHandle = (ingredient,booknote,toping) => {
+    setModalVisible(true)
+    setData({
+      menu: route.params.menu.menu_name, 
+      ingredient: ingredient,
+      booknote: booknote,
+      toping: toping
+    })
   }
 
   return (
@@ -127,11 +155,21 @@ const FoodInfo = ({ navigation, route }) => {
       resizeMode="cover"
       source={require("../assets/restaurantinfo.png")}
     >
+  
+    <CallModal 
+        modalVisible={modalVisible} 
+        setModalVisible={()=> setModalVisible(!modalVisible)} 
+        data={data}
+        navigation={navigation}
+        user_phonenum={user_phonenum}
+        restaurant={restaurant}
+        menu={menu}
+      />
       <Image
         style={styles.rectangleIcon}
         resizeMode="cover"
         source={{
-          uri: `${route.params.restaurant.picture}`,
+          uri: `${route.params.menu.picture}`,
         }}
       />
       <View style={styles.rectangleView} />
@@ -143,7 +181,7 @@ const FoodInfo = ({ navigation, route }) => {
           resizeMode="cover"
           source={require("../assets/map.png")}
         />
-        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Homepage", { user_phonenum: route.params.user_phonenum })}}>
+        <TouchableOpacity activeOpacity = { .5 } onPress = { () => {navigation.navigate("Restaurant", { user_phonenum: route.params.user_phonenum, restaurant: route.params.restaurant })}}>
         <Image
           style={styles.xIcon}
           resizeMode="cover"
@@ -151,28 +189,21 @@ const FoodInfo = ({ navigation, route }) => {
         />
         </TouchableOpacity>
       </View>
+      <Text style={styles.ingredient}>เนื้อ</Text>
       <View style={styles.view}>
-        <View style={styles.items}>
-          {ingredient.map((ingredient) =>
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {selectIngredient(ingredient)}} >
-              <View>
-                <Item text={ingredient.ingredient} price={ingredient.price_adjust}/>
-              </View>
-          </TouchableOpacity>
-          )}
-        </View>
-        <Text style={styles.item}>{Item}</Text>
+      <FlatList
+        data={ingredient}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
       </View>
+      <Text style={styles.toping}>เพิ่มเติม</Text>
       <View style={styles.view1}>
-        <View style={styles.items}>
-          {toping.map((topping) =>
-          <TouchableOpacity activeOpacity = { .5 } onPress = { () => {selectToping(topping)}} >
-            <View>
-              <Topping text={topping.toping} price={topping.price_adjust}/>
-            </View>
-            </TouchableOpacity>
-          )}
-        </View>
+      <FlatList
+        data={toping}
+        renderItem={renderExtra}
+        keyExtractor={item => item.id}
+      />
       </View>
       <View style={styles.noteView}>
         <Text style={styles.noteText}>Note</Text>
@@ -180,13 +211,16 @@ const FoodInfo = ({ navigation, route }) => {
         <TextInput 
           style={styles.etcText}
           placeholder='เช่น เพิ่มไข่ดาว, พิเศษ, หมูสับ, หมูชิ้น, ไม่ใส่ผัก, etc.'
-          onChangeText={(text) => setNote(text)}
+          onChangeText={() => {setNote([...note])}}
+          value={note}
         />
         </View>
         <TextInput>
         </TextInput>
       </View>
-      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {goBookedQueue(ingredientSelected, topingSelected, note)}} >
+      {/* goBookedQueue(ingredientSelected, topingSelected, note) */}
+      {/* pressHandle(ingredientSelected, note, topingSelected) */}
+      <TouchableOpacity activeOpacity = { .5 } onPress = { () => {pressHandle(ingredientSelected, note, topingSelected)}} >
         <View style={styles.bookView}>
           <View style={styles.rectangleView2} />
           <Text style={styles.bookQueueText}>Book Queue</Text>
@@ -269,10 +303,32 @@ const styles = StyleSheet.create({
   },
   view: {
     position: "absolute",
+    top: 331,
+    left: 48,
+    width: 320,
+    height: 204
+  },
+  ingredient: {
+    position: "absolute",
     top: 311,
     left: 48,
     width: 320,
     height: 294,
+    fontSize: 14,
+    fontFamily: "NotoSansThai-Bold",
+    color: "#000",
+    textAlign: "left",
+  },
+  toping: {
+    position: "absolute",
+    top: 540,
+    left: 48,
+    width: 320,
+    height: 294,
+    fontSize: 14,
+    fontFamily: "NotoSansThai-Bold",
+    color: "#000",
+    textAlign: "left",
   },
   text29: {
     position: "absolute",
@@ -286,10 +342,10 @@ const styles = StyleSheet.create({
   },
   view1: {
     position: "absolute",
-    top: 539,
+    top: 563,
     left: 48,
     width: 320,
-    height: 294,
+    height: 50
   },
   rectangleView1: {
     position: "absolute",
@@ -385,10 +441,12 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   price: {
-    width: 30,
+    width: 100,
     height: 20,
     color: "#e59e00",
+    textAlign: "right"
   },
+  
 });
 
 export default FoodInfo;
