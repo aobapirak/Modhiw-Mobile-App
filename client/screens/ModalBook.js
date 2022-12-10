@@ -56,7 +56,8 @@ const CallModal = ({ modalVisible, setModalVisible, data, navigation, user_phone
         menu: menu, 
         ingredient: ingredient, 
         toping: toping, 
-        booknote: note
+        booknote: note,
+        lastQueue: data.lastQueue
       });
     }
 
