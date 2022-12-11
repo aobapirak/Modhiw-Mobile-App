@@ -53,9 +53,10 @@ const EditToping = ({ navigation, route }) => {
             activeOpacity={0.5}
             onPress={() => {
               navigation.navigate("EditTopingDetails", {
-                name: item.toping,
-                price: item.price_adjust,
+                user_phonenum: route.params.user_phonenum,
                 restaurant_name: restaurant_name,
+                name: item.toping,
+                price: item.price_adjust
               });
             }}
           >
@@ -66,6 +67,55 @@ const EditToping = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
       ))}
+      <View style={styles.barView}>
+        <Image
+          style={styles.barBox}
+          resizeMode="cover"
+          source={require("../../assets/rectangle-11.png")}
+        />
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() =>
+            navigation.navigate("HomepageRestaurant", {
+              user_phonenum: route.params.user_phonenum,
+            })
+          }
+        >
+          <Image
+          style={styles.homeIcon}
+          resizeMode="cover"
+          source={require("../../assets/homeIcon.png")}
+        />
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("OrderList", {
+              user_phonenum: route.params.user_phonenum,
+              restaurant_name: route.params.restaurant_name,
+            });
+          }}
+        >
+          <Image
+            style={styles.billIcon}
+            resizeMode="cover"
+            source={require("../../assets/orderIcon.png")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("LogIn");
+          }}
+        >
+          <Image
+            style={styles.signoutIcon}
+            resizeMode="cover"
+            source={require("../../assets/logoutIcon.png")}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -198,6 +248,40 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 823,
     overflow: "hidden",
+  },
+  barBox: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 411,
+    height: 60,
+  },
+  barView: {
+    position: "absolute",
+    top: 715,
+    width: "100%",
+    height: 60,
+  },
+  homeIcon: {
+    position: "absolute",
+    top: 17,
+    left: 74,
+    width: 25,
+    height: 25,
+  },
+  billIcon: {
+    position: "absolute",
+    top: 17,
+    left: 199,
+    width: 25,
+    height: 25,
+  },
+  signoutIcon: {
+    position: "absolute",
+    top: 17,
+    left: 324,
+    width: 25,
+    height: 25,
   },
 });
 
