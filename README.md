@@ -39,7 +39,7 @@ or
 expo start
 ```
 
-### Run the application (Client)
+### Run the application (Server)
 ```
 npm start
 ```
