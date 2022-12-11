@@ -1,6 +1,6 @@
 const otp = require("../config/OTP");
 const pool = require("../config/database");
-const client = require("twilio")(otp.accountSid, otp.authToken);
+const client = require("twilio")(otp.apikey, otp.secret, { accountSid: otp.accountSid });
 
 const formatPhonenum = (phonenumber) => {
   let zerostart = 0;
