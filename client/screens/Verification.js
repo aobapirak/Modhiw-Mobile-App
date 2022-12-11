@@ -15,9 +15,6 @@ const Verification = ({ navigation, route }) => {
   const thirdInput = useRef();
   const fourthInput = useRef();
   const [otp, setOtp] = useState({ 1: "0", 2: "0", 3: "0", 4: "0" });
-  const [otpApprove, setOtpApprove] = useState("approved");
-  const [exist, setExist] = useState(false);
-  const [role, setRole] = useState("");
   const [fontsLoaded] = useFonts({
     "NotoSansThai-Regular": require("../assets/fonts/NotoSansThai-Regular.ttf"),
     "NotoSansThai-Medium": require("../assets/fonts/NotoSansThai-Medium.ttf"),
@@ -43,25 +40,6 @@ const Verification = ({ navigation, route }) => {
     });
   };
 
-  const checkPhonenumExist = (phonenumToCheck) => {
-    axios
-      .get("http://10.0.2.2:8080/existPhonenumber", {
-        params: {
-          phonenum: route.params.user_phonenum,
-        },
-      })
-      .then((response) => {
-        if (response.data[0]) {
-          console.log("isExist:\t\texist");
-          setRole(response.data[0].role);
-        } else {
-          console.log("isExist:\tnot exist");
-          createNewUser(route.params.user_phonenum);
-          setRole("Customer");
-        }
-      });
-  };
-
   const reSendOTP = () => {
     axios.get("http://10.0.2.2:8080/createOTP", {
       params: {
@@ -72,6 +50,7 @@ const Verification = ({ navigation, route }) => {
 
   const verifyOTP = () => {
     let buffOTP = "";
+    let role = "Customer";
     buffOTP = otp[1] + otp[2] + otp[3] + otp[4];
     axios
       .get("http://10.0.2.2:8080/verifyOTP", {
@@ -81,24 +60,36 @@ const Verification = ({ navigation, route }) => {
         },
       })
       .then((response) => {
-        setOtpApprove("approved");
-      });
+        if (response.data == "approved") {
+          axios
+            .get("http://10.0.2.2:8080/existPhonenumber", {
+              params: {
+                phonenum: route.params.user_phonenum,
+              },
+            })
+            .then((response) => {
+              if (response.data[0]) {
+                console.log("isExist:\t\texist");
+                if (response.data[0] == "Restaurant"){
+                  role = "Restaurant";
+                }
+              } else {
+                console.log("isExist:\tnot exist");
+                createNewUser(route.params.user_phonenum);
+              }
+            });
+          console.log("role:\t\t", role);
+          if (role == "Restaurant") {
+            goHomepageRestaurant(route.params.user_phonenum);
+          } else if (role == "Customer") {
+            goHomepage(route.params.user_phonenum);
+          }
+        } else if (response.data == "pending") {
+          alert("Invalid OTP");
+        }
+      }
+    );
   };
-
-  if (otpApprove == "approved") {
-    checkPhonenumExist(route.params.user_phonenum);
-    console.log("role:\t\t", role);
-    if (role == "Restaurant") {
-      goHomepageRestaurant(route.params.user_phonenum);
-    } else if (role == "Customer") {
-      goHomepage(route.params.user_phonenum);
-    }
-  } else if (otpApprove == "pending") {
-    alert("Invalid OTP");
-    setOtpApprove("");
-  }
-
-  console.log("otpApprove:\t", otpApprove);
 
   return (
     <View style={styles.verificationView}>
