@@ -14,8 +14,8 @@ const Verification = ({ navigation, route }) => {
   const secondInput = useRef();
   const thirdInput = useRef();
   const fourthInput = useRef();
-  const [otp, setOtp] = useState({ 1: "", 2: "", 3: "", 4: "" });
-  const [otpApprove, setOtpApprove] = useState("approved");
+  const [otp, setOtp] = useState({ 1: "0", 2: "0", 3: "0", 4: "0" });
+  const [otpApprove, setOtpApprove] = useState("");
   const [exist, setExist] = useState(false);
   const [role, setRole] = useState("");
   const [fontsLoaded] = useFonts({
@@ -24,16 +24,6 @@ const Verification = ({ navigation, route }) => {
     "NotoSansThai-SemiBold": require("../assets/fonts/NotoSansThai-SemiBold.ttf"),
     "NotoSansThai-Bold": require("../assets/fonts/NotoSansThai-Bold.ttf"),
   });
-
-  useEffect(() => {
-    /*
-      axios.get("http://10.0.2.2:8080/createOTP",{
-        params: {
-          phonenum: route.params.user_phonenum
-        }
-      })
-      */
-  }, []);
 
   if (!fontsLoaded) {
     return null;
@@ -91,7 +81,7 @@ const Verification = ({ navigation, route }) => {
         },
       })
       .then((response) => {
-        setOtpApprove("approved");
+        setOtpApprove(response.data);
       });
   };
 

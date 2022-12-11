@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import axios from "axios";
 import { useFonts } from "expo-font";
 
 const LogIn = ({ navigation }) => {
@@ -24,6 +25,11 @@ const LogIn = ({ navigation }) => {
   }
 
   const goVerification = (phoneNumber) => {
+    axios.get("http://10.0.2.2:8080/createOTP",{
+        params: {
+          phonenum: phoneNumber
+        }
+      })
     navigation.navigate("Verification", { user_phonenum: phoneNumber });
   };
 
@@ -68,7 +74,7 @@ const LogIn = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => {
-              navigation.navigate(goVerification(phoneNumber));
+              goVerification(phoneNumber);
             }}
           >
             <View style={styles.rectangleView3} />
