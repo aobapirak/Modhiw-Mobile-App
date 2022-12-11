@@ -14,7 +14,7 @@ import axios from "axios";
 import { useFonts } from "expo-font";
 
 const AddMenu = ({ navigation, route }) => {
-  const restaurant_name = route.params.name;
+  const restaurant_name = route.params.restaurant_name;
   const [menu_name, setMenuName] = useState("");
   const [price, setPrice] = useState(null);
   const [image, setImage] = useState("");
@@ -83,7 +83,7 @@ const AddMenu = ({ navigation, route }) => {
             alert("Error to add menu because this menu already exists");
           });
 
-        navigation.navigate("Add", { name: restaurant_name });
+        navigation.navigate("Add", { restaurant_name: restaurant_name });
       } catch (err) {
         console.log("err:", err);
       }
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     fontSize: 14,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#000",
     textAlign: "left",
   },
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     top: 26,
     left: 15,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+    fontFamily: "NotoSansThai-SemiBold",
     color: "#505050",
     textAlign: "left",
   },

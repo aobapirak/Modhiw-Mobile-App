@@ -25,11 +25,13 @@ const LogIn = ({ navigation }) => {
   }
 
   const goVerification = (phoneNumber) => {
+    /*
     axios.get("http://10.0.2.2:8080/createOTP",{
         params: {
           phonenum: phoneNumber
         }
       })
+    */
     navigation.navigate("Verification", { user_phonenum: phoneNumber });
   };
 

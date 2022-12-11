@@ -18,6 +18,7 @@ const EditIngredient = ({ navigation, route }) => {
       .get("http://10.0.2.2:8080/getIngredient", {
         params: {
           restaurant_name: restaurant_name,
+          ingredient_status: -1
         },
       })
       .then((response) => {
@@ -41,8 +42,8 @@ const EditIngredient = ({ navigation, route }) => {
       />
       <Text style={styles.ingredientHeadText}>Ingredient</Text>
       <Text style={styles.priceHeadText}>Price</Text>
-      {ingredient.map((item) => (
-        <View style={styles.item}>
+      {ingredient.map((item) => ( 
+        <View key={item.ingredient} style={styles.item}>
           <Text style={styles.ingredientsText}>
             <Text style={styles.ingredientName}>{item.ingredient}</Text>
           </Text>

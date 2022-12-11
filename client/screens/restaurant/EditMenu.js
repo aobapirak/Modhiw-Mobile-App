@@ -113,7 +113,7 @@ const EditMenu = ({ navigation, route }) => {
         <FlatList
           data={menuToShow}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(menuToShow) => menuToShow.menu_name}
         />
       </View>
     </View>

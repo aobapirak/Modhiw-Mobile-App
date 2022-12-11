@@ -11,7 +11,7 @@ import axios from "axios";
 import { useFonts } from "expo-font";
 
 const AddToping = ({ navigation, route }) => {
-  const restaurant_name = route.params.name;
+  const restaurant_name = route.params.restaurant_name;
   const [name, setName] = useState("");
   const [price, setPrice] = useState(null);
   const [fontsLoaded] = useFonts({
@@ -38,7 +38,7 @@ const AddToping = ({ navigation, route }) => {
       .catch((err) => {
         alert("Error to add topping because this topping already exists");
       });
-    navigation.navigate("Add", { name: restaurant_name });
+    navigation.navigate("Add", { restaurant_name: restaurant_name });
   };
 
   return (

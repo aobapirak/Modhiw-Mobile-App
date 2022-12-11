@@ -42,7 +42,7 @@ const TicketPage = ({ navigation, route }) => {
       <View style={styles.barAndContent}>
         <ScrollView>
           {tickets.map((ticket) => (
-            <View style={styles.ticketView}>
+            <View key={ticket.queue_id}style={styles.ticketView}>
               <Image
                 style={styles.subtractIcon}
                 resizeMode="cover"

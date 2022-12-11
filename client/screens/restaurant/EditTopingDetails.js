@@ -53,7 +53,10 @@ const EditTopingDetails = ({ route, navigation }) => {
       .catch((err) => {
         alert("Error to edit " + newName);
       });
-    navigation.navigate("Edit", { name: restaurant_name });
+    navigation.navigate("Edit", {
+      user_phonenum: route.params.user_phonenum,
+      restaurant_name: route.params.restaurant_name,
+    });
   };
 
   const Delete = () => {
@@ -70,7 +73,10 @@ const EditTopingDetails = ({ route, navigation }) => {
       .catch((err) => {
         alert("Error to delete " + route.params.name);
       });
-    navigation.navigate("Edit", { name: restaurant_name });
+    navigation.navigate("Edit", {
+      user_phonenum: route.params.user_phonenum,
+      restaurant_name: route.params.restaurant_name,
+    });
   };
 
   function toggleSwitch() {
