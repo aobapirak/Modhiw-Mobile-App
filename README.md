@@ -13,12 +13,6 @@ Food Booking Mobile Application
 
 ## Run the application
 
-### Import Database
-```
-create database name "modhiw"
-import "server/data/table.sql" into mysql (xampp)
-```
-
 ### Initial Installation
 ```
 npm i --force
@@ -36,11 +30,20 @@ cd Server
 npm i --force
 ```
 
-### Run the application
+### Run the application (Client)
 ```
 npm start
 ```
 or
 ```
 expo start
+```
+
+### Run the application (Client)
+```
+npm start
+```
+or
+```
+nodemon server.js
 ```
