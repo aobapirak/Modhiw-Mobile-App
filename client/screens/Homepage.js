@@ -171,7 +171,7 @@ const Homepage = ({ navigation, route }) => {
 
         <View style={styles.restaurantChoice}>
           {restaurantToShow.map((restaurant) => (
-            <View>
+            <View key={restaurant.restaurant_name}>
               <View style={styles.restaurantView}>
                 <TouchableOpacity
                   activeOpacity={0.5}

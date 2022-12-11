@@ -78,6 +78,7 @@ const FoodInfo = ({ navigation, route }) => {
       .get("http://10.0.2.2:8080/getIngredient", {
         params: {
           restaurant_name: route.params.restaurant.restaurant_name,
+          ingredient_status: 0
         },
       })
       .then((response) => {
@@ -88,6 +89,7 @@ const FoodInfo = ({ navigation, route }) => {
       .get("http://10.0.2.2:8080/getToping", {
         params: {
           restaurant_name: route.params.restaurant.restaurant_name,
+          toping_status: 0
         },
       })
       .then((response) => {
@@ -237,7 +239,7 @@ const FoodInfo = ({ navigation, route }) => {
         <FlatList
           data={ingredient}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(ingredient) => ingredient.ingredient}
         />
       </View>
       <Text style={styles.toping}>เพิ่มเติม</Text>
@@ -245,7 +247,7 @@ const FoodInfo = ({ navigation, route }) => {
         <FlatList
           data={toping}
           renderItem={renderExtra}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(toping) => toping.toping}
         />
       </View>
       <View style={styles.noteView}>

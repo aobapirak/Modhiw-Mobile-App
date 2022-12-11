@@ -87,7 +87,10 @@ const EditMenuDetails = ({ navigation, route }) => {
           .catch((err) => {
             alert("Error to edit data");
           });
-        navigation.navigate("Edit", { name: restaurant_name });
+        navigation.navigate("Edit", {
+          user_phonenum: route.params.user_phonenum,
+          restaurant_name: route.params.restaurant_name,
+        });
       } catch (err) {
         console.log("err:", err);
       }

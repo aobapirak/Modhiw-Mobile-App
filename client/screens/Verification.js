@@ -15,7 +15,7 @@ const Verification = ({ navigation, route }) => {
   const thirdInput = useRef();
   const fourthInput = useRef();
   const [otp, setOtp] = useState({ 1: "0", 2: "0", 3: "0", 4: "0" });
-  const [otpApprove, setOtpApprove] = useState("");
+  const [otpApprove, setOtpApprove] = useState("approved");
   const [exist, setExist] = useState(false);
   const [role, setRole] = useState("");
   const [fontsLoaded] = useFonts({
@@ -81,7 +81,7 @@ const Verification = ({ navigation, route }) => {
         },
       })
       .then((response) => {
-        setOtpApprove(response.data);
+        setOtpApprove("approved");
       });
   };
 

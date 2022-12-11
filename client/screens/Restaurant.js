@@ -129,7 +129,7 @@ const Restaurant = ({ navigation, route }) => {
 
       <CardSilder style={{ marginTop: 500 }}>
         {menuToShow.map((allmenu) => (
-          <View>
+          <View key={allmenu.menu_name}>
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => {

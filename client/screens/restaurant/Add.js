@@ -3,7 +3,7 @@ import { useFonts } from "expo-font";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
 const Add = ({ navigation, route }) => {
-  const restaurant_name = route.params.name;
+  const restaurant_name = route.params.restaurant_name;
   const [fontsLoaded] = useFonts({
     "NotoSansThai-Regular": require("../../assets/fonts/NotoSansThai-Regular.ttf"),
     "NotoSansThai-Medium": require("../../assets/fonts/NotoSansThai-Medium.ttf"),
@@ -29,7 +29,7 @@ const Add = ({ navigation, route }) => {
         onPress={() => {
           navigation.navigate("AddMenu", {
             user_phonenum: route.params.user_phonenum,
-            name: route.params.name,
+            restaurant_name: route.params.restaurant_name,
           });
         }}
       >
@@ -48,7 +48,7 @@ const Add = ({ navigation, route }) => {
         onPress={() => {
           navigation.navigate("AddIngredients", {
             user_phonenum: route.params.user_phonenum,
-            name: route.params.name,
+            restaurant_name: route.params.restaurant_name,
           });
         }}
       >
@@ -67,7 +67,7 @@ const Add = ({ navigation, route }) => {
         onPress={() => {
           navigation.navigate("AddToping", {
             user_phonenum: route.params.user_phonenum,
-            name: route.params.name,
+            restaurant_name: route.params.restaurant_name,
           });
         }}
       >

@@ -18,6 +18,7 @@ const EditToping = ({ navigation, route }) => {
       .get("http://10.0.2.2:8080/getToping", {
         params: {
           restaurant_name: restaurant_name,
+          toping_status: -1
         },
       })
       .then((response) => {
@@ -41,9 +42,9 @@ const EditToping = ({ navigation, route }) => {
       <Text style={styles.topingHeadText}>Toping</Text>
       <Text style={styles.priceHeadText}>Price</Text>
       {toping.map((item) => (
-        <View style={styles.item}>
+        <View key={item.toping} style={styles.item}>
           <Text style={styles.topingText}>
-            <Text style={styles.ingredientName}>{item.toping}</Text>
+            <Text key={item.toping} style={styles.ingredientName}>{item.toping}</Text>
           </Text>
           <Text style={styles.priceText}>
             <Text style={styles.price}>฿{item.price_adjust}</Text>

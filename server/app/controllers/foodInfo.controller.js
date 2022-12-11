@@ -8,9 +8,10 @@ const getIngredient = (req, res) => {
       return;
     }
     const restaurantName = req.query.restaurant_name;
+    const ingredient_status = req.query.ingredient_status;
     db.query(
-      "SELECT ingredient, price_adjust, restaurant_name FROM ingredient_t WHERE restaurant_name = ? AND ingredient_status = 1",
-      [restaurantName],
+      "SELECT ingredient, price_adjust, restaurant_name FROM ingredient_t WHERE restaurant_name = ? AND ingredient_status != ?",
+      [restaurantName, ingredient_status],
       (err, result) => {
         if (err) {
           console.log(err);
@@ -31,9 +32,10 @@ const getToping = (req, res) => {
       return;
     }
     const restaurantName = req.query.restaurant_name;
+    const toping_status = req.query.toping_status;
     db.query(
-      "SELECT toping, price_adjust, restaurant_name FROM toping_t WHERE restaurant_name = ? AND toping_status = 1",
-      [restaurantName],
+      "SELECT toping, price_adjust, restaurant_name FROM toping_t WHERE restaurant_name = ? AND toping_status != ?",
+      [restaurantName, toping_status],
       (err, result) => {
         if (err) {
           console.log(err);
