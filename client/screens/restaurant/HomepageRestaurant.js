@@ -29,6 +29,12 @@ const HomepageRestaurant = ({ navigation, route }) => {
       })
       .then((response) => {
         setUserRestaurant(response.data[0]);
+        console.log(response.data[0]);
+        if (response.data[0].restaurant_status == "Closed") {
+          setSwitchOpen(false);
+        } else {
+          setSwitchOpen(true);
+        }
       });
   }, []);
 
