@@ -70,20 +70,21 @@ const Verification = ({ navigation, route }) => {
             .then((response) => {
               if (response.data[0]) {
                 console.log("isExist:\t\texist");
-                if (response.data[0] == "Restaurant"){
+                if (response.data[0].role == "Restaurant"){
                   role = "Restaurant";
                 }
               } else {
                 console.log("isExist:\tnot exist");
                 createNewUser(route.params.user_phonenum);
               }
+              
+              console.log("role:\t\t", role);
+              if (role == "Restaurant") {
+                goHomepageRestaurant(route.params.user_phonenum);
+              } else if (role == "Customer") {
+                goHomepage(route.params.user_phonenum);
+              }
             });
-          console.log("role:\t\t", role);
-          if (role == "Restaurant") {
-            goHomepageRestaurant(route.params.user_phonenum);
-          } else if (role == "Customer") {
-            goHomepage(route.params.user_phonenum);
-          }
         } else if (response.data == "pending") {
           alert("Invalid OTP");
         }
